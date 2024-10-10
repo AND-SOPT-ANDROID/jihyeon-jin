@@ -75,13 +75,18 @@ class SignUpActivity : ComponentActivity() {
                     , modifier = Modifier.background(WavveBg)
                 ) { innerPadding ->
                     SignUpScreen(
-                        modifier = Modifier.padding(innerPadding)
                         modifier = Modifier.padding(innerPadding),
                         context = context,
                         email = email,
                         onEmailChange = { email = it },
                         password = password,
                         onPasswordChange = { password = it },
+                        onSignUpButtonPress = {
+                            intent.putExtra("EMAIL", email)
+                            intent.putExtra("PASSWORD", password)
+                            setResult(RESULT_OK, intent)
+                            finish()
+                        }
                     )
                 }
             }
@@ -212,6 +217,14 @@ fun SignUpScreen(modifier: Modifier = Modifier,
                 .background(
                     color = if (isEmailValid && isPasswordValid) WavvePrimary else WavveDisabled
                 )
+                .wrapContentHeight()
+                .clickable {
+                    if(isEmailValid && isPasswordValid)
+                    {
+                        onSignUpButtonPress()
+                    } else {
+                        Toast.makeText(context, "이메일 혹은 비밀번호를 양식에 맞게 작성해주세요", Toast.LENGTH_SHORT).show()
+                    } }
                 .padding(vertical = 14.dp)
         ) {
             Text(
