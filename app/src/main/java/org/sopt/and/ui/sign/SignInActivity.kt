@@ -49,8 +49,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
 import org.sopt.and.R
-import org.sopt.and.ui.sign.ui.component.WavveCommonPasswordField
-import org.sopt.and.ui.sign.ui.component.WavveCommonTextField
+import org.sopt.and.ui.component.WavveCommonPasswordField
+import org.sopt.and.ui.component.WavveCommonTextField
+import org.sopt.and.ui.mypage.MyActivity
 import org.sopt.and.ui.theme.ANDANDROIDTheme
 import org.sopt.and.ui.theme.Gray3
 import org.sopt.and.ui.theme.Gray4
@@ -98,9 +99,9 @@ class SignInActivity : ComponentActivity() {
                         },
                         onSignInButtonClick = {
                             if (email == textFieldEmail && password == textFieldPassword){
-                                //val intent = Intent(context, MyActivity::class.java)
-                                //startActivity(intent)
-                                //finish()
+                                val intent = Intent(context, MyActivity::class.java)
+                                startActivity(intent)
+                                finish()
                                 scope.launch {
                                     snackbarHostState.showSnackbar(
                                         message = "로그인 성공"

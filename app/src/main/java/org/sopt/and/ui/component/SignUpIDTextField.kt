@@ -1,4 +1,4 @@
-package org.sopt.and.ui.sign.ui.component
+package org.sopt.and.ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
