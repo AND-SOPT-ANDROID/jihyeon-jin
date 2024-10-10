@@ -47,8 +47,8 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import org.sopt.and.ui.sign.ui.component.SignUpIDTextField
-import org.sopt.and.ui.sign.ui.component.SignUpPasswordField
+import org.sopt.and.ui.component.SignUpIDTextField
+import org.sopt.and.ui.component.SignUpPasswordField
 import org.sopt.and.ui.theme.ANDANDROIDTheme
 import org.sopt.and.ui.theme.Gray3
 import org.sopt.and.ui.theme.Gray4
