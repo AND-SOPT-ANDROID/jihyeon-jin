@@ -58,7 +58,6 @@ fun WavveCommonTextField(
                 keyboardController?.hide()
             }
         ),
-        singleLine = true,
         modifier = Modifier
             .fillMaxWidth()
             .background(
