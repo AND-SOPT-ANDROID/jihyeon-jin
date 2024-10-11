@@ -10,7 +10,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
+import org.sopt.and.R
 import org.sopt.and.ui.theme.WavveBg
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -24,7 +26,7 @@ fun CloseTopBar(title: String, onCloseClicked: () -> Unit) {
             IconButton(onClick = onCloseClicked) {
                 Icon(
                     imageVector = Icons.Default.Close,
-                    contentDescription = "Close",
+                    contentDescription = stringResource(R.string.close_top_bar_icon_description_close),
                     tint = Color.White
                 )
             }

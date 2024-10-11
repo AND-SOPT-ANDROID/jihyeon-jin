@@ -78,7 +78,7 @@ fun SignUpIDTextField(
             .height(48.dp)
             .onFocusChanged {
                 isFocused = it.isFocused
-                onFocusChange(isFocused) // 포커스 상태 변경 시 호출
+                onFocusChange(isFocused)
             }
     )
 }

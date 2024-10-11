@@ -16,6 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import org.sopt.and.R
 import org.sopt.and.ui.sign.SignInActivity
 import org.sopt.and.ui.theme.ANDANDROIDTheme
 import org.sopt.and.utils.PreferenceUtils
@@ -43,7 +44,8 @@ class MyActivity : ComponentActivity() {
                     if (id != null) {
                         MyScreen(modifier = Modifier.padding(innerPadding), email = id, onLogutButtonPress = {
                             PreferenceUtils.clearAll(context = context)
-                            Toast.makeText(context, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context,
+                                getString(R.string.my_page_toast_success_logout), Toast.LENGTH_SHORT).show()
                             val intent = Intent(context, SignInActivity::class.java)
                             startActivity(intent)
                             finish()
@@ -52,7 +54,7 @@ class MyActivity : ComponentActivity() {
                     else {
                         MyScreen(modifier = Modifier.padding(innerPadding), onLogutButtonPress = {
                             val intent = Intent(context, SignInActivity::class.java).apply {
-                                putExtra("SNACKBAR_MESSAGE", "로그아웃 되었습니다.")
+                                putExtra("SNACKBAR_MESSAGE", getString(R.string.my_page_toast_success_logout))
                             }
                             startActivity(intent)
                             finish()
