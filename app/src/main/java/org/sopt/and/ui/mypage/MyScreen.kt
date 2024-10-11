@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.and.R
@@ -58,7 +59,7 @@ fun MyScreen(
                 painter = painterResource(
                     R.drawable.profile_default
                 ),
-                contentDescription = "profile image",
+                contentDescription = stringResource(R.string.my_page_image_description_profile),
                 modifier = Modifier.size(54.dp)
             )
             Spacer(modifier = Modifier.width(14.dp))
@@ -69,13 +70,13 @@ fun MyScreen(
             Spacer(modifier = Modifier.weight(1f))
             Icon(
                 imageVector = Icons.Outlined.Notifications,
-                contentDescription = "notification",
+                contentDescription = stringResource(R.string.my_page_icon_description_notification),
                 tint = Color.White
             )
             Spacer(modifier = Modifier.width(5.dp))
             Icon(
                 imageVector = Icons.Outlined.Settings,
-                contentDescription = "setting",
+                contentDescription = stringResource(R.string.my_page_image_description_setting),
                 tint = Color.White
             )
         }
@@ -84,7 +85,7 @@ fun MyScreen(
                 .fillMaxWidth()
                 .background(color = WavveBg)
                 .padding(16.dp),
-            title = "첫 결제 시 첫 달 100원!"
+            title = stringResource(R.string.my_page_text_promotion_month)
         )
         HorizontalDivider(
             thickness = 1.dp,
@@ -95,23 +96,25 @@ fun MyScreen(
                 .fillMaxWidth()
                 .background(color = WavveBg)
                 .padding(16.dp),
-            title = "현재 보유하신 이용권이 없습니다."
+            title = stringResource(R.string.my_page_text_no_ticket)
         )
         MyPageContents(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .weight(0.5f)
                 .background(Color.Black)
                 .padding(top = 16.dp),
-            title = "전체 시청내역",
-            information = "시청내역이 없어요.",
+            title = stringResource(R.string.my_page_text_title_watch),
+            information = stringResource(R.string.my_page_text_empty_watch),
         )
         MyPageContents(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .weight(0.5f)
                 .background(Color.Black)
                 .padding(top = 16.dp),
-            title = "관심 프로그램",
-            information = "관심 프로그램이 없어요.",
+            title = stringResource(R.string.my_page_text_title_interest),
+            information = stringResource(R.string.my_page_text_empty_interest),
         )
         Box(
             contentAlignment = Alignment.Center,
@@ -119,15 +122,16 @@ fun MyScreen(
                 .fillMaxWidth()
                 .background(WavveDisabled)
                 .wrapContentHeight()
-                .clickable (
+                .clickable(
                     interactionSource = remember { MutableInteractionSource() },
-                    indication = null){
+                    indication = null
+                ) {
                     onLogutButtonPress()
-                     }
+                }
                 .padding(vertical = 14.dp)
         ) {
             Text(
-                text = "로그아웃",
+                text = stringResource(R.string.my_page_text_logout),
                 color = Color.White
             )
         }

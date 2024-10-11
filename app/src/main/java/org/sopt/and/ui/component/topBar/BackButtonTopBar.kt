@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import org.sopt.and.R
@@ -31,14 +32,14 @@ fun BackButtonTopBar(
         title = {
             Icon(
                 imageVector = ImageVector.vectorResource(R.drawable.wavve_logo),
-                contentDescription = "Logo",
+                contentDescription = stringResource(R.string.back_button_top_bar_icon_description_logo),
                 tint = Color.White
             )
         },
         navigationIcon = {
             Icon(
                 imageVector = Icons.AutoMirrored.Outlined.KeyboardArrowLeft,
-                contentDescription = "back",
+                contentDescription = stringResource(R.string.back_button_top_bar_icon_description_back),
                 tint = Color.White,
                 modifier = Modifier
                     .size(32.dp)

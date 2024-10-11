@@ -22,8 +22,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.sopt.and.R
 import org.sopt.and.extension.noRippleClickable
 import org.sopt.and.ui.component.ServiceAccountItemRow
 import org.sopt.and.ui.component.textField.WavveCommonPasswordField
@@ -52,13 +54,13 @@ fun SignInScreen(modifier: Modifier = Modifier,
         WavveCommonTextField(
             value = email,
             onValueChange = onEmailChange,
-            hint = "이메일 주소 또는 아이디"
+            hint = stringResource(R.string.sign_in_text_field_id_hint)
         )
         Spacer(modifier = Modifier.height(4.dp))
         WavveCommonPasswordField(
             value = password,
             onValueChange = onPasswordChange,
-            hint = "비밀번호"
+            hint = stringResource(R.string.sign_in_text_field_password_hint)
         )
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -77,7 +79,7 @@ fun SignInScreen(modifier: Modifier = Modifier,
             },
         ) {
             Text(
-                text = "로그인",
+                text = stringResource(R.string.sign_in_text_login),
                 color = Color.White,
                 fontSize = 16.sp,
                 modifier = Modifier.padding(vertical = 8.dp)
@@ -92,31 +94,31 @@ fun SignInScreen(modifier: Modifier = Modifier,
             horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally)
         ){
             Text(
-                text = "아이디 찾기",
+                text = stringResource(R.string.sign_in_text_find_id),
                 fontSize = 12.sp,
                 color = Gray3,
             )
 
             Text(
-                text = "|",
+                text = stringResource(R.string.sign_in_text_divider),
                 fontSize = 12.sp,
                 color = Gray3,
             )
 
             Text(
-                text = "비밀번호 재설정",
+                text = stringResource(R.string.sign_in_text_password_reset),
                 fontSize = 12.sp,
                 color = Gray3,
             )
 
             Text(
-                text = "|",
+                text = stringResource(R.string.sign_in_text_divider),
                 fontSize = 12.sp,
                 color = Gray3,
             )
 
             Text(
-                text = "회원가입",
+                text = stringResource(R.string.sign_in_text_sign_up),
                 fontSize = 12.sp,
                 color = Gray3,
                 modifier = Modifier
@@ -144,7 +146,7 @@ fun SignInScreen(modifier: Modifier = Modifier,
             )
 
             Text(
-                text = "또는 다른 서비스 계정으로 로그인",
+                text = stringResource(R.string.sign_in_text_other_service),
                 color = Gray3,
                 fontSize = 12.sp,
                 modifier = Modifier.padding(horizontal = 8.dp)
@@ -163,7 +165,7 @@ fun SignInScreen(modifier: Modifier = Modifier,
         Spacer(Modifier.height(16.dp))
 
         Text(
-            text = "SNS계정으로 간편하게 가입하여 서비스를 이용하실 수 있습니다. 기존 POOQ 계정 또는 Wavve 계정과는 연동되지 않으니 이용에 참고하세요.",
+            text = stringResource(R.string.sign_in_text_information),
             color = Gray3,
             fontSize = 12.sp,
             modifier = Modifier.padding(horizontal = 8.dp)

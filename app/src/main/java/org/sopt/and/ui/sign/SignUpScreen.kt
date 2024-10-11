@@ -25,11 +25,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.sopt.and.R
 import org.sopt.and.ui.component.ServiceAccountItemRow
 import org.sopt.and.ui.sign.component.SignUpIDTextField
 import org.sopt.and.ui.sign.component.SignUpPasswordField
@@ -65,34 +67,37 @@ fun SignUpScreen(modifier: Modifier = Modifier,
             isFieldFocused = isEmailFieldFocused,
             isValid = isEmailValid,
             value = email,
-            invalidMessage = "입력하신 이메일 주소가 형식에 맞지 않습니다. 다시 입력해 주세요.",
-            validMessage = "로그인, 비밀번호 찾기, 알림에 사용되니 정확한 이메일을 입력해주세요."
+            invalidMessage = stringResource(R.string.sign_up_text_invalid_id),
+            validMessage = stringResource(R.string.sign_up_text_valid_id)
         )
 
         val (passwordHelperText, passwordHelperTextColor) = getHelperTextAndColor(
             isFieldFocused = isPasswordFieldFocused,
             isValid = isPasswordValid,
             value = password,
-            invalidMessage = "비밀번호는 8~20자 이내로 영문 대소문자, 숫자, 특수문자 중 3가지 이상 혼용하여 입력해주세요. 연속된 숫자 또는 4자 이상의 동일 문자는 비밀번호로 사용할 수 없습니다.",
-            validMessage = "비밀번호는 8~20자 이내로 영문 대소문자, 숫자, 특수문자 중 3가지 이상 혼용하여 입력해주세요."
+            invalidMessage = stringResource(R.string.sign_up_text_invalid_password),
+            validMessage = stringResource(R.string.sign_up_text_valid_password)
         )
 
         Column(modifier = Modifier.padding(16.dp)) {
+            val textResource = stringResource(id = R.string.sign_up_text_welcome)
+            val annotatedString = buildAnnotatedString {
+                withStyle(style = SpanStyle(color = Color.White)) {
+                    append(textResource.substring(0, 10)) // "이메일과 비밀번호 "
+                }
+                withStyle(style = SpanStyle(color = Gray3)) {
+                    append(textResource.substring(10, 13)) // "만으로\n"
+                }
+                withStyle(style = SpanStyle(color = Color.White)) {
+                    append(textResource.substring(13, 25)) // "Wavve를 즐길 수 "
+                }
+                withStyle(style = SpanStyle(color = Gray3)) {
+                    append(textResource.substring(25, 30)) // "있어요!"
+                }
+            }
+
             Text(
-                text = buildAnnotatedString {
-                    withStyle(style = SpanStyle(color = Color.White)) {
-                        append("이메일과 비밀번호 ")
-                    }
-                    withStyle(style = SpanStyle(color = Gray3)) {
-                        append("만으로\n")
-                    }
-                    withStyle(style = SpanStyle(color = Color.White)) {
-                        append("Wavve를 즐길 수 ")
-                    }
-                    withStyle(style = SpanStyle(color = Gray3)) {
-                        append("있어요!")
-                    }
-                },
+                text = annotatedString,
                 fontSize = 22.sp,
                 lineHeight = 30.sp
             )
@@ -119,7 +124,7 @@ fun SignUpScreen(modifier: Modifier = Modifier,
             SignUpPasswordField(
                 value = password,
                 onValueChange = onPasswordChange,
-                hint = "Wavve 비밀번호 설정",
+                hint = stringResource(R.string.sign_up_text_field_hint_password),
                 isValid = isPasswordValid,
                 onFocusChange = { isFocused -> isPasswordFieldFocused = isFocused }
             )
@@ -150,7 +155,7 @@ fun SignUpScreen(modifier: Modifier = Modifier,
                 )
 
                 Text(
-                    text = "또는 다른 서비스 계정으로 로그인",
+                    text = stringResource(R.string.sign_up_text_other_service),
                     color = Gray3,
                     fontSize = 12.sp,
                     modifier = Modifier.padding(horizontal = 8.dp)
@@ -168,7 +173,7 @@ fun SignUpScreen(modifier: Modifier = Modifier,
             Spacer(Modifier.height(16.dp))
 
             Text(
-                text = "SNS계정으로 간편하게 가입하여 서비스를 이용하실 수 있습니다. 기존 POOQ 계정 또는 Wavve 계정과는 연동되지 않으니 이용에 참고하세요.",
+                text = stringResource(R.string.sign_up_text_information),
                 color = Gray3,
                 fontSize = 12.sp,
                 modifier = Modifier.padding(horizontal = 8.dp)
@@ -184,21 +189,29 @@ fun SignUpScreen(modifier: Modifier = Modifier,
                     color = if (isEmailValid && isPasswordValid) WavvePrimary else WavveDisabled
                 )
                 .wrapContentHeight()
-                .clickable (
+                .clickable(
                     interactionSource = remember { MutableInteractionSource() },
-                    indication = null){
+                    indication = null
+                ) {
 
-                    if(isEmailValid && isPasswordValid)
-                    {
-                        Toast.makeText(context, "회원가입을 완료하였습니다.", Toast.LENGTH_SHORT).show()
+                    if (isEmailValid && isPasswordValid) {
+                        Toast.makeText(
+                            context,
+                            context.getString(R.string.sign_up_toast_success), Toast.LENGTH_SHORT
+                        ).show()
                         onSignUpButtonPress()
                     } else {
-                        Toast.makeText(context, "이메일 혹은 비밀번호를 양식에 맞게 작성해주세요", Toast.LENGTH_SHORT).show()
-                    } }
+                        Toast.makeText(
+                            context,
+                            context.getString(R.string.sign_up_toast_failed), Toast.LENGTH_SHORT
+                        )
+                            .show()
+                    }
+                }
                 .padding(vertical = 14.dp)
         ) {
             Text(
-                text = "Wavve 회원가입",
+                text = stringResource(R.string.sign_up_text_wavve_sign_up),
                 color = Color.White
             )
         }

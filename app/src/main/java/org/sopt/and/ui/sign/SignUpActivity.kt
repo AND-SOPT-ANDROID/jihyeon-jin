@@ -14,6 +14,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import org.sopt.and.R
 import org.sopt.and.ui.component.topBar.CloseTopBar
 import org.sopt.and.ui.theme.ANDANDROIDTheme
 import org.sopt.and.ui.theme.WavveBg
@@ -32,7 +34,7 @@ class SignUpActivity : ComponentActivity() {
                 var password by remember { mutableStateOf("") }
                 Scaffold(
                     topBar = {
-                        CloseTopBar("회원가입", { activity?.finish() })
+                        CloseTopBar(stringResource(R.string.sign_up_text_sign_up), { activity?.finish() })
                     }
                     , modifier = Modifier.background(WavveBg)
                 ) { innerPadding ->

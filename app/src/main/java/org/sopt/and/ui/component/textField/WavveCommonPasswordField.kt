@@ -71,8 +71,8 @@ fun WavveCommonPasswordField(
         ),
         keyboardActions = KeyboardActions(
             onDone = {
-                focusManager.clearFocus()  // '완료' 버튼 클릭 시 포커스 해제
-                keyboardController?.hide()  // 키보드 내리기
+                focusManager.clearFocus()
+                keyboardController?.hide()
             }
         ),
         modifier = Modifier

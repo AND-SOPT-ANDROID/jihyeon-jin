@@ -20,6 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.launch
+import org.sopt.and.R
 import org.sopt.and.ui.component.topBar.BackButtonTopBar
 import org.sopt.and.ui.mypage.MyActivity
 import org.sopt.and.ui.theme.ANDANDROIDTheme
@@ -70,7 +71,8 @@ class SignInActivity : ComponentActivity() {
                                     PreferenceUtils.saveUserId(context, email)
                                     PreferenceUtils.saveUserPassword(context, password)
                                     val intent = Intent(context, MyActivity::class.java).apply {
-                                        putExtra("SNACKBAR_MESSAGE", "로그인 성공")
+                                        putExtra("SNACKBAR_MESSAGE",
+                                            getString(R.string.sign_in_snackbar_login_success))
                                     }
                                     startActivity(intent)
                                     finish()
@@ -78,16 +80,16 @@ class SignInActivity : ComponentActivity() {
                                 else{
                                     scope.launch {
                                         snackbarHostState.showSnackbar(
-                                            message = "아이디와 비밀번호를 입력해주세요",
-                                            actionLabel = "닫기"
+                                            message = getString(R.string.sign_in_snackbar_enter_id_password),
+                                            actionLabel = getString(R.string.sign_in_snackbar_action_close)
                                         )
                                     }
                                 }
                             } else {
                                 scope.launch {
                                     snackbarHostState.showSnackbar(
-                                        message = "아이디 혹은 비밀번호가 틀렸습니다.",
-                                        actionLabel = "닫기"
+                                        message = getString(R.string.sign_in_snackbar_error_id_pw),
+                                        actionLabel = getString(R.string.sign_in_snackbar_action_close)
                                     )
                                 }
                             }
