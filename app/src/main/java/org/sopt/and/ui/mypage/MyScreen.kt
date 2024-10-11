@@ -1,7 +1,11 @@
 package org.sopt.and.ui.mypage
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -10,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Settings
@@ -17,6 +22,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,11 +34,14 @@ import org.sopt.and.ui.mypage.component.MyPageContents
 import org.sopt.and.ui.mypage.component.MyPagePromotion
 import org.sopt.and.ui.theme.ANDANDROIDTheme
 import org.sopt.and.ui.theme.WavveBg
+import org.sopt.and.ui.theme.WavveDisabled
+import org.sopt.and.ui.theme.WavvePrimary
 
 @Composable
 fun MyScreen(
     modifier: Modifier = Modifier,
-    email: String = ""
+    email: String = "",
+    onLogutButtonPress: () -> Unit
 ) {
     Column(
         modifier = modifier
@@ -104,5 +113,23 @@ fun MyScreen(
             title = "관심 프로그램",
             information = "관심 프로그램이 없어요.",
         )
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(WavveDisabled)
+                .wrapContentHeight()
+                .clickable (
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null){
+                    onLogutButtonPress()
+                     }
+                .padding(vertical = 14.dp)
+        ) {
+            Text(
+                text = "로그아웃",
+                color = Color.White
+            )
+        }
     }
 }

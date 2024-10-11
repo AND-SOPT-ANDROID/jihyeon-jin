@@ -1,6 +1,8 @@
 package org.sopt.and.ui.mypage
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -14,6 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import org.sopt.and.ui.sign.SignInActivity
 import org.sopt.and.ui.theme.ANDANDROIDTheme
 import org.sopt.and.utils.PreferenceUtils
 
@@ -23,6 +26,7 @@ class MyActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            val context = LocalContext.current
             val snackbarHostState = remember { SnackbarHostState() }
             val message = intent.getStringExtra("SNACKBAR_MESSAGE") ?: ""
             ANDANDROIDTheme {
@@ -37,10 +41,22 @@ class MyActivity : ComponentActivity() {
                     }
                     val id = PreferenceUtils.getUserId(LocalContext.current)
                     if (id != null) {
-                        MyScreen(modifier = Modifier.padding(innerPadding), email = id)
+                        MyScreen(modifier = Modifier.padding(innerPadding), email = id, onLogutButtonPress = {
+                            PreferenceUtils.clearAll(context = context)
+                            Toast.makeText(context, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
+                            val intent = Intent(context, SignInActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        })
                     }
                     else {
-                        MyScreen(modifier = Modifier.padding(innerPadding))
+                        MyScreen(modifier = Modifier.padding(innerPadding), onLogutButtonPress = {
+                            val intent = Intent(context, SignInActivity::class.java).apply {
+                                putExtra("SNACKBAR_MESSAGE", "로그아웃 되었습니다.")
+                            }
+                            startActivity(intent)
+                            finish()
+                        })
                     }
                 }
             }
