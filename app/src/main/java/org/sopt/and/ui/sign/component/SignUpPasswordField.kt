@@ -74,12 +74,12 @@ fun SignUpPasswordField(
             }
         },
         keyboardOptions = KeyboardOptions.Default.copy(
-            imeAction = ImeAction.Next
+            imeAction = ImeAction.Done
         ),
         keyboardActions = KeyboardActions(
             onDone = {
-                focusManager.clearFocus()  // '완료' 버튼 클릭 시 포커스 해제
-                keyboardController?.hide()  // 키보드 내리기
+                focusManager.clearFocus()
+                keyboardController?.hide()
             }
         ),
         modifier = Modifier
@@ -92,7 +92,7 @@ fun SignUpPasswordField(
             .height(48.dp)
             .onFocusChanged {
                 isFocused = it.isFocused
-                onFocusChange(isFocused) // 포커스 상태 변경 시 호출
+                onFocusChange(isFocused)
             }
     )
 }
