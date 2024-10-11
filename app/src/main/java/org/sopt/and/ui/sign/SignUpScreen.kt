@@ -163,6 +163,7 @@ fun SignUpScreen(modifier: Modifier = Modifier,
                 .clickable {
                     if(isEmailValid && isPasswordValid)
                     {
+                        Toast.makeText(context, "회원가입을 완료하였습니다.", Toast.LENGTH_SHORT).show()
                         onSignUpButtonPress()
                     } else {
                         Toast.makeText(context, "이메일 혹은 비밀번호를 양식에 맞게 작성해주세요", Toast.LENGTH_SHORT).show()
