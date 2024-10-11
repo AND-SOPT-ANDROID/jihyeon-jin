@@ -20,9 +20,9 @@ import org.sopt.and.ui.theme.WavveDisabled
 
 @Composable
 fun MyPageContents(
+    modifier: Modifier = Modifier,
     title: String,
-    information: String,
-    modifier: Modifier = Modifier
+    information: String
 ) {
 
     Column(

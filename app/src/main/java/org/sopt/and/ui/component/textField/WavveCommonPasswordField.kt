@@ -33,8 +33,8 @@ import org.sopt.and.ui.theme.WavveDisabled
 @Composable
 fun WavveCommonPasswordField(
     value: String,
-    onValueChange: (String) -> Unit,
     hint: String,
+    onValueChange: (String) -> Unit,
 ) {
     var passwordVisible by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current

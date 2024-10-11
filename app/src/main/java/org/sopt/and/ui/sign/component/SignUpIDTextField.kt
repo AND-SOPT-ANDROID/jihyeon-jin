@@ -21,20 +21,22 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.sopt.and.R
 import org.sopt.and.ui.theme.Gray5
 import org.sopt.and.ui.theme.WavveDisabled
 
 @Composable
 fun SignUpIDTextField(
     value: String,
-    onValueChange: (String) -> Unit,
-    hint: String = "wavve@example.com",
+    hint: String = stringResource(R.string.sign_up_text_field_hint_id),
     isValid: Boolean,
-    onFocusChange: (Boolean) -> Unit
+    onFocusChange: (Boolean) -> Unit,
+    onValueChange: (String) -> Unit,
 ) {
     var isFocused by remember { mutableStateOf(false) }
     val borderColor = if (value.isNotEmpty() && !isFocused && !isValid) Color.Magenta else Color.Transparent

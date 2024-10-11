@@ -46,8 +46,8 @@ import java.util.regex.Pattern
 fun SignUpScreen(modifier: Modifier = Modifier,
                  context: Context,
                  email: String,
-                 onEmailChange: (String) -> Unit,
                  password: String,
+                 onEmailChange: (String) -> Unit,
                  onPasswordChange: (String) -> Unit,
                  onSignUpButtonPress: () -> Unit)
 {

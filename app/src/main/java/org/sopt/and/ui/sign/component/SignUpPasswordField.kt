@@ -23,12 +23,14 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.sopt.and.R
 import org.sopt.and.ui.theme.Gray5
 import org.sopt.and.ui.theme.WavveDisabled
 
@@ -63,7 +65,9 @@ fun SignUpPasswordField(
                 }
                 innerTextField()
                 Text(
-                    text = if (passwordVisible) "hide" else "show",
+                    text = if (passwordVisible) stringResource(R.string.sign_up_button_hide) else stringResource(
+                        R.string.sign_up_button_show
+                    ),
                     color = Color.White,
                     fontSize = 16.sp,
                     modifier = Modifier

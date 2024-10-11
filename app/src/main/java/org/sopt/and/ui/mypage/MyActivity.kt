@@ -13,7 +13,6 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import org.sopt.and.R
@@ -42,7 +41,7 @@ class MyActivity : ComponentActivity() {
                     }
                     val id = PreferenceUtils.getUserId(LocalContext.current)
                     if (id != null) {
-                        MyScreen(modifier = Modifier.padding(innerPadding), email = id, onLogutButtonPress = {
+                        MyScreen(modifier = Modifier.padding(innerPadding), email = id, onLogoutButtonPress = {
                             PreferenceUtils.clearAll(context = context)
                             Toast.makeText(context,
                                 getString(R.string.my_page_toast_success_logout), Toast.LENGTH_SHORT).show()
@@ -52,7 +51,7 @@ class MyActivity : ComponentActivity() {
                         })
                     }
                     else {
-                        MyScreen(modifier = Modifier.padding(innerPadding), onLogutButtonPress = {
+                        MyScreen(modifier = Modifier.padding(innerPadding), onLogoutButtonPress = {
                             val intent = Intent(context, SignInActivity::class.java).apply {
                                 putExtra("SNACKBAR_MESSAGE", getString(R.string.my_page_toast_success_logout))
                             }

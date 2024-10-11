@@ -1,6 +1,5 @@
 package org.sopt.and.ui.mypage
 
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -28,21 +27,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.sopt.and.R
 import org.sopt.and.ui.mypage.component.MyPageContents
 import org.sopt.and.ui.mypage.component.MyPagePromotion
-import org.sopt.and.ui.theme.ANDANDROIDTheme
 import org.sopt.and.ui.theme.WavveBg
 import org.sopt.and.ui.theme.WavveDisabled
-import org.sopt.and.ui.theme.WavvePrimary
 
 @Composable
 fun MyScreen(
     modifier: Modifier = Modifier,
     email: String = "",
-    onLogutButtonPress: () -> Unit
+    onLogoutButtonPress: () -> Unit
 ) {
     Column(
         modifier = modifier
@@ -126,7 +122,7 @@ fun MyScreen(
                     interactionSource = remember { MutableInteractionSource() },
                     indication = null
                 ) {
-                    onLogutButtonPress()
+                    onLogoutButtonPress()
                 }
                 .padding(vertical = 14.dp)
         ) {
