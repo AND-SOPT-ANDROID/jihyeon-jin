@@ -65,16 +65,25 @@ class SignInActivity : ComponentActivity() {
                             launcher.launch(Intent(this, SignUpActivity::class.java))
                         },
                         onSignInButtonClick = {
-                            if (email == textFieldEmail && password == textFieldPassword){
-                                PreferenceUtils.saveUserId(context, email)
-                                PreferenceUtils.saveUserPassword(context, password)
-                                val intent = Intent(context, MyActivity::class.java).apply {
-                                    putExtra("SNACKBAR_MESSAGE", "로그인 성공")
+                            if (email == textFieldEmail && password == textFieldPassword) {
+                                if (email.isNotBlank() && password.isNotBlank()) {
+                                    PreferenceUtils.saveUserId(context, email)
+                                    PreferenceUtils.saveUserPassword(context, password)
+                                    val intent = Intent(context, MyActivity::class.java).apply {
+                                        putExtra("SNACKBAR_MESSAGE", "로그인 성공")
+                                    }
+                                    startActivity(intent)
+                                    finish()
                                 }
-                                startActivity(intent)
-                                finish()
-                            }
-                            else{
+                                else{
+                                    scope.launch {
+                                        snackbarHostState.showSnackbar(
+                                            message = "아이디와 비밀번호를 입력해주세요",
+                                            actionLabel = "닫기"
+                                        )
+                                    }
+                                }
+                            } else {
                                 scope.launch {
                                     snackbarHostState.showSnackbar(
                                         message = "아이디 혹은 비밀번호가 틀렸습니다.",
