@@ -44,7 +44,6 @@ fun SignUpIDTextField(
     BasicTextField(
         value = value,
         onValueChange = onValueChange,
-        singleLine = true,
         textStyle = TextStyle(color = Color.White, fontSize = 16.sp),
         decorationBox = { innerTextField ->
             Box(

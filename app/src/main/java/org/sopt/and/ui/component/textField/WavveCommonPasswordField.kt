@@ -75,7 +75,6 @@ fun WavveCommonPasswordField(
                 keyboardController?.hide()  // 키보드 내리기
             }
         ),
-        singleLine = true,
         modifier = Modifier
             .fillMaxWidth()
             .background(

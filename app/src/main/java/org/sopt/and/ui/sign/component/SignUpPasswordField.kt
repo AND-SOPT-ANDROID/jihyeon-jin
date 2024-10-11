@@ -50,7 +50,6 @@ fun SignUpPasswordField(
     BasicTextField(
         value = value,
         onValueChange = onValueChange,
-        singleLine = true,
         textStyle = TextStyle(color = Color.White, fontSize = 16.sp),
         visualTransformation = if (!passwordVisible) PasswordVisualTransformation() else VisualTransformation.None,
         decorationBox = { innerTextField ->
