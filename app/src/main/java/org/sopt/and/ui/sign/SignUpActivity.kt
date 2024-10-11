@@ -44,8 +44,6 @@ class SignUpActivity : ComponentActivity() {
                         password = password,
                         onPasswordChange = { password = it },
                         onSignUpButtonPress = {
-                            PreferenceUtils.saveUserId(context, email)
-                            PreferenceUtils.saveUserPassword(context, password)
                             intent.putExtra("EMAIL", email)
                             intent.putExtra("PASSWORD", password)
                             setResult(RESULT_OK, intent)

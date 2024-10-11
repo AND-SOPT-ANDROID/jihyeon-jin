@@ -23,6 +23,7 @@ import kotlinx.coroutines.launch
 import org.sopt.and.ui.component.topBar.BackButtonTopBar
 import org.sopt.and.ui.mypage.MyActivity
 import org.sopt.and.ui.theme.ANDANDROIDTheme
+import org.sopt.and.utils.PreferenceUtils
 
 class SignInActivity : ComponentActivity() {
     private var email = ""
@@ -65,6 +66,8 @@ class SignInActivity : ComponentActivity() {
                         },
                         onSignInButtonClick = {
                             if (email == textFieldEmail && password == textFieldPassword){
+                                PreferenceUtils.saveUserId(context, email)
+                                PreferenceUtils.saveUserPassword(context, password)
                                 val intent = Intent(context, MyActivity::class.java)
                                 startActivity(intent)
                                 finish()
