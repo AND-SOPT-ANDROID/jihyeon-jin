@@ -55,6 +55,7 @@ import org.sopt.and.ui.theme.Gray4
 import org.sopt.and.ui.theme.WavveBg
 import org.sopt.and.ui.theme.WavveDisabled
 import org.sopt.and.ui.theme.WavvePrimary
+import org.sopt.and.utils.PreferenceUtils
 import java.util.regex.Pattern
 
 
@@ -82,6 +83,8 @@ class SignUpActivity : ComponentActivity() {
                         password = password,
                         onPasswordChange = { password = it },
                         onSignUpButtonPress = {
+                            PreferenceUtils.saveUserId(context, email)
+                            PreferenceUtils.saveUserPassword(context, password)
                             intent.putExtra("EMAIL", email)
                             intent.putExtra("PASSWORD", password)
                             setResult(RESULT_OK, intent)
