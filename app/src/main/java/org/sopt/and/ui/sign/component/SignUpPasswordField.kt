@@ -82,6 +82,7 @@ fun SignUpPasswordField(
                 keyboardController?.hide()
             }
         ),
+        singleLine = true,
         modifier = Modifier
             .fillMaxWidth()
             .background(
