@@ -43,7 +43,7 @@ fun MyPageContents(
         ) {
             Image(
                 painter = painterResource(
-                    R.drawable.ic_information
+                    R.drawable.ic_infomation
                 ),
                 contentDescription = "No Content",
                 modifier = Modifier.size(54.dp)
