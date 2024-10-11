@@ -53,6 +53,8 @@
     <string name="sign_up_text_field_hint_id">wavve@example.com</string>
     <string name="my_page_promotion_text_buying">구매하기</string>
     <string name="my_page_icon_description_purchase">purchase</string>
+    <string name="sign_in_text_field_hide">hide</string>
+    <string name="sign_in_text_field_show">show</string>
 
     <!--MyPage-->
 
