@@ -14,8 +14,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.sopt.and.R
 import org.sopt.and.ui.theme.WavveDisabled
 
 @Composable
@@ -36,13 +38,13 @@ fun MyPagePromotion(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "구매하기",
+                text = stringResource(R.string.my_page_promotion_text_buying),
                 color = Color.White,
                 fontSize = 16.sp
             )
             Icon(
                 imageVector = Icons.AutoMirrored.Outlined.KeyboardArrowRight,
-                contentDescription = "purchase",
+                contentDescription = stringResource(R.string.my_page_icon_description_purchase),
                 tint = Color.White
             )
         }

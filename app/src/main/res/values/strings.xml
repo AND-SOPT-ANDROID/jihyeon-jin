@@ -48,6 +48,11 @@
     <string name="my_page_text_empty_interest">관심 프로그램이 없어요.</string>
     <string name="my_page_text_logout">로그아웃</string>
     <string name="my_page_toast_success_logout">로그아웃 되었습니다.</string>
+    <string name="sign_up_button_hide">hide</string>
+    <string name="sign_up_button_show">show</string>
+    <string name="sign_up_text_field_hint_id">wavve@example.com</string>
+    <string name="my_page_promotion_text_buying">구매하기</string>
+    <string name="my_page_icon_description_purchase">purchase</string>
 
     <!--MyPage-->
 

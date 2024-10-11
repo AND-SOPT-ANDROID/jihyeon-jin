@@ -25,8 +25,8 @@ import org.sopt.and.ui.theme.WavveDisabled
 @Composable
 fun WavveCommonTextField(
     value: String,
-    onValueChange: (String) -> Unit,
     hint: String,
+    onValueChange: (String) -> Unit,
 ) {
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current

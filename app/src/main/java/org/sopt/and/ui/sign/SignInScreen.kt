@@ -37,10 +37,9 @@ import org.sopt.and.ui.theme.WavvePrimary
 
 @Composable
 fun SignInScreen(modifier: Modifier = Modifier,
-                 context : Context,
                  email: String,
-                 onEmailChange: (String) -> Unit,
                  password: String,
+                 onEmailChange: (String) -> Unit,
                  onPasswordChange: (String) -> Unit,
                  onSignUpButtonClick: () -> Unit,
                  onSignInButtonClick: () -> Unit) {

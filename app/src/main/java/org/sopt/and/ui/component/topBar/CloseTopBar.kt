@@ -17,7 +17,9 @@ import org.sopt.and.ui.theme.WavveBg
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CloseTopBar(title: String, onCloseClicked: () -> Unit) {
+fun CloseTopBar(
+    title: String,
+    onCloseClicked: () -> Unit) {
     CenterAlignedTopAppBar(
         title = {
             Text(text = title, fontSize = 20.sp)
