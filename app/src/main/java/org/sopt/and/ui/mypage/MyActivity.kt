@@ -7,6 +7,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import org.sopt.and.ui.theme.ANDANDROIDTheme
@@ -18,8 +23,18 @@ class MyActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            val snackbarHostState = remember { SnackbarHostState() }
+            val message = intent.getStringExtra("SNACKBAR_MESSAGE") ?: ""
             ANDANDROIDTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                Scaffold(modifier = Modifier.fillMaxSize(),
+                    snackbarHost = {
+                    SnackbarHost(hostState = snackbarHostState)
+                }) { innerPadding ->
+                    LaunchedEffect(message) {
+                        if (message.isNotEmpty()) {
+                            snackbarHostState.showSnackbar(message)
+                        }
+                    }
                     val id = PreferenceUtils.getUserId(LocalContext.current)
                     if (id != null) {
                         MyScreen(modifier = Modifier.padding(innerPadding), email = id)

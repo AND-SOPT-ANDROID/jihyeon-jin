@@ -68,19 +68,17 @@ class SignInActivity : ComponentActivity() {
                             if (email == textFieldEmail && password == textFieldPassword){
                                 PreferenceUtils.saveUserId(context, email)
                                 PreferenceUtils.saveUserPassword(context, password)
-                                val intent = Intent(context, MyActivity::class.java)
+                                val intent = Intent(context, MyActivity::class.java).apply {
+                                    putExtra("SNACKBAR_MESSAGE", "로그인 성공")
+                                }
                                 startActivity(intent)
                                 finish()
-                                scope.launch {
-                                    snackbarHostState.showSnackbar(
-                                        message = "로그인 성공"
-                                    )
-                                }
                             }
                             else{
                                 scope.launch {
                                     snackbarHostState.showSnackbar(
-                                        message = "이메일 혹은 비밀번호가 틀렸습니다."
+                                        message = "아이디 혹은 비밀번호가 틀렸습니다.",
+                                        actionLabel = "닫기"
                                     )
                                 }
                             }
