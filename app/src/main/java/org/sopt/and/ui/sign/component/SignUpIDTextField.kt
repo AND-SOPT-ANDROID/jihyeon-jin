@@ -68,6 +68,7 @@ fun SignUpIDTextField(
                 keyboardController?.hide()
             }
         ),
+        singleLine = true,
         modifier = Modifier
             .fillMaxWidth()
             .background(
