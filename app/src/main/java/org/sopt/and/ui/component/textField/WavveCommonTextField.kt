@@ -1,7 +1,6 @@
-package org.sopt.and.ui.component
+package org.sopt.and.ui.component.textField
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -12,12 +11,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -29,14 +23,11 @@ import org.sopt.and.ui.theme.Gray5
 import org.sopt.and.ui.theme.WavveDisabled
 
 @Composable
-fun SignUpIDTextField(
+fun WavveCommonTextField(
     value: String,
     onValueChange: (String) -> Unit,
-    hint: String = "wavve@example.com",
-    isValid: Boolean,
+    hint: String,
 ) {
-    var isFocused by remember { mutableStateOf(false) }
-    val borderColor = if (value.isNotEmpty() && !isFocused && !isValid) Color.Magenta else Color.Transparent
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -73,10 +64,6 @@ fun SignUpIDTextField(
                 color = Gray5,
                 shape = RoundedCornerShape(7.dp),
             )
-            .border(1.dp, borderColor, RoundedCornerShape(7.dp))
             .height(48.dp)
-            .onFocusChanged {
-                isFocused = it.isFocused
-            }
     )
 }

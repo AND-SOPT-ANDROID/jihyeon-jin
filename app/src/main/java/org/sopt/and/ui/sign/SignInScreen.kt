@@ -23,8 +23,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.sopt.and.ui.component.ServiceAccountItemRow
-import org.sopt.and.ui.component.WavveCommonPasswordField
-import org.sopt.and.ui.component.WavveCommonTextField
+import org.sopt.and.ui.component.textField.WavveCommonPasswordField
+import org.sopt.and.ui.component.textField.WavveCommonTextField
 import org.sopt.and.ui.theme.Gray3
 import org.sopt.and.ui.theme.Gray4
 import org.sopt.and.ui.theme.WavveBg
