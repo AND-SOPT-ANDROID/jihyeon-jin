@@ -26,8 +26,8 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.sopt.and.ui.component.ServiceAccountItemRow
-import org.sopt.and.ui.component.SignUpIDTextField
-import org.sopt.and.ui.component.SignUpPasswordField
+import org.sopt.and.ui.sign.component.SignUpIDTextField
+import org.sopt.and.ui.sign.component.SignUpPasswordField
 import org.sopt.and.ui.theme.Gray3
 import org.sopt.and.ui.theme.Gray4
 import org.sopt.and.ui.theme.WavveBg
