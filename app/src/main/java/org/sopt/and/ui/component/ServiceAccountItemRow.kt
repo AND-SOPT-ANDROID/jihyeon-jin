@@ -25,7 +25,7 @@ fun ServiceAccountItemRow(
             .padding(vertical = 24.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterHorizontally)
     ) {
-        for (type in 0..4) {
+        repeat(5) {
             Box(
                 modifier = Modifier
                     .size(45.dp)
