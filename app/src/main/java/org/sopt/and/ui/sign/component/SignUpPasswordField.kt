@@ -38,6 +38,7 @@ fun SignUpPasswordField(
     onValueChange: (String) -> Unit,
     hint: String,
     isValid: Boolean,
+    onFocusChange: (Boolean) -> Unit
 ) {
     var passwordVisible by remember { mutableStateOf(false) }
     var isFocused by remember { mutableStateOf(false) }
@@ -91,6 +92,7 @@ fun SignUpPasswordField(
             .height(48.dp)
             .onFocusChanged {
                 isFocused = it.isFocused
+                onFocusChange(isFocused) // 포커스 상태 변경 시 호출
             }
     )
 }
