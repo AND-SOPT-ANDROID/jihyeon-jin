@@ -34,6 +34,7 @@ fun SignUpIDTextField(
     onValueChange: (String) -> Unit,
     hint: String = "wavve@example.com",
     isValid: Boolean,
+    onFocusChange: (Boolean) -> Unit
 ) {
     var isFocused by remember { mutableStateOf(false) }
     val borderColor = if (value.isNotEmpty() && !isFocused && !isValid) Color.Magenta else Color.Transparent
@@ -77,6 +78,7 @@ fun SignUpIDTextField(
             .height(48.dp)
             .onFocusChanged {
                 isFocused = it.isFocused
+                onFocusChange(isFocused) // 포커스 상태 변경 시 호출
             }
     )
 }

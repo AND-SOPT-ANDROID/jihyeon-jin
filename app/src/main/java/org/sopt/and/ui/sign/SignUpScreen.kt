@@ -17,6 +17,10 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -53,7 +57,24 @@ fun SignUpScreen(modifier: Modifier = Modifier,
         val pattern: Pattern = Patterns.EMAIL_ADDRESS
         val isEmailValid = pattern.matcher(email).matches()
         val isPasswordValid = isValidPassword(password)
+        var isEmailFieldFocused by remember { mutableStateOf(false) }
+        var isPasswordFieldFocused by remember { mutableStateOf(false) }
 
+        val (emailHelperText, emailHelperTextColor) = getHelperTextAndColor(
+            isFieldFocused = isEmailFieldFocused,
+            isValid = isEmailValid,
+            value = email,
+            invalidMessage = "입력하신 이메일 주소가 형식에 맞지 않습니다. 다시 입력해 주세요.",
+            validMessage = "로그인, 비밀번호 찾기, 알림에 사용되니 정확한 이메일을 입력해주세요."
+        )
+
+        val (passwordHelperText, passwordHelperTextColor) = getHelperTextAndColor(
+            isFieldFocused = isPasswordFieldFocused,
+            isValid = isPasswordValid,
+            value = password,
+            invalidMessage = "비밀번호는 8~20자 이내로 영문 대소문자, 숫자, 특수문자 중 3가지 이상 혼용하여 입력해주세요. 연속된 숫자 또는 4자 이상의 동일 문자는 비밀번호로 사용할 수 없습니다.",
+            validMessage = "비밀번호는 8~20자 이내로 영문 대소문자, 숫자, 특수문자 중 3가지 이상 혼용하여 입력해주세요."
+        )
 
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
@@ -80,14 +101,15 @@ fun SignUpScreen(modifier: Modifier = Modifier,
             SignUpIDTextField(
                 value = email,
                 onValueChange = onEmailChange,
-                isValid = isEmailValid
+                isValid = isEmailValid,
+                onFocusChange = { isFocused -> isEmailFieldFocused = isFocused }
             )
 
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = "로그인, 비밀번호 찾기, 알림에 사용되니 정확한 이메일을 입력해주세요.",
-                color = Gray3,
+                text = emailHelperText,
+                color = emailHelperTextColor,
                 fontSize = 12.sp,
             )
 
@@ -98,6 +120,7 @@ fun SignUpScreen(modifier: Modifier = Modifier,
                 onValueChange = onPasswordChange,
                 hint = "Wavve 비밀번호 설정",
                 isValid = isPasswordValid,
+                onFocusChange = { isFocused -> isPasswordFieldFocused = isFocused }
             )
 
 
@@ -105,8 +128,8 @@ fun SignUpScreen(modifier: Modifier = Modifier,
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = "비밀번호는 8~20자 이내로 영문 대소문자, 숫자, 특수문자 중 3가지 이상 혼용하여 입력해주세요.",
-                color = Gray3,
+                text = passwordHelperText,
+                color = passwordHelperTextColor,
                 fontSize = 12.sp,
             )
 
@@ -175,6 +198,19 @@ fun SignUpScreen(modifier: Modifier = Modifier,
                 color = Color.White
             )
         }
+    }
+}
+fun getHelperTextAndColor(
+    isFieldFocused: Boolean,
+    isValid: Boolean,
+    value: String,
+    invalidMessage: String,
+    validMessage: String
+): Pair<String, Color> {
+    return if (value.isNotEmpty() && !isFieldFocused && !isValid) {
+        invalidMessage to Color.Magenta
+    } else {
+        validMessage to Gray3
     }
 }
 fun isValidPassword(password: String): Boolean {
