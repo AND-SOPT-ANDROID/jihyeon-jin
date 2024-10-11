@@ -5,6 +5,7 @@ import android.util.Patterns
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -183,7 +184,10 @@ fun SignUpScreen(modifier: Modifier = Modifier,
                     color = if (isEmailValid && isPasswordValid) WavvePrimary else WavveDisabled
                 )
                 .wrapContentHeight()
-                .clickable {
+                .clickable (
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null){
+
                     if(isEmailValid && isPasswordValid)
                     {
                         Toast.makeText(context, "회원가입을 완료하였습니다.", Toast.LENGTH_SHORT).show()
