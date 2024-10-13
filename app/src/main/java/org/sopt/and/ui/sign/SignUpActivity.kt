@@ -23,6 +23,12 @@ import org.sopt.and.utils.PreferenceUtils
 
 
 class SignUpActivity : ComponentActivity() {
+
+    companion object {
+        const val SIGNUP_EMAIL = "EMAIL"
+        const val SIGNUP_PASSWORD = "PASSWORD"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -39,18 +45,18 @@ class SignUpActivity : ComponentActivity() {
                     , modifier = Modifier.background(WavveBg)
                 ) { innerPadding ->
                     SignUpScreen(
-                        modifier = Modifier.padding(innerPadding),
                         context = context,
                         email = email,
                         onEmailChange = { email = it },
                         password = password,
                         onPasswordChange = { password = it },
                         onSignUpButtonPress = {
-                            intent.putExtra("EMAIL", email)
-                            intent.putExtra("PASSWORD", password)
+                            intent.putExtra(SIGNUP_EMAIL, email)
+                            intent.putExtra(SIGNUP_PASSWORD, password)
                             setResult(RESULT_OK, intent)
                             finish()
-                        }
+                        },
+                        modifier = Modifier.padding(innerPadding)
                     )
                 }
             }

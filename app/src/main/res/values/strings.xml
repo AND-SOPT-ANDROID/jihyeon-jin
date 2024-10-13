@@ -55,6 +55,7 @@
     <string name="my_page_icon_description_purchase">purchase</string>
     <string name="sign_in_text_field_hide">hide</string>
     <string name="sign_in_text_field_show">show</string>
+    <string name="my_page_contents_image_description_no_content">No Content</string>
 
     <!--MyPage-->
 

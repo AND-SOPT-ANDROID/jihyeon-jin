@@ -36,13 +36,15 @@ import org.sopt.and.ui.theme.WavveBg
 import org.sopt.and.ui.theme.WavvePrimary
 
 @Composable
-fun SignInScreen(modifier: Modifier = Modifier,
-                 email: String,
-                 password: String,
-                 onEmailChange: (String) -> Unit,
-                 onPasswordChange: (String) -> Unit,
-                 onSignUpButtonClick: () -> Unit,
-                 onSignInButtonClick: () -> Unit) {
+fun SignInScreen(
+    email: String,
+    password: String,
+    onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    onSignUpButtonClick: () -> Unit,
+    onSignInButtonClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -68,7 +70,6 @@ fun SignInScreen(modifier: Modifier = Modifier,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 8.dp)
-                .noRippleClickable()
             ,
             colors = ButtonDefaults.buttonColors(
                 containerColor = WavvePrimary

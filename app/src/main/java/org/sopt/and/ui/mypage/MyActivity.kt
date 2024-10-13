@@ -30,10 +30,12 @@ class MyActivity : ComponentActivity() {
             val snackbarHostState = remember { SnackbarHostState() }
             val message = intent.getStringExtra("SNACKBAR_MESSAGE") ?: ""
             ANDANDROIDTheme {
-                Scaffold(modifier = Modifier.fillMaxSize(),
+                Scaffold(
+                    modifier = Modifier.fillMaxSize(),
                     snackbarHost = {
-                    SnackbarHost(hostState = snackbarHostState)
-                }) { innerPadding ->
+                        SnackbarHost(hostState = snackbarHostState)
+                    }
+                ) { innerPadding ->
                     LaunchedEffect(message) {
                         if (message.isNotEmpty()) {
                             snackbarHostState.showSnackbar(message)
@@ -41,23 +43,33 @@ class MyActivity : ComponentActivity() {
                     }
                     val id = PreferenceUtils.getUserId(LocalContext.current)
                     if (id != null) {
-                        MyScreen(modifier = Modifier.padding(innerPadding), email = id, onLogoutButtonPress = {
-                            PreferenceUtils.clearAll(context = context)
-                            Toast.makeText(context,
-                                getString(R.string.my_page_toast_success_logout), Toast.LENGTH_SHORT).show()
-                            val intent = Intent(context, SignInActivity::class.java)
-                            startActivity(intent)
-                            finish()
-                        })
-                    }
-                    else {
-                        MyScreen(modifier = Modifier.padding(innerPadding), onLogoutButtonPress = {
-                            val intent = Intent(context, SignInActivity::class.java).apply {
-                                putExtra("SNACKBAR_MESSAGE", getString(R.string.my_page_toast_success_logout))
-                            }
-                            startActivity(intent)
-                            finish()
-                        })
+                        MyScreen(
+                            modifier = Modifier.padding(innerPadding),
+                            email = id,
+                            onLogoutButtonPress = {
+                                PreferenceUtils.clearAll(context = context)
+                                Toast.makeText(
+                                    context,
+                                    getString(R.string.my_page_toast_success_logout),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                val intent = Intent(context, SignInActivity::class.java)
+                                startActivity(intent)
+                                finish()
+                            })
+                    } else {
+                        MyScreen(
+                            modifier = Modifier.padding(innerPadding),
+                            onLogoutButtonPress = {
+                                val intent = Intent(context, SignInActivity::class.java).apply {
+                                    putExtra(
+                                        "SNACKBAR_MESSAGE",
+                                        getString(R.string.my_page_toast_success_logout)
+                                    )
+                                }
+                                startActivity(intent)
+                                finish()
+                            })
                     }
                 }
             }
