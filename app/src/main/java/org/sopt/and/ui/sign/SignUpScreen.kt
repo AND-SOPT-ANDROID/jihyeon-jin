@@ -40,16 +40,18 @@ import org.sopt.and.ui.theme.Gray4
 import org.sopt.and.ui.theme.WavveBg
 import org.sopt.and.ui.theme.WavveDisabled
 import org.sopt.and.ui.theme.WavvePrimary
+import org.sopt.and.utils.showToast
 import java.util.regex.Pattern
 
 @Composable
-fun SignUpScreen(modifier: Modifier = Modifier,
-                 context: Context,
-                 email: String,
-                 password: String,
-                 onEmailChange: (String) -> Unit,
-                 onPasswordChange: (String) -> Unit,
-                 onSignUpButtonPress: () -> Unit)
+fun SignUpScreen(
+    context: Context,
+    email: String,
+    password: String,
+    onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    onSignUpButtonPress: () -> Unit,
+    modifier: Modifier = Modifier)
 {
     Column(
         modifier = modifier
@@ -106,9 +108,10 @@ fun SignUpScreen(modifier: Modifier = Modifier,
 
             SignUpIDTextField(
                 value = email,
-                onValueChange = onEmailChange,
+                hint =  stringResource(R.string.sign_up_text_field_hint_id),
                 isValid = isEmailValid,
-                onFocusChange = { isFocused -> isEmailFieldFocused = isFocused }
+                onFocusChange = { isFocused -> isEmailFieldFocused = isFocused },
+                onValueChange = onEmailChange
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -195,17 +198,10 @@ fun SignUpScreen(modifier: Modifier = Modifier,
                 ) {
 
                     if (isEmailValid && isPasswordValid) {
-                        Toast.makeText(
-                            context,
-                            context.getString(R.string.sign_up_toast_success), Toast.LENGTH_SHORT
-                        ).show()
+                        context.showToast(context.getString(R.string.sign_up_toast_success))
                         onSignUpButtonPress()
                     } else {
-                        Toast.makeText(
-                            context,
-                            context.getString(R.string.sign_up_toast_failed), Toast.LENGTH_SHORT
-                        )
-                            .show()
+                        context.showToast(context.getString(R.string.sign_up_toast_failed))
                     }
                 }
                 .padding(vertical = 14.dp)

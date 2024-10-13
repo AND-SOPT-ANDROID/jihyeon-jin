@@ -33,7 +33,7 @@ import org.sopt.and.ui.theme.WavveDisabled
 @Composable
 fun SignUpIDTextField(
     value: String,
-    hint: String = stringResource(R.string.sign_up_text_field_hint_id),
+    hint: String,
     isValid: Boolean,
     onFocusChange: (Boolean) -> Unit,
     onValueChange: (String) -> Unit,

@@ -54,7 +54,6 @@ class SignInActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize()
                 ) { innerPadding ->
                     SignInScreen(
-                        modifier = Modifier.padding(innerPadding),
                         email = textFieldEmail,
                         onEmailChange = { textFieldEmail = it },
                         password = textFieldPassword,
@@ -70,7 +69,8 @@ class SignInActivity : ComponentActivity() {
                                 emailInput = textFieldEmail,
                                 passwordInput = textFieldPassword
                             )
-                        }
+                        },
+                        modifier = Modifier.padding(innerPadding),
                     )
                 }
             }

@@ -13,7 +13,8 @@ inline fun Modifier.noRippleClickable(
     crossinline onClick: () -> Unit = {},
     crossinline onLongClick: () -> Unit = {}
 ): Modifier = composed {
-    this.clickable(indication = null,
+    this.clickable(
+        indication = null,
         interactionSource = remember { MutableInteractionSource() }) {
     }
     this.combinedClickable(
@@ -22,11 +23,11 @@ inline fun Modifier.noRippleClickable(
     )
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 inline fun Modifier.noRippleClickable(
     crossinline onClick: () -> Unit = {},
 ): Modifier = composed {
-    this.clickable(indication = null,
+    this.clickable(
+        indication = null,
         interactionSource = remember { MutableInteractionSource() }) {
         onClick()
     }

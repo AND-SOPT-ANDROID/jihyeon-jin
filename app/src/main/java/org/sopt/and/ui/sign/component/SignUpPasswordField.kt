@@ -37,10 +37,10 @@ import org.sopt.and.ui.theme.WavveDisabled
 @Composable
 fun SignUpPasswordField(
     value: String,
-    onValueChange: (String) -> Unit,
     hint: String,
     isValid: Boolean,
-    onFocusChange: (Boolean) -> Unit
+    onFocusChange: (Boolean) -> Unit,
+    onValueChange: (String) -> Unit
 ) {
     var passwordVisible by remember { mutableStateOf(false) }
     var isFocused by remember { mutableStateOf(false) }
