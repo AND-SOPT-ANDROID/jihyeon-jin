@@ -2,7 +2,6 @@ package org.sopt.and.ui.sign
 
 import android.content.Context
 import android.util.Patterns
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -33,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.sopt.and.R
 import org.sopt.and.ui.component.ServiceAccountItemRow
+import org.sopt.and.ui.sign.component.HelperText
 import org.sopt.and.ui.sign.component.SignUpIDTextField
 import org.sopt.and.ui.sign.component.SignUpPasswordField
 import org.sopt.and.ui.theme.Gray3
@@ -64,22 +64,6 @@ fun SignUpScreen(
         val isPasswordValid = isValidPassword(password)
         var isEmailFieldFocused by remember { mutableStateOf(false) }
         var isPasswordFieldFocused by remember { mutableStateOf(false) }
-
-        val (emailHelperText, emailHelperTextColor) = getHelperTextAndColor(
-            isFieldFocused = isEmailFieldFocused,
-            isValid = isEmailValid,
-            value = email,
-            invalidMessage = stringResource(R.string.sign_up_text_invalid_id),
-            validMessage = stringResource(R.string.sign_up_text_valid_id)
-        )
-
-        val (passwordHelperText, passwordHelperTextColor) = getHelperTextAndColor(
-            isFieldFocused = isPasswordFieldFocused,
-            isValid = isPasswordValid,
-            value = password,
-            invalidMessage = stringResource(R.string.sign_up_text_invalid_password),
-            validMessage = stringResource(R.string.sign_up_text_valid_password)
-        )
 
         Column(modifier = Modifier.padding(16.dp)) {
             val textResource = stringResource(id = R.string.sign_up_text_welcome)
@@ -116,10 +100,12 @@ fun SignUpScreen(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            Text(
-                text = emailHelperText,
-                color = emailHelperTextColor,
-                fontSize = 12.sp,
+            HelperText(
+                isFieldFocused = isEmailFieldFocused,
+                isValid = isEmailValid,
+                value = email,
+                invalidMessage = stringResource(R.string.sign_up_text_invalid_id),
+                validMessage = stringResource(R.string.sign_up_text_valid_id)
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -132,14 +118,14 @@ fun SignUpScreen(
                 onFocusChange = { isFocused -> isPasswordFieldFocused = isFocused }
             )
 
-
-
             Spacer(modifier = Modifier.height(8.dp))
 
-            Text(
-                text = passwordHelperText,
-                color = passwordHelperTextColor,
-                fontSize = 12.sp,
+            HelperText(
+                isFieldFocused = isPasswordFieldFocused,
+                isValid = isPasswordValid,
+                value = password,
+                invalidMessage = stringResource(R.string.sign_up_text_invalid_password),
+                validMessage = stringResource(R.string.sign_up_text_valid_password)
             )
 
 
@@ -213,19 +199,7 @@ fun SignUpScreen(
         }
     }
 }
-fun getHelperTextAndColor(
-    isFieldFocused: Boolean,
-    isValid: Boolean,
-    value: String,
-    invalidMessage: String,
-    validMessage: String
-): Pair<String, Color> {
-    return if (value.isNotEmpty() && !isFieldFocused && !isValid) {
-        invalidMessage to Color.Magenta
-    } else {
-        validMessage to Gray3
-    }
-}
+
 fun isValidPassword(password: String): Boolean {
     val hasUpperCase = password.any { it.isUpperCase() }
     val hasLowerCase = password.any { it.isLowerCase() }
