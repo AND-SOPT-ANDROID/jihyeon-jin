@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
@@ -41,13 +42,16 @@ fun HelperText(
 
     Row(
         modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.Top,
+        verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(2.dp)
     ) {
         Image(
             painter = helperImage,
             contentDescription = stringResource(R.string.my_page_contents_image_description_no_content),
-            modifier = Modifier.size(14.dp)
+            modifier = Modifier
+                .align(Alignment.Top)
+                .padding(2.dp)
+                .size(14.dp)
         )
         Text(
             text = helperText,
@@ -55,7 +59,7 @@ fun HelperText(
             fontSize = 12.sp,
             style = LocalTextStyle.current.merge(
                 TextStyle(
-                    lineHeight = 18.sp,
+                    lineHeight = 14.sp,
                     platformStyle = PlatformTextStyle(
                         includeFontPadding = false
                     ),
