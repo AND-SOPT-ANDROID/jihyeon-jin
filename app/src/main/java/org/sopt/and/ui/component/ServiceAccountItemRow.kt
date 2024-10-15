@@ -80,12 +80,12 @@ fun ServiceAccountItemRow(
                     .size(45.dp)
                     .clip(CircleShape)
                     .background(color = item.color),
-                contentAlignment = Alignment.Center // 아이콘을 중앙에 정렬
+                contentAlignment = Alignment.Center
             ) {
                 Image(
                     painter = item.icon,
-                    contentDescription =  item.description, // 필요에 따라 설명 추가
-                    modifier = Modifier.size(24.dp) // 아이콘 크기 조정
+                    contentDescription =  item.description,
+                    modifier = Modifier.size(24.dp)
                 )
             }
         }
