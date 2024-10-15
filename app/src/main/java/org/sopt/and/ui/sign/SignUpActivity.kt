@@ -19,8 +19,6 @@ import org.sopt.and.R
 import org.sopt.and.ui.component.topBar.CloseTopBar
 import org.sopt.and.ui.theme.ANDANDROIDTheme
 import org.sopt.and.ui.theme.WavveBg
-import org.sopt.and.utils.PreferenceUtils
-
 
 class SignUpActivity : ComponentActivity() {
 
