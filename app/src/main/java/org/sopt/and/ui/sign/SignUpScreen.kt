@@ -24,6 +24,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -31,6 +32,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.sopt.and.R
+import org.sopt.and.data.ServiceAccountIconWithColor
 import org.sopt.and.ui.component.ServiceAccountItemRow
 import org.sopt.and.ui.sign.component.HelperText
 import org.sopt.and.ui.sign.component.SignUpIDTextField
@@ -51,8 +53,7 @@ fun SignUpScreen(
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onSignUpButtonPress: () -> Unit,
-    modifier: Modifier = Modifier)
-{
+    modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -92,7 +93,7 @@ fun SignUpScreen(
 
             SignUpIDTextField(
                 value = email,
-                hint =  stringResource(R.string.sign_up_text_field_hint_id),
+                hint = stringResource(R.string.sign_up_text_field_hint_id),
                 isValid = isEmailValid,
                 onFocusChange = { isFocused -> isEmailFieldFocused = isFocused },
                 onValueChange = onEmailChange

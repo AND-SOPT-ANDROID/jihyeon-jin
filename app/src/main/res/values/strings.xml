@@ -56,6 +56,11 @@
     <string name="sign_in_text_field_hide">hide</string>
     <string name="sign_in_text_field_show">show</string>
     <string name="my_page_contents_image_description_no_content">No Content</string>
+    <string name="sign_image_description_kakao">KaKao Account</string>
+    <string name="sign_image_description_t">T Account</string>
+    <string name="sign_image_description_naver">Naver Account</string>
+    <string name="sign_image_description_facebook">FaceBook Account</string>
+    <string name="sign_image_description_apple">Apple Account</string>
 
     <!--MyPage-->
 
