@@ -24,11 +24,6 @@ import org.sopt.and.utils.PreferenceUtils
 
 class SignUpActivity : ComponentActivity() {
 
-    companion object {
-        const val SIGNUP_EMAIL = "EMAIL"
-        const val SIGNUP_PASSWORD = "PASSWORD"
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -61,6 +56,11 @@ class SignUpActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    companion object {
+        const val SIGNUP_EMAIL = "EMAIL"
+        const val SIGNUP_PASSWORD = "PASSWORD"
     }
 }
 
