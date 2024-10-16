@@ -17,33 +17,51 @@ import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.serialization.Serializable
 import org.sopt.and.R
 import org.sopt.and.extension.noRippleClickable
 import org.sopt.and.ui.mypage.component.MyPageContents
 import org.sopt.and.ui.mypage.component.MyPagePromotion
+import org.sopt.and.ui.mypage.viewmodel.MyViewModel
 import org.sopt.and.ui.theme.WavveBg
 import org.sopt.and.ui.theme.WavveDisabled
+import org.sopt.and.utils.SnackBarUtils
+import org.sopt.and.utils.showToast
+
+@Serializable
+data object My
 
 @Composable
 fun MyScreen(
+    email: String,
+    navigateToSignIn : () -> Unit,
     modifier: Modifier = Modifier,
-    email: String = "",
-    onLogoutButtonPress: () -> Unit
+    viewModel: MyViewModel = viewModel()
 ) {
+    val context = LocalContext.current
+
     Column(
         modifier = modifier
             .fillMaxSize()
             .background(WavveBg)
             .padding(top = 16.dp)
     ) {
+
         Row(
             modifier = Modifier
                 .padding(horizontal = 16.dp),
@@ -116,7 +134,13 @@ fun MyScreen(
                 .fillMaxWidth()
                 .background(WavveDisabled)
                 .wrapContentHeight()
-                .noRippleClickable (onLogoutButtonPress)
+                .noRippleClickable {
+                    viewModel.logOut(context)
+                    context.showToast(
+                        context.getString(R.string.my_page_toast_success_logout)
+                    )
+                    navigateToSignIn()
+                }
                 .padding(vertical = 14.dp)
         ) {
             Text(
