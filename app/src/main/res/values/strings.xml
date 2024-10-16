@@ -18,6 +18,8 @@
     <string name="sign_in_snackbar_enter_id_password">아이디와 비밀번호를 입력해주세요</string>
     <string name="sign_in_snackbar_error_id_pw">아이디 혹은 비밀번호가 틀렸습니다.</string>
     <string name="sign_in_snackbar_action_close">닫기</string>
+    <string name="sign_in_text_field_hide">hide</string>
+    <string name="sign_in_text_field_show">show</string>
 
     <!--SignUp-->
     <string name="sign_up_text_sign_up">회원가입</string>
@@ -32,11 +34,22 @@
     <string name="sign_up_toast_failed">이메일 혹은 비밀번호를 양식에 맞게 작성해주세요</string>
     <string name="sign_up_text_wavve_sign_up">Wavve 회원가입</string>
     <string name="sign_up_text_welcome">이메일과 비밀번호 만으로\nWavve를 즐길 수 있어요!</string>
+    <string name="sign_up_button_hide">hide</string>
+    <string name="sign_up_button_show">show</string>
+    <string name="sign_up_text_field_hint_id">wavve@example.com</string>
+
+    <string name="sign_image_description_kakao">KaKao Account</string>
+    <string name="sign_image_description_t">T Account</string>
+    <string name="sign_image_description_naver">Naver Account</string>
+    <string name="sign_image_description_facebook">FaceBook Account</string>
+    <string name="sign_image_description_apple">Apple Account</string>
 
     <!--TopBar-->
     <string name="back_button_top_bar_icon_description_logo">Logo</string>
     <string name="back_button_top_bar_icon_description_back">back</string>
     <string name="close_top_bar_icon_description_close">Close</string>
+
+    <!--MyPage-->
     <string name="my_page_image_description_profile">profile image</string>
     <string name="my_page_icon_description_notification">notification</string>
     <string name="my_page_image_description_setting">setting</string>
@@ -48,20 +61,9 @@
     <string name="my_page_text_empty_interest">관심 프로그램이 없어요.</string>
     <string name="my_page_text_logout">로그아웃</string>
     <string name="my_page_toast_success_logout">로그아웃 되었습니다.</string>
-    <string name="sign_up_button_hide">hide</string>
-    <string name="sign_up_button_show">show</string>
-    <string name="sign_up_text_field_hint_id">wavve@example.com</string>
+
     <string name="my_page_promotion_text_buying">구매하기</string>
     <string name="my_page_icon_description_purchase">purchase</string>
-    <string name="sign_in_text_field_hide">hide</string>
-    <string name="sign_in_text_field_show">show</string>
     <string name="my_page_contents_image_description_no_content">No Content</string>
-    <string name="sign_image_description_kakao">KaKao Account</string>
-    <string name="sign_image_description_t">T Account</string>
-    <string name="sign_image_description_naver">Naver Account</string>
-    <string name="sign_image_description_facebook">FaceBook Account</string>
-    <string name="sign_image_description_apple">Apple Account</string>
-
-    <!--MyPage-->
 
 </resources>
