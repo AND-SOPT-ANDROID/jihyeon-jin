@@ -17,7 +17,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import org.sopt.and.R
-import org.sopt.and.data.ServiceAccountIconWithColor
+import org.sopt.and.data.model.ServiceAccountIconWithColor
 import org.sopt.and.ui.theme.AppleBg
 import org.sopt.and.ui.theme.FacebookBg
 import org.sopt.and.ui.theme.KaKaoBg
