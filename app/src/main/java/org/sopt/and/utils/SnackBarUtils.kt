@@ -3,7 +3,6 @@ package org.sopt.and.utils
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
-import org.sopt.and.R
 
 object SnackBarUtils {
     private lateinit var snackBarHostState: SnackbarHostState

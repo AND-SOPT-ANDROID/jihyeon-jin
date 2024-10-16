@@ -17,10 +17,8 @@ import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,9 +27,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import org.sopt.and.R
 import org.sopt.and.extension.noRippleClickable
@@ -40,7 +35,6 @@ import org.sopt.and.ui.mypage.component.MyPagePromotion
 import org.sopt.and.ui.mypage.viewmodel.MyViewModel
 import org.sopt.and.ui.theme.WavveBg
 import org.sopt.and.ui.theme.WavveDisabled
-import org.sopt.and.utils.SnackBarUtils
 import org.sopt.and.utils.showToast
 
 @Serializable

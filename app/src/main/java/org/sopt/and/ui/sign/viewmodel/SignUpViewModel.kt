@@ -1,7 +1,6 @@
 package org.sopt.and.ui.sign.viewmodel
 
 import android.util.Patterns
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -9,9 +8,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import org.sopt.and.ui.sign.state.SignUpState
 
-class SignUpViewModel(
-    savedStateHandle: SavedStateHandle,
-) : ViewModel() {
+class SignUpViewModel : ViewModel() {
     val _signUpState = MutableStateFlow(SignUpState())
     val signUpState = _signUpState.asStateFlow()
 

@@ -1,22 +1,16 @@
 package org.sopt.and.ui.sign.viewmodel
 
 import android.content.Context
-import androidx.compose.material3.SnackbarHostState
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import org.sopt.and.R
 import org.sopt.and.ui.sign.state.SignInState
 import org.sopt.and.utils.PreferenceUtils
 
-class SignInViewModel(
-    savedStateHandle: SavedStateHandle,
-) : ViewModel() {
+class SignInViewModel : ViewModel() {
     val _signInState = MutableStateFlow(SignInState())
     val signInState = _signInState.asStateFlow()
 
