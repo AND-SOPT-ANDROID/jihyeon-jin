@@ -27,7 +27,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import kotlinx.serialization.Serializable
 import org.sopt.and.R
 import org.sopt.and.extension.noRippleClickable
 import org.sopt.and.ui.mypage.component.MyPageContents
@@ -37,8 +36,6 @@ import org.sopt.and.ui.theme.WavveBg
 import org.sopt.and.ui.theme.WavveDisabled
 import org.sopt.and.utils.showToast
 
-@Serializable
-data object My
 
 @Composable
 fun MyScreen(

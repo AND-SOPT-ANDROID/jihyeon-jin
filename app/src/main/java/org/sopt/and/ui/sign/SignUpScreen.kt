@@ -26,7 +26,6 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.serialization.Serializable
 import org.sopt.and.R
 import org.sopt.and.ui.component.ServiceAccountItemRow
 import org.sopt.and.ui.sign.component.HelperText
@@ -43,8 +42,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import org.sopt.and.extension.noRippleClickable
 import org.sopt.and.ui.component.topBar.CloseTopBar
 
-@Serializable
-data object SignUp
 
 @Composable
 fun SignUpScreen(

@@ -29,9 +29,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.serialization.Serializable
 import org.sopt.and.R
 import org.sopt.and.extension.noRippleClickable
+import org.sopt.and.navigation.Screen
 import org.sopt.and.ui.component.ServiceAccountItemRow
 import org.sopt.and.ui.component.textField.WavveCommonPasswordField
 import org.sopt.and.ui.component.textField.WavveCommonTextField
@@ -43,15 +43,9 @@ import org.sopt.and.ui.theme.WavveBg
 import org.sopt.and.ui.theme.WavvePrimary
 import org.sopt.and.utils.SnackBarUtils
 
-@Serializable
-data class SignIn(
-    val email: String = "",
-    val password: String = "",
-)
-
 @Composable
 fun SignInScreen(
-    signIn : SignIn,
+    signIn: Screen.SignInScreen,
     navigateToMy: (email : String) -> Unit,
     navigateToSignUp: () -> Unit,
     modifier: Modifier = Modifier,

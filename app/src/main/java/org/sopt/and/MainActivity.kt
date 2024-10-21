@@ -12,14 +12,12 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
+import androidx.navigation.toRoute
 import org.sopt.and.navigation.Screen
 import org.sopt.and.ui.mypage.MyScreen
-import org.sopt.and.ui.sign.SignIn
 import org.sopt.and.ui.sign.SignInScreen
 import org.sopt.and.ui.sign.SignUpScreen
 import org.sopt.and.ui.theme.ANDANDROIDTheme
@@ -29,8 +27,8 @@ import org.sopt.and.utils.SnackBarUtils
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val id = PreferenceUtils.getUserId(this) ?: ""
-        val pw = PreferenceUtils.getUserPassword(this) ?: ""
+        val id = PreferenceUtils.getUserId(this).orEmpty()
+        val pw = PreferenceUtils.getUserPassword(this).orEmpty()
 
         enableEdgeToEdge()
         setContent {
@@ -43,78 +41,46 @@ class MainActivity : ComponentActivity() {
 
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
-                    snackbarHost = {
-                        SnackbarHost(hostState = snackbarHostState)
-                    },
+                    snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
                 ) { innerPadding ->
                     val navController = rememberNavController()
 
                     NavHost(
                         navController = navController,
-                        startDestination = if (id.isBlank() || pw.isBlank()) Screen.SignInScreen.route else Screen.MyScreen.createRoute(id)
+                        startDestination = if (id.isBlank() || pw.isBlank()) Screen.SignInScreen("", "") else Screen.MyScreen(id)
                     ) {
-                        composable(route = Screen.SignInScreen.route) {
+                        composable<Screen.SignInScreen> { backStackEntry ->
+                            val signInScreen = backStackEntry.toRoute<Screen.SignInScreen>()
                             SignInScreen(
-                                signIn = SignIn("", ""),
+                                signIn = signInScreen,
                                 navigateToMy = { email ->
-                                    navController.navigate(
-                                        Screen.MyScreen.createRoute(
-                                            email
-                                        )
-                                    )
+                                    navController.navigate(Screen.MyScreen(email))
                                 },
-                                navigateToSignUp = { navController.navigate(Screen.SignUpScreen.route) },
+                                navigateToSignUp = {
+                                    navController.navigate(Screen.SignUpScreen)
+                                },
                                 modifier = Modifier.padding(innerPadding)
                             )
                         }
 
-                        composable(
-                            route = "sign_in/{email}/{password}",
-                            arguments = listOf(
-                                navArgument("email") { type = NavType.StringType },
-                                navArgument("password") { type = NavType.StringType }
-                            )
-                        ) { backStackEntry ->
-                            val email = backStackEntry.arguments?.getString("email").orEmpty()
-                            val password = backStackEntry.arguments?.getString("password").orEmpty()
-                            SignInScreen(
-                                signIn = SignIn(email, password),
-                                navigateToMy = {
-                                    navController.navigate(
-                                        Screen.MyScreen.createRoute(
-                                            email
-                                        )
-                                    )
-                                },
-                                navigateToSignUp = { navController.navigate(Screen.SignUpScreen.route) },
-                                modifier = Modifier.padding(innerPadding)
-                            )
-                        }
-
-                        composable(route = Screen.SignUpScreen.route) {
+                        composable<Screen.SignUpScreen> {
                             SignUpScreen(
                                 navigateToSignIn = { email, password ->
-                                    navController.navigate(
-                                        Screen.SignInScreen.createRoute(
-                                            email,
-                                            password
-                                        )
-                                    )
+                                    navController.navigate(Screen.SignInScreen(email, password))
                                 },
                                 modifier = Modifier.padding(innerPadding)
                             )
                         }
-                        composable(
-                            route = Screen.MyScreen.route,
-                            arguments = listOf(
-                                navArgument("email") { type = NavType.StringType },
-                            )
-                        ) {
-                            backStackEntry ->
-                            val email = backStackEntry.arguments?.getString("email").orEmpty()
+
+                        composable<Screen.MyScreen> { backStackEntry ->
+                            val myScreen = backStackEntry.toRoute<Screen.MyScreen>()
                             MyScreen(
-                                email = email,
-                                navigateToSignIn = { navController.navigate(Screen.SignInScreen.route) },
+                                email = myScreen.email,
+                                navigateToSignIn = {
+                                    navController.navigate(Screen.SignInScreen("", "")){
+                                        popUpTo(Screen.SignInScreen("", "")) { inclusive = true }
+                                    }
+                                },
                                 modifier = Modifier.padding(innerPadding)
                             )
                         }

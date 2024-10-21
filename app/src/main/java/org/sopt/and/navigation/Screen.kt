@@ -1,13 +1,18 @@
 package org.sopt.and.navigation
 
-sealed class Screen(val route: String) {
-    data object SignInScreen : Screen("sign_in") {
-        fun createRoute(email: String, password: String) = "sign_in/$email/$password"
-    }
+import kotlinx.serialization.Serializable
 
-    data object SignUpScreen : Screen("sign_up")
+@Serializable
+sealed class Screen {
+    @Serializable
+    data class SignInScreen(
+        val email: String,
+        val password: String
+    ) : Screen()
 
-    data object MyScreen : Screen("my/{email}"){
-        fun createRoute(email: String) = "my/$email"
-    }
+    @Serializable
+    data object SignUpScreen : Screen()
+
+    @Serializable
+    data class MyScreen(val email: String) : Screen()
 }
