@@ -13,6 +13,7 @@ val Pink40 = Color(0xFF7D5260)
 val WavvePrimary = Color(0xFF1351F9)
 val WavveDisabled = Color(0xFF717171)
 val WavveBg = Color(0xFF121212)
+val BottomNavigationItemUnselected = Color(0xFFA5A5A5)
 
 val Gray = Color(0xFFF0F0F0)
 val Gray1 = Color(0xFFF1F1F1)
