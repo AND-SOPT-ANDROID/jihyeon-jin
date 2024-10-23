@@ -1,6 +1,5 @@
 package org.sopt.and.ui.component
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -95,7 +94,7 @@ fun ScaffoldWithBottomNavigation(
                         label = { Text("홈") },
                         selected = currentRoute == Screen.Home.javaClass.canonicalName,
                         onClick = {
-                            navController.navigate(Screen.Home)
+                            navigateToScreen(navController, Screen.Home)
                         },
                         colors = colors
                     )
@@ -110,7 +109,7 @@ fun ScaffoldWithBottomNavigation(
                         label = { Text("검색") },
                         selected = currentRoute == Screen.Home.javaClass.canonicalName,
                         onClick = {
-                            navController.navigate(Screen.Home)
+                            navigateToScreen(navController, Screen.Home)
                         },
                         colors = colors
                     )
@@ -127,7 +126,7 @@ fun ScaffoldWithBottomNavigation(
                         label = { Text("MY") },
                         selected = currentRoute == Screen.MyScreen.javaClass.canonicalName,
                         onClick = {
-                            navController.navigate(Screen.MyScreen)
+                            navigateToScreen(navController, Screen.MyScreen)
                         },
                         colors = colors,
                     )
@@ -138,5 +137,12 @@ fun ScaffoldWithBottomNavigation(
         Column(modifier = Modifier.padding(innerPadding)) {
             content()
         }
+    }
+}
+
+private fun navigateToScreen(navController: NavController, screen: Screen) {
+    navController.navigate(screen) {
+        popUpTo(screen) { inclusive = false }
+        launchSingleTop = true
     }
 }

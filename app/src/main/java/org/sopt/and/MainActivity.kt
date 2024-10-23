@@ -75,6 +75,10 @@ class MainActivity : ComponentActivity() {
                             SignUpScreen(
                                 navigateToSignIn = { email, password ->
                                     navController.navigate(Screen.SignInScreen(email, password))
+                                    {
+                                        popUpTo<Screen.SignUpScreen>{ inclusive = true }
+                                        launchSingleTop = true
+                                    }
                                 }
                             )
                         }
@@ -83,7 +87,8 @@ class MainActivity : ComponentActivity() {
                             MyScreen(
                                 navigateToSignIn = {
                                     navController.navigate(Screen.SignInScreen("", "")) {
-                                        popUpTo(Screen.SignInScreen("", "")) { inclusive = true }
+                                        popUpTo<Screen.MyScreen>{ inclusive = true }
+                                        launchSingleTop = true
                                     }
                                 }
                             )
