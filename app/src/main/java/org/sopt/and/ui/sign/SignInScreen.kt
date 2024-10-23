@@ -46,7 +46,7 @@ import org.sopt.and.utils.SnackBarUtils
 @Composable
 fun SignInScreen(
     signIn: Screen.SignInScreen,
-    navigateToMy: (email : String) -> Unit,
+    navigateToMy: () -> Unit,
     navigateToSignUp: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: SignInViewModel = viewModel(),
@@ -57,7 +57,7 @@ fun SignInScreen(
 
     LaunchedEffect(signInSuccess) {
         if (signInSuccess) {
-            navigateToMy(signInState.email)
+            navigateToMy()
             viewModel.resetSignInSuccess()
         }
     }

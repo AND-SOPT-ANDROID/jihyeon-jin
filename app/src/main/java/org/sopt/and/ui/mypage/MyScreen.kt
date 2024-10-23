@@ -34,17 +34,18 @@ import org.sopt.and.ui.mypage.component.MyPagePromotion
 import org.sopt.and.ui.mypage.viewmodel.MyViewModel
 import org.sopt.and.ui.theme.WavveBg
 import org.sopt.and.ui.theme.WavveDisabled
+import org.sopt.and.utils.PreferenceUtils
 import org.sopt.and.utils.showToast
 
 
 @Composable
 fun MyScreen(
-    email: String,
     navigateToSignIn : () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: MyViewModel = viewModel()
 ) {
     val context = LocalContext.current
+    val email = PreferenceUtils.getUserId(context)
 
     Column(
         modifier = modifier

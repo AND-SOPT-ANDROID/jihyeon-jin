@@ -4,25 +4,23 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
+import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import org.sopt.and.navigation.Screen
+import org.sopt.and.ui.component.ScaffoldWithBottomNavigation
+import org.sopt.and.ui.home.HomeScreen
+import org.sopt.and.ui.home.viewmodel.HomeViewModel
 import org.sopt.and.ui.mypage.MyScreen
 import org.sopt.and.ui.sign.SignInScreen
 import org.sopt.and.ui.sign.SignUpScreen
-import org.sopt.and.ui.theme.ANDANDROIDTheme
+import org.sopt.and.ui.theme.WavveBg
 import org.sopt.and.utils.PreferenceUtils
-import org.sopt.and.utils.SnackBarUtils
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,34 +30,30 @@ class MainActivity : ComponentActivity() {
 
         enableEdgeToEdge()
         setContent {
-            ANDANDROIDTheme {
-                val snackbarHostState = remember { SnackbarHostState() }
+            Surface(
+                modifier = Modifier.fillMaxSize(),
+                color = WavveBg
+            ) {
+                val navController = rememberNavController()
 
-                LaunchedEffect(Unit) {
-                    SnackBarUtils.init(snackbarHostState)
-                }
-
-                Scaffold(
-                    modifier = Modifier.fillMaxSize(),
-                    snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
-                ) { innerPadding ->
-                    val navController = rememberNavController()
-
+                ScaffoldWithBottomNavigation(navController = navController) {
                     NavHost(
                         navController = navController,
-                        startDestination = if (id.isBlank() || pw.isBlank()) Screen.SignInScreen("", "") else Screen.MyScreen(id)
+                        startDestination = if (id.isBlank() || pw.isBlank()) Screen.SignInScreen(
+                            "",
+                            ""
+                        ) else Screen.MyScreen
                     ) {
                         composable<Screen.SignInScreen> { backStackEntry ->
                             val signInScreen = backStackEntry.toRoute<Screen.SignInScreen>()
                             SignInScreen(
                                 signIn = signInScreen,
-                                navigateToMy = { email ->
-                                    navController.navigate(Screen.MyScreen(email))
+                                navigateToMy = {
+                                    navController.navigate(Screen.MyScreen)
                                 },
                                 navigateToSignUp = {
                                     navController.navigate(Screen.SignUpScreen)
-                                },
-                                modifier = Modifier.padding(innerPadding)
+                                }
                             )
                         }
 
@@ -67,21 +61,27 @@ class MainActivity : ComponentActivity() {
                             SignUpScreen(
                                 navigateToSignIn = { email, password ->
                                     navController.navigate(Screen.SignInScreen(email, password))
-                                },
-                                modifier = Modifier.padding(innerPadding)
+                                }
                             )
                         }
 
-                        composable<Screen.MyScreen> { backStackEntry ->
-                            val myScreen = backStackEntry.toRoute<Screen.MyScreen>()
+                        composable<Screen.MyScreen> {
                             MyScreen(
-                                email = myScreen.email,
                                 navigateToSignIn = {
-                                    navController.navigate(Screen.SignInScreen("", "")){
+                                    navController.navigate(Screen.SignInScreen("", "")) {
                                         popUpTo(Screen.SignInScreen("", "")) { inclusive = true }
                                     }
-                                },
-                                modifier = Modifier.padding(innerPadding)
+                                }
+                            )
+                        }
+                        composable<Screen.Home> {
+                            val homeViewModel = HomeViewModel()
+                            HomeScreen(
+                                modifier = Modifier.background(WavveBg),
+                                mainContentState = homeViewModel.mainContents,
+                                commonContentState = homeViewModel.commonContents,
+                                rankingContentState = homeViewModel.rankingContents,
+                                onContentTypeSelected = { TODO() },
                             )
                         }
                     }

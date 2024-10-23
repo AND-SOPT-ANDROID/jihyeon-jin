@@ -14,5 +14,8 @@ sealed class Screen {
     data object SignUpScreen : Screen()
 
     @Serializable
-    data class MyScreen(val email: String) : Screen()
+    data object MyScreen: Screen()
+
+    @Serializable
+    data object Home : Screen()
 }
