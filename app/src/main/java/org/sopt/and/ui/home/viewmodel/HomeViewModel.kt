@@ -26,7 +26,7 @@ class HomeViewModel : ViewModel() {
     )
     val commonContents: List<HomeCommonContentState> = listOf(
         HomeCommonContentState(
-            kind = "믿고 보는 웨이브 에디터 추천작",
+            mainTitle = "믿고 보는 웨이브 에디터 추천작",
             contentStates = listOf(
                 HomeContentState(
                     id = 1,
@@ -56,7 +56,7 @@ class HomeViewModel : ViewModel() {
                 )
             )
         ), HomeCommonContentState(
-            kind = "실시간 인기 콘텐츠",
+            mainTitle = "실시간 인기 콘텐츠",
             contentStates = listOf(
                 HomeContentState(
                     id = 1,
@@ -86,7 +86,7 @@ class HomeViewModel : ViewModel() {
                 )
             ).reversed()
         ), HomeCommonContentState(
-            kind = "오직 웨이브에서",
+            mainTitle = "오직 웨이브에서",
             contentStates = listOf(
                 HomeContentState(
                     id = 1,
@@ -119,7 +119,7 @@ class HomeViewModel : ViewModel() {
     )
 
     val rankingContents: HomeCommonContentState = HomeCommonContentState(
-        kind = "오늘의 TOP 20",
+        mainTitle = "오늘의 TOP 20",
         contentStates = listOf(
             HomeContentState(
                 id = 1,

@@ -17,7 +17,6 @@ import androidx.navigation.toRoute
 import org.sopt.and.navigation.Screen
 import org.sopt.and.ui.component.ScaffoldWithBottomNavigation
 import org.sopt.and.ui.home.HomeScreen
-import org.sopt.and.ui.home.viewmodel.HomeViewModel
 import org.sopt.and.ui.mypage.MyScreen
 import org.sopt.and.ui.sign.SignInScreen
 import org.sopt.and.ui.sign.SignUpScreen
@@ -94,13 +93,18 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         composable<Screen.Home> {
-                            val homeViewModel = HomeViewModel()
                             HomeScreen(
-                                modifier = Modifier.background(WavveBg),
-                                mainContentState = homeViewModel.mainContents,
-                                commonContentState = homeViewModel.commonContents,
-                                rankingContentState = homeViewModel.rankingContents,
-                                onContentTypeSelected = { TODO() },
+                                onContentTypeSelected = {
+                                    /* TODO : type에 따라 Screen 변경 가능*/
+                                    /*contentType ->
+                                    when (contentType) {
+                                        ContentType.MOVIE -> navController.navigate(Screen.MovieScreen)
+                                        ContentType.DRAMA -> navController.navigate(Screen.DramaScreen)
+                                        else -> {
+                                        }
+                                    }*/
+                                },
+                                modifier = Modifier.background(WavveBg)
                             )
                         }
                     }
