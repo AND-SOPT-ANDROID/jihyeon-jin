@@ -69,7 +69,7 @@ fun MyScreen(
             )
             Spacer(modifier = Modifier.width(14.dp))
             Text(
-                text = "${email}님",
+                text = "%s님".format(email),
                 color = White
             )
             Spacer(modifier = Modifier.weight(1f))
