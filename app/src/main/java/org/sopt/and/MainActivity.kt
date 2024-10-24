@@ -14,6 +14,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import org.sopt.and.data.model.Auth
 import org.sopt.and.navigation.Screen
 import org.sopt.and.ui.component.ScaffoldWithBottomNavigation
 import org.sopt.and.ui.home.HomeScreen
@@ -42,8 +43,8 @@ class MainActivity : ComponentActivity() {
                     NavHost(
                         navController = navController,
                         startDestination = if (id.isBlank() || pw.isBlank()) Screen.SignIn(
-                            "",
-                            ""
+                            Auth.EMPTY_EMAIL,
+                            Auth.EMPTY_PASSWORD
                         ) else Screen.My,
                         enterTransition = {
                             EnterTransition.None
@@ -86,7 +87,7 @@ class MainActivity : ComponentActivity() {
                         composable<Screen.My> {
                             MyScreen(
                                 navigateToSignIn = {
-                                    navController.navigate(Screen.SignIn("", "")) {
+                                    navController.navigate(Screen.SignIn(Auth.EMPTY_EMAIL, Auth.EMPTY_PASSWORD)) {
                                         popUpTo<Screen.My>{ inclusive = true }
                                         launchSingleTop = true
                                     }
