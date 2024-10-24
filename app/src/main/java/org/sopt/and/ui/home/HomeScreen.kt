@@ -6,7 +6,6 @@ import androidx.compose.animation.core.spring
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -25,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
+import org.sopt.and.ui.component.topBar.CommonTopBar
 import org.sopt.and.ui.home.component.CommonContentHorizontalColumn
 import org.sopt.and.ui.home.component.ContentTypeRow
 import org.sopt.and.ui.home.component.MainContentHorizontalPager
@@ -53,6 +53,11 @@ fun HomeScreen(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
+        item {
+            CommonTopBar(
+                onLiveButtonClick = {}
+            )
+        }
         stickyHeader {
             ContentTypeRow(
                 modifier = Modifier

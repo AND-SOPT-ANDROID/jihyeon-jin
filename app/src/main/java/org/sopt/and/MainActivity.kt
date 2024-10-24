@@ -18,6 +18,7 @@ import org.sopt.and.navigation.Screen
 import org.sopt.and.ui.component.ScaffoldWithBottomNavigation
 import org.sopt.and.ui.home.HomeScreen
 import org.sopt.and.ui.mypage.MyScreen
+import org.sopt.and.ui.search.SearchScreen
 import org.sopt.and.ui.sign.SignInScreen
 import org.sopt.and.ui.sign.SignUpScreen
 import org.sopt.and.ui.theme.WavveBg
@@ -40,10 +41,10 @@ class MainActivity : ComponentActivity() {
                 ScaffoldWithBottomNavigation(navController = navController) {
                     NavHost(
                         navController = navController,
-                        startDestination = if (id.isBlank() || pw.isBlank()) Screen.SignInScreen(
+                        startDestination = if (id.isBlank() || pw.isBlank()) Screen.SignIn(
                             "",
                             ""
-                        ) else Screen.MyScreen,
+                        ) else Screen.My,
                         enterTransition = {
                             EnterTransition.None
                         },
@@ -57,36 +58,36 @@ class MainActivity : ComponentActivity() {
                             ExitTransition.None
                         },
                     ) {
-                        composable<Screen.SignInScreen> { backStackEntry ->
-                            val signInScreen = backStackEntry.toRoute<Screen.SignInScreen>()
+                        composable<Screen.SignIn> { backStackEntry ->
+                            val signInScreen = backStackEntry.toRoute<Screen.SignIn>()
                             SignInScreen(
                                 signIn = signInScreen,
                                 navigateToMy = {
-                                    navController.navigate(Screen.MyScreen)
+                                    navController.navigate(Screen.My)
                                 },
                                 navigateToSignUp = {
-                                    navController.navigate(Screen.SignUpScreen)
+                                    navController.navigate(Screen.SignUp)
                                 }
                             )
                         }
 
-                        composable<Screen.SignUpScreen> {
+                        composable<Screen.SignUp> {
                             SignUpScreen(
                                 navigateToSignIn = { email, password ->
-                                    navController.navigate(Screen.SignInScreen(email, password))
+                                    navController.navigate(Screen.SignIn(email, password))
                                     {
-                                        popUpTo<Screen.SignUpScreen>{ inclusive = true }
+                                        popUpTo<Screen.SignUp>{ inclusive = true }
                                         launchSingleTop = true
                                     }
                                 }
                             )
                         }
 
-                        composable<Screen.MyScreen> {
+                        composable<Screen.My> {
                             MyScreen(
                                 navigateToSignIn = {
-                                    navController.navigate(Screen.SignInScreen("", "")) {
-                                        popUpTo<Screen.MyScreen>{ inclusive = true }
+                                    navController.navigate(Screen.SignIn("", "")) {
+                                        popUpTo<Screen.My>{ inclusive = true }
                                         launchSingleTop = true
                                     }
                                 }
@@ -106,6 +107,9 @@ class MainActivity : ComponentActivity() {
                                 },
                                 modifier = Modifier.background(WavveBg)
                             )
+                        }
+                        composable<Screen.Search> {
+                            SearchScreen(modifier = Modifier.background(WavveBg))
                         }
                     }
                 }

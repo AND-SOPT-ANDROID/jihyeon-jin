@@ -27,7 +27,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import org.sopt.and.R
-import org.sopt.and.ui.component.topBar.CommonTopBar
 import org.sopt.and.ui.theme.WavveBg
 import org.sopt.and.ui.theme.WavveDisabled
 import org.sopt.and.navigation.Screen
@@ -56,8 +55,8 @@ fun ScaffoldWithBottomNavigation(
     }
     val bottomBarScreens = listOf(
         Screen.Home.javaClass.canonicalName ,
-        //Screen.Search.javaClass.canonicalName,
-        Screen.MyScreen.javaClass.canonicalName
+        Screen.Search.javaClass.canonicalName,
+        Screen.My.javaClass.canonicalName
     )
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -67,16 +66,6 @@ fun ScaffoldWithBottomNavigation(
 
     Scaffold(
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
-        topBar = {
-            when(currentRoute){
-                Screen.Home.javaClass.canonicalName.toString() -> {
-                    CommonTopBar(
-                        onLiveButtonClick = {}
-                    )
-                }
-                else -> {}
-            }
-        },
         bottomBar = {
             if (currentRoute in bottomBarScreens) {
                 BottomAppBar(
@@ -102,14 +91,14 @@ fun ScaffoldWithBottomNavigation(
                         icon = {
                             Icon(
                                 ImageVector.vectorResource(R.drawable.ic_search),
-                                contentDescription = "${Screen.Home}",
+                                contentDescription = "${Screen.Search}",
                                 Modifier.size(32.dp)
                             )
                         },
                         label = { Text("검색") },
-                        selected = currentRoute == Screen.Home.javaClass.canonicalName,
+                        selected = currentRoute == Screen.Search.javaClass.canonicalName,
                         onClick = {
-                            navigateToScreen(navController, Screen.Home)
+                            navigateToScreen(navController, Screen.Search)
                         },
                         colors = colors
                     )
@@ -124,9 +113,9 @@ fun ScaffoldWithBottomNavigation(
                             )
                         },
                         label = { Text("MY") },
-                        selected = currentRoute == Screen.MyScreen.javaClass.canonicalName,
+                        selected = currentRoute == Screen.My.javaClass.canonicalName,
                         onClick = {
-                            navigateToScreen(navController, Screen.MyScreen)
+                            navigateToScreen(navController, Screen.My)
                         },
                         colors = colors,
                     )

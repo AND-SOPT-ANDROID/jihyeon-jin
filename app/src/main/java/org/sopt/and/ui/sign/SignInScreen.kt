@@ -45,7 +45,7 @@ import org.sopt.and.utils.SnackBarUtils
 
 @Composable
 fun SignInScreen(
-    signIn: Screen.SignInScreen,
+    signIn: Screen.SignIn,
     navigateToMy: () -> Unit,
     navigateToSignUp: () -> Unit,
     modifier: Modifier = Modifier,
