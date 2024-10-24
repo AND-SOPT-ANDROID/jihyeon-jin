@@ -31,6 +31,7 @@ import org.sopt.and.ui.home.component.item.CommonContentItem
 import org.sopt.and.ui.home.state.HomeCommonContentState
 import org.sopt.and.ui.home.state.HomeContentState
 import org.sopt.and.ui.theme.Gray3
+import org.sopt.and.ui.theme.White
 
 @Composable
 fun CommonContentHorizontalColumn (
@@ -52,7 +53,7 @@ fun CommonContentHorizontalColumn (
             Text(
                 text = commonContentState.mainTitle,
                 fontSize = 18.sp,
-                color = Color.White,
+                color = White,
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.weight(1f))

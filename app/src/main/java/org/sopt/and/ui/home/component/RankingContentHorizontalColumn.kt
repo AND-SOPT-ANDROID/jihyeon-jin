@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.sopt.and.R
 import org.sopt.and.ui.home.component.item.RankingContentItem
+import org.sopt.and.ui.theme.White
 
 @Composable
 fun RankingContentHorizontalColumn (
@@ -59,7 +60,7 @@ fun RankingContentHorizontalColumn (
         Text(
             text = commonContentState.mainTitle,
             fontSize = 18.sp,
-            color = Color.White,
+            color = White,
             fontWeight = FontWeight.Bold,
             modifier = Modifier
                 .fillMaxWidth()

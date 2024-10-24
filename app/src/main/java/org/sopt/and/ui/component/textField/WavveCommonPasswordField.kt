@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.sp
 import org.sopt.and.R
 import org.sopt.and.ui.theme.Gray5
 import org.sopt.and.ui.theme.WavveDisabled
+import org.sopt.and.ui.theme.White
 
 @Composable
 fun WavveCommonPasswordField(
@@ -46,7 +47,7 @@ fun WavveCommonPasswordField(
         value = value,
         onValueChange = onValueChange,
         singleLine = true,
-        textStyle = TextStyle(color = Color.White, fontSize = 16.sp),
+        textStyle = TextStyle(color = White, fontSize = 16.sp),
         visualTransformation = if (!passwordVisible) PasswordVisualTransformation() else VisualTransformation.None,
         decorationBox = { innerTextField ->
             Box(
@@ -62,7 +63,7 @@ fun WavveCommonPasswordField(
                     text = if (passwordVisible) stringResource(R.string.sign_in_text_field_hide) else stringResource(
                         R.string.sign_in_text_field_show
                     ),
-                    color = Color.White,
+                    color = White,
                     fontSize = 16.sp,
                     modifier = Modifier
                         .align(Alignment.CenterEnd)

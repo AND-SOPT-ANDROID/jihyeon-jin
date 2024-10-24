@@ -31,6 +31,7 @@ import org.sopt.and.ui.theme.WavveBg
 import org.sopt.and.ui.theme.WavveDisabled
 import org.sopt.and.navigation.Screen
 import org.sopt.and.ui.theme.BottomNavigationItemUnselected
+import org.sopt.and.ui.theme.White
 import org.sopt.and.utils.SnackBarUtils
 
 @Composable
@@ -40,9 +41,9 @@ fun ScaffoldWithBottomNavigation(
 ) {
 
     val colors = NavigationBarItemDefaults.colors(
-        selectedIconColor = Color.White,
+        selectedIconColor = White,
         unselectedIconColor = BottomNavigationItemUnselected,
-        selectedTextColor = Color.White,
+        selectedTextColor = White,
         unselectedTextColor = BottomNavigationItemUnselected,
         indicatorColor = Color.Transparent
     )

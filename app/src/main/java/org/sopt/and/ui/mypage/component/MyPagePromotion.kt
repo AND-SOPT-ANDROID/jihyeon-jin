@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.sopt.and.R
 import org.sopt.and.ui.theme.WavveDisabled
+import org.sopt.and.ui.theme.White
 
 @Composable
 fun MyPagePromotion(
@@ -39,13 +40,13 @@ fun MyPagePromotion(
         ) {
             Text(
                 text = stringResource(R.string.my_page_promotion_text_buying),
-                color = Color.White,
+                color = White,
                 fontSize = 16.sp
             )
             Icon(
                 imageVector = Icons.AutoMirrored.Outlined.KeyboardArrowRight,
                 contentDescription = stringResource(R.string.my_page_icon_description_purchase),
-                tint = Color.White
+                tint = White
             )
         }
     }

@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.sopt.and.R
 import org.sopt.and.ui.theme.WavveDisabled
+import org.sopt.and.ui.theme.White
 
 @Composable
 fun MyPageContents(
@@ -31,7 +32,7 @@ fun MyPageContents(
     ) {
         Text(
             text = title,
-            color = Color.White,
+            color = White,
             fontWeight = FontWeight.Bold,
             fontSize = 20.sp,
             modifier = Modifier.padding(start = 16.dp)

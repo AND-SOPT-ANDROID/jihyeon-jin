@@ -12,6 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import org.sopt.and.R
 import org.sopt.and.ui.theme.WavveBg
+import org.sopt.and.ui.theme.White
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -23,7 +24,7 @@ fun CommonTopBar(
             Icon(
                 imageVector = ImageVector.vectorResource(R.drawable.wavve_logo),
                 contentDescription = stringResource(R.string.back_button_top_bar_icon_description_logo),
-                tint = Color.White
+                tint = White
             )
         },
         actions = {
@@ -31,13 +32,13 @@ fun CommonTopBar(
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.ic_live),
                     contentDescription = stringResource(R.string.common_top_bar_icon_description_live),
-                    tint = Color.White
+                    tint = White
                 )
             }
         },
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
             containerColor = WavveBg,
-            titleContentColor = Color.White
+            titleContentColor = White
         )
     )
 }

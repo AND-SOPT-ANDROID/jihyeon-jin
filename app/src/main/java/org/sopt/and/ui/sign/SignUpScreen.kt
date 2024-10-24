@@ -41,6 +41,7 @@ import org.sopt.and.utils.showToast
 import androidx.lifecycle.viewmodel.compose.viewModel
 import org.sopt.and.extension.noRippleClickable
 import org.sopt.and.ui.component.topBar.CloseTopBar
+import org.sopt.and.ui.theme.White
 
 
 @Composable
@@ -73,13 +74,13 @@ fun SignUpScreen(
         Column(modifier = Modifier.padding(16.dp)) {
             val textResource = stringResource(id = R.string.sign_up_text_welcome)
             val annotatedString = buildAnnotatedString {
-                withStyle(style = SpanStyle(color = Color.White)) {
+                withStyle(style = SpanStyle(color = White)) {
                     append(textResource.substring(0, 10)) // "이메일과 비밀번호 "
                 }
                 withStyle(style = SpanStyle(color = Gray3)) {
                     append(textResource.substring(10, 13)) // "만으로\n"
                 }
-                withStyle(style = SpanStyle(color = Color.White)) {
+                withStyle(style = SpanStyle(color = White)) {
                     append(textResource.substring(13, 25)) // "Wavve를 즐길 수 "
                 }
                 withStyle(style = SpanStyle(color = Gray3)) {
@@ -188,7 +189,7 @@ fun SignUpScreen(
         ) {
             Text(
                 text = stringResource(R.string.sign_up_text_wavve_sign_up),
-                color = Color.White
+                color = White
             )
         }
     }

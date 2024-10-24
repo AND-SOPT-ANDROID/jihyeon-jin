@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.sopt.and.ui.theme.Gray5
 import org.sopt.and.ui.theme.WavveDisabled
+import org.sopt.and.ui.theme.White
 
 @Composable
 fun WavveCommonTextField(
@@ -35,7 +36,7 @@ fun WavveCommonTextField(
         value = value,
         onValueChange = onValueChange,
         singleLine = true,
-        textStyle = TextStyle(color = Color.White, fontSize = 16.sp),
+        textStyle = TextStyle(color = White, fontSize = 16.sp),
         decorationBox = { innerTextField ->
             Box(
                 modifier = Modifier

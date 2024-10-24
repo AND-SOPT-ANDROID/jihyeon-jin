@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.sp
 import org.sopt.and.data.model.ContentType
 import org.sopt.and.extension.noRippleClickable
 import org.sopt.and.ui.theme.Gray3
+import org.sopt.and.ui.theme.White
 
 @Composable
 fun ContentTypeRow(
@@ -34,7 +35,7 @@ fun ContentTypeRow(
                 text = stringResource(contentType.titleResId),
                 fontSize = 18.sp,
                 fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
-                color = if (isSelected) Color.White else Gray3
+                color = if (isSelected) White else Gray3
             )
         }
     }

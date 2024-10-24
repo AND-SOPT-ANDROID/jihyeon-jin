@@ -41,6 +41,7 @@ import org.sopt.and.ui.theme.Gray3
 import org.sopt.and.ui.theme.Gray4
 import org.sopt.and.ui.theme.WavveBg
 import org.sopt.and.ui.theme.WavvePrimary
+import org.sopt.and.ui.theme.White
 import org.sopt.and.utils.SnackBarUtils
 
 @Composable
@@ -116,7 +117,7 @@ fun SignInScreen(
             ) {
                 Text(
                     text = stringResource(R.string.sign_in_text_login),
-                    color = Color.White,
+                    color = White,
                     fontSize = 16.sp,
                     modifier = Modifier.padding(vertical = 8.dp)
                 )

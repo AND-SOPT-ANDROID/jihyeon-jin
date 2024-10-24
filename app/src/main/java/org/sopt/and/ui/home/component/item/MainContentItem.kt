@@ -23,6 +23,7 @@ import org.sopt.and.extension.noRippleClickable
 import org.sopt.and.ui.home.state.HomeContentState
 import org.sopt.and.ui.theme.WavveBg
 import org.sopt.and.ui.theme.WavveDisabled
+import org.sopt.and.ui.theme.White
 
 @Composable
 fun MainContentItem(
@@ -58,7 +59,7 @@ fun MainContentItem(
             Text(
                 text = currentPage.toString(),
                 fontSize = 12.sp,
-                color = Color.White
+                color = White
             )
             VerticalDivider(
                 modifier = Modifier.padding(horizontal = 4.dp, vertical = 1.dp),
