@@ -81,7 +81,7 @@ fun ScaffoldWithBottomNavigation(
                                 Modifier.size(32.dp)
                             )
                         },
-                        label = { Text("홈") },
+                        label = { Text(stringResource(R.string.title_home)) },
                         selected = currentRoute == Screen.Home.javaClass.canonicalName,
                         onClick = {
                             navigateToScreen(navController, Screen.Home)
@@ -96,7 +96,7 @@ fun ScaffoldWithBottomNavigation(
                                 Modifier.size(32.dp)
                             )
                         },
-                        label = { Text("검색") },
+                        label = { Text(stringResource(R.string.title_search)) },
                         selected = currentRoute == Screen.Search.javaClass.canonicalName,
                         onClick = {
                             navigateToScreen(navController, Screen.Search)
@@ -113,7 +113,7 @@ fun ScaffoldWithBottomNavigation(
                                 modifier = Modifier.size(32.dp)
                             )
                         },
-                        label = { Text("MY") },
+                        label = { Text(stringResource(R.string.title_my)) },
                         selected = currentRoute == Screen.My.javaClass.canonicalName,
                         onClick = {
                             navigateToScreen(navController, Screen.My)
