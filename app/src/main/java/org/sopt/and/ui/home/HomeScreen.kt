@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
-import org.sopt.and.ui.component.topBar.CommonTopBar
+import org.sopt.and.ui.component.topBar.HomeTopBar
 import org.sopt.and.ui.home.component.CommonContentHorizontalColumn
 import org.sopt.and.ui.home.component.ContentTypeRow
 import org.sopt.and.ui.home.component.MainContentHorizontalPager
@@ -54,7 +54,7 @@ fun HomeScreen(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         item {
-            CommonTopBar(
+            HomeTopBar(
                 onLiveButtonClick = {}
             )
         }

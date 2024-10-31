@@ -15,7 +15,7 @@ import org.sopt.and.ui.theme.White
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CommonTopBar(
+fun HomeTopBar(
     onLiveButtonClick: () -> Unit
 ) {
     TopAppBar(
