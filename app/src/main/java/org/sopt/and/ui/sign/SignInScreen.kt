@@ -86,13 +86,13 @@ fun SignInScreen(
         ) {
             WavveCommonTextField(
                 value = signInState.email,
-                onValueChange = { viewModel.updateEmail(it) },
+                onValueChange = viewModel::updateEmail,
                 hint = stringResource(R.string.sign_in_text_field_id_hint)
             )
             Spacer(modifier = Modifier.height(4.dp))
             WavveCommonPasswordField(
                 value = signInState.password,
-                onValueChange = { viewModel.updatePassword(it) },
+                onValueChange = viewModel::updatePassword,
                 hint = stringResource(R.string.sign_in_text_field_password_hint)
             )
 
