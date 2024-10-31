@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.sp
 import org.sopt.and.R
 import org.sopt.and.ui.theme.Gray5
 import org.sopt.and.ui.theme.WavveDisabled
+import org.sopt.and.ui.theme.White
 
 @Composable
 fun SignUpPasswordField(
@@ -52,7 +53,7 @@ fun SignUpPasswordField(
     BasicTextField(
         value = value,
         onValueChange = onValueChange,
-        textStyle = TextStyle(color = Color.White, fontSize = 16.sp),
+        textStyle = TextStyle(color = White, fontSize = 16.sp),
         visualTransformation = if (!passwordVisible) PasswordVisualTransformation() else VisualTransformation.None,
         decorationBox = { innerTextField ->
             Box(
@@ -68,7 +69,7 @@ fun SignUpPasswordField(
                     text = if (passwordVisible) stringResource(R.string.sign_up_button_hide) else stringResource(
                         R.string.sign_up_button_show
                     ),
-                    color = Color.White,
+                    color = White,
                     fontSize = 16.sp,
                     modifier = Modifier
                         .align(Alignment.CenterEnd)
