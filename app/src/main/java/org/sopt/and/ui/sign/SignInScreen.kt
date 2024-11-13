@@ -35,6 +35,7 @@ import org.sopt.and.ui.component.ServiceAccountItemRow
 import org.sopt.and.ui.component.textField.WavveCommonPasswordField
 import org.sopt.and.ui.component.textField.WavveCommonTextField
 import org.sopt.and.ui.component.topBar.BackButtonTopBar
+import org.sopt.and.ui.sign.component.WavveBasicButton
 import org.sopt.and.ui.sign.viewmodel.SignInViewModel
 import org.sopt.and.ui.theme.Gray3
 import org.sopt.and.ui.theme.Gray4
@@ -86,18 +87,29 @@ fun SignInScreen(
         ) {
             WavveCommonTextField(
                 value = signInState.email,
-                onValueChange = { viewModel.updateEmail(it) },
+                onValueChange = viewModel::updateEmail,
                 hint = stringResource(R.string.sign_in_text_field_id_hint)
             )
             Spacer(modifier = Modifier.height(4.dp))
             WavveCommonPasswordField(
                 value = signInState.password,
-                onValueChange = { viewModel.updatePassword(it) },
+                onValueChange = viewModel::updatePassword,
                 hint = stringResource(R.string.sign_in_text_field_password_hint)
             )
 
             Spacer(modifier = Modifier.height(24.dp))
 
+            WavveBasicButton(
+                text = stringResource(R.string.sign_in_text_login),
+                onClick = {
+                    viewModel.updateIsValid(signIn.email, signIn.password)
+                    viewModel.signIn(
+                        context = context,
+                        emailInput = signIn.email,
+                        passwordInput = signIn.password
+                    ) },
+                modifier = Modifier
+            )
             Button(
                 modifier = Modifier
                     .fillMaxWidth()

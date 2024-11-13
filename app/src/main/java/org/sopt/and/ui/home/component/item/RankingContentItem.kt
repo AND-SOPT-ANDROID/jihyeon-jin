@@ -18,9 +18,9 @@ import org.sopt.and.ui.home.state.HomeContentState
 
 @Composable
 fun RankingContentItem(
-    modifier: Modifier = Modifier,
     mainContentState: HomeContentState,
     rank: Int,
+    modifier: Modifier = Modifier,
     onClick: (HomeContentState) -> Unit = {}
 ) {
     Box(

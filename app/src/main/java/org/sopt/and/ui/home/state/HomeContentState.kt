@@ -1,8 +1,10 @@
 package org.sopt.and.ui.home.state
 
+import androidx.annotation.DrawableRes
+
 data class HomeContentState(
     val id: Int,
     val title: String,
-    val image: Int,
+    @DrawableRes val image: Int,
     val description: String,
 )
