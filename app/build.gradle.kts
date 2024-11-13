@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.hilt.android)
 }
 
 val properties = Properties().apply {
@@ -78,6 +79,18 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.retrofit.kotlin.serialization.converter)
     implementation(libs.kotlinx.serialization.json)
+
+    // hilt
+    implementation(libs.hilt)
+    implementation(libs.hilt.compiler)
+
+    // hilt testing
+    implementation(libs.hilt.android.testing)
+
+    testImplementation(libs.hilt.android.testing)
+    testAnnotationProcessor(libs.hilt.android.compiler)
+
+    androidTestImplementation(libs.hilt.android.testing)
 
 
 }
