@@ -110,29 +110,6 @@ fun SignInScreen(
                     ) },
                 modifier = Modifier
             )
-            Button(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 8.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = WavvePrimary
-                ),
-                onClick = {
-                    viewModel.updateIsValid(signIn.email, signIn.password)
-                    viewModel.signIn(
-                        context = context,
-                        emailInput = signIn.email,
-                        passwordInput = signIn.password
-                    )
-                },
-            ) {
-                Text(
-                    text = stringResource(R.string.sign_in_text_login),
-                    color = White,
-                    fontSize = 16.sp,
-                    modifier = Modifier.padding(vertical = 8.dp)
-                )
-            }
 
             Spacer(modifier = Modifier.height(16.dp))
 
