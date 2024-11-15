@@ -1,7 +1,7 @@
 package org.sopt.and.data.model
 
 import kotlinx.serialization.Serializable
-import org.sopt.and.domain.model.BaseResult
+import org.sopt.and.domain.model.entity.BaseResult
 
 @Serializable
 sealed class BaseResponse<out T> {
@@ -17,7 +17,7 @@ data class ErrorResponse(
     val code: String
 )
 
-fun <T> BaseResponse<T>.toBaseResult():  BaseResult<T> {
+fun <T> BaseResponse<T>.toBaseResult(): BaseResult<T> {
     return when (this) {
         is BaseResponse.Success -> BaseResult.Success(this.data)
         is BaseResponse.Failure -> BaseResult.Error(this.message, this.errorCode)

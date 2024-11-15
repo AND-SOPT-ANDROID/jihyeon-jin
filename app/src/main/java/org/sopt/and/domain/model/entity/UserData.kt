@@ -1,4 +1,4 @@
-package org.sopt.and.domain.model
+package org.sopt.and.domain.model.entity
 
 data class UserData(
     val username: String,

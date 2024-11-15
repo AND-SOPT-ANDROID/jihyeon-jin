@@ -1,4 +1,4 @@
-package org.sopt.and.domain.model
+package org.sopt.and.domain.model.entity
 
 sealed class BaseResult<out T> {
     data class Success<out T>(val data: T) : BaseResult<T>()

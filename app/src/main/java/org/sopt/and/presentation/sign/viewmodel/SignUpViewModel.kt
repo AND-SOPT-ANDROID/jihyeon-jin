@@ -10,10 +10,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.sopt.and.data.model.BaseResponse
-import org.sopt.and.domain.model.BaseResult
-import org.sopt.and.domain.model.UserData
-import org.sopt.and.domain.model.UserRegisterResult
+import org.sopt.and.domain.model.entity.BaseResult
+import org.sopt.and.domain.model.entity.UserData
+import org.sopt.and.domain.model.entity.UserRegisterResult
 import org.sopt.and.domain.usecase.RegisterUserUseCase
 import org.sopt.and.presentation.sign.state.SignUpState
 import javax.inject.Inject
@@ -132,7 +131,8 @@ class SignUpViewModel @Inject constructor(
                 _signUpState.value.email,
                 _signUpState.value.password,
                 _signUpState.value.hobby
-                ))
+                )
+            )
             ) {
                 is BaseResult.Success -> {
                     _userResultState.value = result.data

@@ -11,9 +11,12 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.sopt.and.BuildConfig.BASE_URL
 import org.sopt.and.data.api.UserService
-import org.sopt.and.data.repository.UserRepositoryImpl
+import org.sopt.and.data.repository.UserLoginRepositoryImpl
+import org.sopt.and.data.repository.UserRegisterRepositoryImpl
+import org.sopt.and.domain.repository.UserLoginRepository
 import org.sopt.and.domain.usecase.RegisterUserUseCase
-import org.sopt.and.domain.repository.UserRepository
+import org.sopt.and.domain.repository.UserRegisterRepository
+import org.sopt.and.domain.usecase.LoginUseCase
 import retrofit2.Retrofit
 import javax.inject.Singleton
 
@@ -56,13 +59,25 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideUserRepository(userService: UserService): UserRepository {
-        return UserRepositoryImpl(userService)
+    fun provideUserRegisterRepository(userService: UserService): UserRegisterRepository {
+        return UserRegisterRepositoryImpl(userService)
     }
 
     @Provides
     @Singleton
-    fun provideRegisterUserUseCase(userRepository: UserRepository): RegisterUserUseCase {
+    fun provideUserLoginRepository(userService: UserService): UserLoginRepository {
+        return UserLoginRepositoryImpl(userService)
+    }
+
+    @Provides
+    @Singleton
+    fun provideRegisterUserUseCase(userRepository: UserRegisterRepository): RegisterUserUseCase {
         return RegisterUserUseCase(userRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideLoginUserUseCase(userRepository: UserLoginRepository): LoginUseCase {
+        return LoginUseCase(userRepository)
     }
 }
