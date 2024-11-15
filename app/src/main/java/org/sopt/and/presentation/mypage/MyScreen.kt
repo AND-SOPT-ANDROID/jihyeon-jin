@@ -68,6 +68,7 @@ fun MyScreen(
                     )
                 }
             }
+            PreferenceUtils.clearUserToken(context)
             navigateToSignIn()
         }
     }
