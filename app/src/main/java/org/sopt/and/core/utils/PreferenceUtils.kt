@@ -21,6 +21,10 @@ object PreferenceUtils {
         return prefs.getString(USER_TOKEN, null)
     }
 
+    fun clearUserToken(context: Context) {
+        val prefs = getPreferences(context)
+        prefs.edit().remove(USER_TOKEN).apply()
+    }
     fun clearAll(context: Context) {
         val prefs = getPreferences(context)
         prefs.edit().clear().apply()

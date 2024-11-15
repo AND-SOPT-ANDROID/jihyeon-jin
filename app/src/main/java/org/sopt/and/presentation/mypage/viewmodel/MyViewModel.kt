@@ -7,6 +7,6 @@ import org.sopt.and.core.utils.PreferenceUtils
 class MyViewModel : ViewModel() {
 
     fun logOut(context: Context) {
-        PreferenceUtils.clearAll(context)
+        PreferenceUtils.clearUserToken(context)
     }
 }
