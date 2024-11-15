@@ -160,6 +160,7 @@ fun SignUpScreen(
                 validMessage = stringResource(R.string.sign_up_text_valid_hobby)
             )
 
+            Spacer(modifier = Modifier.height(8.dp))
 
             Row(
                 modifier = modifier
