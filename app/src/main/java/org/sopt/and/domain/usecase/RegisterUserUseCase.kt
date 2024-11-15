@@ -2,7 +2,7 @@ package org.sopt.and.domain.usecase
 
 import org.sopt.and.domain.model.BaseResult
 import org.sopt.and.domain.model.UserData
-import org.sopt.and.domain.model.UserResult
+import org.sopt.and.domain.model.UserRegisterResult
 import org.sopt.and.domain.repository.UserRepository
 import javax.inject.Inject
 
@@ -12,7 +12,7 @@ class RegisterUserUseCase @Inject constructor(
     private val userRepository: UserRepository
 ) {
     //suspend operator fun invoke -> 클래스를 함수처럼 사용하게 함
-    suspend operator fun invoke(user : UserData): BaseResult<UserResult> {
+    suspend operator fun invoke(user : UserData): BaseResult<UserRegisterResult> {
         return userRepository.registerUser(user)
     }
 }

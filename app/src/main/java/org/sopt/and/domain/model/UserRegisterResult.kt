@@ -1,5 +1,5 @@
 package org.sopt.and.domain.model
 
-data class UserResult(
+data class UserRegisterResult(
     val no: Int?
 )

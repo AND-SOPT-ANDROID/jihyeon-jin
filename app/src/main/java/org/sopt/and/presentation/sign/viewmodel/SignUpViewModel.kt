@@ -1,6 +1,5 @@
 package org.sopt.and.presentation.sign.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -11,9 +10,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.sopt.and.data.model.BaseResponse
 import org.sopt.and.domain.model.BaseResult
 import org.sopt.and.domain.model.UserData
-import org.sopt.and.domain.model.UserResult
+import org.sopt.and.domain.model.UserRegisterResult
 import org.sopt.and.domain.usecase.RegisterUserUseCase
 import org.sopt.and.presentation.sign.state.SignUpState
 import javax.inject.Inject
@@ -25,8 +25,8 @@ class SignUpViewModel @Inject constructor(
     private val _signUpState = MutableStateFlow(SignUpState())
     val signUpState = _signUpState.asStateFlow()
 
-    private val _userResultState = MutableStateFlow<UserResult?>(null)
-    val userResultState: StateFlow<UserResult?> = _userResultState
+    private val _userResultState = MutableStateFlow<UserRegisterResult?>(null)
+    val userResultState: StateFlow<UserRegisterResult?> = _userResultState
 
     private val _errorMessageState = MutableStateFlow<String?>(null)
     val errorMessageState: StateFlow<String?> = _errorMessageState
@@ -122,7 +122,7 @@ class SignUpViewModel @Inject constructor(
     private val _signUpSuccess = MutableSharedFlow<Boolean>()
     val signUpSuccess: SharedFlow<Boolean> = _signUpSuccess
 
-    suspend fun setSignUpSuccess(value: Boolean) {
+    private suspend fun setSignUpSuccess(value: Boolean) {
         _signUpSuccess.emit(value)
     }
     fun registerUser() {
@@ -139,7 +139,7 @@ class SignUpViewModel @Inject constructor(
                     _errorMessageState.value = null
                     setSignUpSuccess(true)
                 }
-                is BaseResult.Failure -> {
+                is BaseResult.Error -> {
                     _userResultState.value = null
                     _errorMessageState.value = result.message
                     setSignUpSuccess(false)

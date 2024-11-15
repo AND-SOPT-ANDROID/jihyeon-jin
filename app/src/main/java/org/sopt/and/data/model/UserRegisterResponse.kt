@@ -3,7 +3,7 @@ package org.sopt.and.data.model
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class UserResponseDto(
+data class UserRegisterResponse(
     val result: ResultData?
 ) {
     @Serializable
