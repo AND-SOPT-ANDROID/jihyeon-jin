@@ -1,7 +1,7 @@
 package org.sopt.and.data.mapper
 
-import android.util.Log
 import org.sopt.and.data.common.APICallType
+import org.sopt.and.data.common.ErrorTypeWithMessage
 
 object ErrorMapper {
     private val errorMapByApi = mapOf(
@@ -16,7 +16,13 @@ object ErrorMapper {
             Pair(400, "02") to "비밀번호를 올바르게 입력해주세요.",
             Pair(403, "01") to "아이디 혹은 비밀번호가 틀렸습니다.",
             Pair(404, "00") to "잘못된 요청입니다."
-        )
+        ),
+        APICallType.GET_MY_HOBBY to mapOf(
+            Pair(401, "00") to ErrorTypeWithMessage.INVALID_TOKEN,
+            Pair(403, "00") to ErrorTypeWithMessage.INVALID_TOKEN,
+            Pair(404, "00") to "잘못된 요청입니다."
+        ),
+
     )
     fun getErrorMessage(apiName: String, statusCode: Int?, errorCode: String?): String {
         val apiErrorMap = errorMapByApi[apiName]

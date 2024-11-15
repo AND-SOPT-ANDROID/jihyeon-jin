@@ -19,13 +19,21 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import org.sopt.and.R
 import org.sopt.and.core.extension.noRippleClickable
 import org.sopt.and.presentation.mypage.component.MyPageContents
@@ -36,6 +44,7 @@ import org.sopt.and.core.designsystem.theme.WavveBg
 import org.sopt.and.core.designsystem.theme.WavveDisabled
 import org.sopt.and.core.designsystem.theme.White
 import org.sopt.and.core.utils.PreferenceUtils
+import org.sopt.and.core.utils.SnackBarUtils
 import org.sopt.and.core.utils.showToast
 
 
@@ -43,10 +52,43 @@ import org.sopt.and.core.utils.showToast
 fun MyScreen(
     navigateToSignIn : () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: MyViewModel = viewModel()
+    viewModel: MyViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
     val userToken = PreferenceUtils.getUserToken(context)
+
+    val myPageState by viewModel.myPageState.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.tokenInvalid.collectLatest {
+            viewModel.errorMessageState.value?.let { message ->
+                CoroutineScope(Dispatchers.Main).launch {
+                    SnackBarUtils.showSnackBar(
+                        message = message,
+                        actionLabel = context.getString(R.string.sign_in_snackbar_action_close)
+                    )
+                }
+            }
+            navigateToSignIn()
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.isLogout.collectLatest { logout ->
+            if(logout) {
+                context.showToast(
+                    context.getString(R.string.my_page_toast_success_logout)
+                )
+                PreferenceUtils.clearUserToken(context)
+                navigateToSignIn()
+            }
+        }
+    }
+
+
+    LaunchedEffect(true) {
+        viewModel.getMyHobby(userToken.orEmpty())
+    }
 
     Column(
         modifier = modifier
@@ -69,7 +111,7 @@ fun MyScreen(
             )
             Spacer(modifier = Modifier.width(14.dp))
             Text(
-                text = "%s님".format(userToken),
+                text = myPageState.hobby,
                 color = White
             )
             Spacer(modifier = Modifier.weight(1f))
@@ -128,11 +170,7 @@ fun MyScreen(
                 .background(WavveDisabled)
                 .wrapContentHeight()
                 .noRippleClickable {
-                    viewModel.logOut(context)
-                    context.showToast(
-                        context.getString(R.string.my_page_toast_success_logout)
-                    )
-                    navigateToSignIn()
+                    viewModel.logout()
                 }
                 .padding(vertical = 14.dp)
         ) {

@@ -2,10 +2,13 @@ package org.sopt.and.data.api
 
 import org.sopt.and.data.model.request.UserLoginRequest
 import org.sopt.and.data.model.request.UserRegisterRequest
+import org.sopt.and.data.model.response.GetMyHobbyResponse
 import org.sopt.and.data.model.response.UserLoginResponse
 import org.sopt.and.data.model.response.UserRegisterResponse
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 
 interface UserService {
@@ -13,4 +16,7 @@ interface UserService {
     suspend fun registerUser(@Body request: UserRegisterRequest): Response<UserRegisterResponse>
     @POST("/login")
     suspend fun loginUser(@Body request: UserLoginRequest): Response<UserLoginResponse>
+
+    @GET("/user/my-hobby")
+    suspend fun getMyHobby(@Header("token") token: String): Response<GetMyHobbyResponse>
 }
