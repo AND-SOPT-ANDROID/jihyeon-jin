@@ -30,7 +30,7 @@ import org.sopt.and.core.designsystem.theme.WavveDisabled
 import org.sopt.and.core.designsystem.theme.White
 
 @Composable
-fun SignUpIDTextField(
+fun SignUpTextField(
     value: String,
     hint: String,
     isValid: Boolean,

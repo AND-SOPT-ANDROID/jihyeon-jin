@@ -1,5 +1,6 @@
 package org.sopt.and.presentation.sign
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,10 +26,12 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import kotlinx.coroutines.flow.collectLatest
 import org.sopt.and.R
 import org.sopt.and.core.component.ServiceAccountItemRow
 import org.sopt.and.presentation.sign.component.HelperText
-import org.sopt.and.presentation.sign.component.SignUpIDTextField
+import org.sopt.and.presentation.sign.component.SignUpTextField
 import org.sopt.and.presentation.sign.component.SignUpPasswordField
 import org.sopt.and.presentation.sign.viewmodel.SignUpViewModel
 import org.sopt.and.core.designsystem.theme.Gray3
@@ -37,7 +40,6 @@ import org.sopt.and.core.designsystem.theme.WavveBg
 import org.sopt.and.core.designsystem.theme.WavveDisabled
 import org.sopt.and.core.designsystem.theme.WavvePrimary
 import org.sopt.and.core.utils.showToast
-import androidx.lifecycle.viewmodel.compose.viewModel
 import org.sopt.and.core.extension.noRippleClickable
 import org.sopt.and.core.component.topBar.CloseTopBar
 import org.sopt.and.core.designsystem.theme.White
@@ -47,17 +49,22 @@ import org.sopt.and.core.designsystem.theme.White
 fun SignUpScreen(
     navigateToSignIn: (email: String, password: String) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: SignUpViewModel = viewModel()) {
+    viewModel: SignUpViewModel = hiltViewModel()) {
 
     val signUpState by viewModel.signUpState.collectAsState()
-    val signUpSuccess by viewModel.signUpSuccess.collectAsState()
     val context = LocalContext.current
 
-    LaunchedEffect(signUpSuccess) {
-        if (signUpSuccess) {
-            context.showToast(context.getString(R.string.sign_up_toast_success))
-            navigateToSignIn(signUpState.email, signUpState.password)
-            viewModel.resetSignUpSuccess()
+    LaunchedEffect(Unit) {
+        viewModel.signUpSuccess.collectLatest { success ->
+            if (success) {
+                context.showToast(context.getString(R.string.sign_up_toast_success))
+                navigateToSignIn(signUpState.email, signUpState.password)
+                viewModel.resetSignUpSuccess()
+            } else {
+                viewModel.errorMessageState.value?.let {
+                    context.showToast(it)
+                }
+            }
         }
     }
     Column(
@@ -74,16 +81,16 @@ fun SignUpScreen(
             val textResource = stringResource(id = R.string.sign_up_text_welcome)
             val annotatedString = buildAnnotatedString {
                 withStyle(style = SpanStyle(color = White)) {
-                    append(textResource.substring(0, 10)) // "이메일과 비밀번호 "
+                    append(textResource.substring(0, 13)) // "이메일과 비밀번호, 취미 "
                 }
                 withStyle(style = SpanStyle(color = Gray3)) {
-                    append(textResource.substring(10, 13)) // "만으로\n"
+                    append(textResource.substring(13, 16)) // "만으로\n"
                 }
                 withStyle(style = SpanStyle(color = White)) {
-                    append(textResource.substring(13, 25)) // "Wavve를 즐길 수 "
+                    append(textResource.substring(16, 28)) // "Wavve를 즐길 수 "
                 }
                 withStyle(style = SpanStyle(color = Gray3)) {
-                    append(textResource.substring(25, 30)) // "있어요!"
+                    append(textResource.substring(28, 33)) // "있어요!"
                 }
             }
 
@@ -95,7 +102,7 @@ fun SignUpScreen(
 
             Spacer(modifier = Modifier.height(28.dp))
 
-            SignUpIDTextField(
+            SignUpTextField(
                 value = signUpState.email,
                 hint = stringResource(R.string.sign_up_text_field_hint_id),
                 isValid = signUpState.isEmailValid,
@@ -131,6 +138,26 @@ fun SignUpScreen(
                 value = signUpState.password,
                 invalidMessage = stringResource(R.string.sign_up_text_invalid_password),
                 validMessage = stringResource(R.string.sign_up_text_valid_password)
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            SignUpTextField(
+                value = signUpState.hobby,
+                hint = stringResource(R.string.sign_up_text_field_hint_hobby),
+                isValid = signUpState.isHobbyValid,
+                onFocusChange = { isFocused -> viewModel.updateHobbyFieldFocused(isFocused)},
+                onValueChange = { viewModel.updateHobby(it) }
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            HelperText(
+                isFieldFocused = signUpState.isHobbyFieldFocused,
+                isValid = signUpState.isHobbyValid,
+                value = signUpState.hobby,
+                invalidMessage = stringResource(R.string.sign_up_text_invalid_hobby),
+                validMessage = stringResource(R.string.sign_up_text_valid_hobby)
             )
 
 
@@ -183,7 +210,7 @@ fun SignUpScreen(
                     color = if (signUpState.isValid) WavvePrimary else WavveDisabled
                 )
                 .wrapContentHeight()
-                .noRippleClickable { viewModel.signUp() }
+                .noRippleClickable { viewModel.registerUser() }
                 .padding(vertical = 14.dp)
         ) {
             Text(

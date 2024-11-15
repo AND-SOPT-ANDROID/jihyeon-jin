@@ -73,8 +73,10 @@ fun RowScope.BottomNavigationItem(
 }
 
 private fun navigateToScreen(navController: NavController, screen: Screen) {
-    navController.navigate(screen.javaClass.canonicalName) {
-        popUpTo(screen.javaClass.canonicalName) { inclusive = false }
+    screen.javaClass.canonicalName?.let {
+        navController.navigate(it) {
+        screen.javaClass.canonicalName?.let { it1 -> popUpTo(it1) { inclusive = false } }
         launchSingleTop = true
+    }
     }
 }

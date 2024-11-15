@@ -23,20 +23,23 @@
 
     <!--SignUp-->
     <string name="sign_up_text_sign_up">회원가입</string>
-    <string name="sign_up_text_invalid_id">입력하신 이메일 주소가 형식에 맞지 않습니다. 다시 입력해 주세요.</string>
-    <string name="sign_up_text_valid_id">로그인, 비밀번호 찾기, 알림에 사용되니 정확한 이메일을 입력해주세요.</string>
-    <string name="sign_up_text_invalid_password">비밀번호는 8~20자 이내로 영문 대소문자, 숫자, 특수문자 중 3가지 이상 혼용하여 입력해주세요. 연속된 숫자 또는 4자 이상의 동일 문자는 비밀번호로 사용할 수 없습니다.</string>
-    <string name="sign_up_text_valid_password">비밀번호는 8~20자 이내로 영문 대소문자, 숫자, 특수문자 중 3가지 이상 혼용하여 입력해주세요.</string>
+    <string name="sign_up_text_invalid_id">입력하신 아이디가 형식에 맞지 않습니다. 아이디는 8자 이내로 입력해주세요.</string>
+    <string name="sign_up_text_valid_id">아이디는 8자 이내로 입력해주세요.</string>
+    <string name="sign_up_text_invalid_password">입력하신 비밀번호가 형식에 맞지 않습니다. 비밀번호는 8자 이내로 입력해주세요.</string>
+    <string name="sign_up_text_valid_password">비밀번호는 8자 이내로 입력해주세요.</string>
+    <string name="sign_up_text_invalid_hobby">입력하신 취미가 형식에 맞지 않습니다. 취미는 8자 이내로 입력해 주세요.</string>
+    <string name="sign_up_text_valid_hobby">취미는 8자 이내로 입력해주세요.</string>
     <string name="sign_up_text_field_hint_password">Wavve 비밀번호 설정</string>
     <string name="sign_up_text_other_service">또는 다른 서비스 계정으로 로그인</string>
     <string name="sign_up_text_information">SNS계정으로 간편하게 가입하여 서비스를 이용하실 수 있습니다. 기존 POOQ 계정 또는 Wavve 계정과는 연동되지 않으니 이용에 참고하세요.</string>
     <string name="sign_up_toast_success">회원가입을 완료하였습니다.</string>
-    <string name="sign_up_toast_failed">이메일 혹은 비밀번호를 양식에 맞게 작성해주세요</string>
+    <string name="sign_up_toast_failed">아이디, 비밀번호, 취미를 양식에 맞게 작성해주세요</string>
     <string name="sign_up_text_wavve_sign_up">Wavve 회원가입</string>
-    <string name="sign_up_text_welcome">이메일과 비밀번호 만으로\nWavve를 즐길 수 있어요!</string>
+    <string name="sign_up_text_welcome">아이디와 비밀번호, 취미 만으로\nWavve를 즐길 수 있어요!</string>
     <string name="sign_up_button_hide">hide</string>
     <string name="sign_up_button_show">show</string>
-    <string name="sign_up_text_field_hint_id">wavve@example.com</string>
+    <string name="sign_up_text_field_hint_id">아이디</string>
+    <string name="sign_up_text_field_hint_hobby">취미</string>
 
     <string name="sign_image_description_kakao">KaKao Account</string>
     <string name="sign_image_description_t">T Account</string>
