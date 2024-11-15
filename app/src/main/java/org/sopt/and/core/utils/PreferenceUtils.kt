@@ -6,30 +6,19 @@ import android.content.SharedPreferences
 object PreferenceUtils {
 
     private const val PREFS_NAME = "wavve_prefs"
-    private const val KEY_USER_ID = "key_user_id"
-    private const val KEY_USER_PASSWORD = "key_user_password"
+    private const val USER_TOKEN = "user_token"
 
     private fun getPreferences(context: Context): SharedPreferences {
         return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
     }
 
-    fun saveUserId(context: Context, userId: String) {
+    fun saveUserToken(context: Context, token: String) {
         val prefs = getPreferences(context)
-        prefs.edit().putString(KEY_USER_ID, userId).apply()
+        prefs.edit().putString(USER_TOKEN, token).apply()
     }
-    fun saveUserPassword(context: Context, userNickname: String) {
+    fun getUserToken(context: Context): String? {
         val prefs = getPreferences(context)
-        prefs.edit().putString(KEY_USER_PASSWORD, userNickname).apply()
-    }
-
-    fun getUserId(context: Context): String? {
-        val prefs = getPreferences(context)
-        return prefs.getString(KEY_USER_ID, null)
-    }
-
-    fun getUserPassword(context: Context): String? {
-        val prefs = getPreferences(context)
-        return prefs.getString(KEY_USER_PASSWORD, null)
+        return prefs.getString(USER_TOKEN, null)
     }
 
     fun clearAll(context: Context) {

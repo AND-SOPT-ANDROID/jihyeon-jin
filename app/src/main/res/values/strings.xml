@@ -5,7 +5,7 @@
     <string name="title_activity_my">MyActivity</string>
 
     <!--SignIn-->
-    <string name="sign_in_text_field_id_hint">이메일 주소 또는 아이디</string>
+    <string name="sign_in_text_field_id_hint">사용자 이름</string>
     <string name="sign_in_text_field_password_hint">비밀번호</string>
     <string name="sign_in_text_login">로그인</string>
     <string name="sign_in_text_find_id">아이디 찾기</string>

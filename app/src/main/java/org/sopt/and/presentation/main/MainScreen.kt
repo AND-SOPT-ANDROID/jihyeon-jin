@@ -16,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.rememberNavController
-import org.sopt.and.domain.model.AuthConstants
 import org.sopt.and.core.navigation.Screen
 import org.sopt.and.core.designsystem.theme.BottomNavigationItemUnselected
 import org.sopt.and.core.designsystem.theme.White
@@ -34,12 +33,9 @@ fun MainScreen() {
         indicatorColor = Color.Transparent
     )
 
-    val id = PreferenceUtils.getUserId(LocalContext.current).orEmpty()
-    val pw = PreferenceUtils.getUserPassword(LocalContext.current).orEmpty()
-    val startDestination = if (id.isBlank() || pw.isBlank()) Screen.SignIn(
-        AuthConstants.EMPTY_EMAIL,
-        AuthConstants.EMPTY_PASSWORD
-    ) else Screen.My
+    val userToken = PreferenceUtils.getUserToken(LocalContext.current).orEmpty()
+
+    val startDestination = if (userToken.isBlank()) Screen.SignIn else Screen.My
 
     var currentRoute by remember { mutableStateOf<String?>(null) }
     LaunchedEffect(navController) {

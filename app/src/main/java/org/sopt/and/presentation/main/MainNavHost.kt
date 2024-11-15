@@ -8,8 +8,6 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.toRoute
-import org.sopt.and.domain.model.AuthConstants
 import org.sopt.and.core.navigation.Screen
 import org.sopt.and.presentation.home.HomeScreen
 import org.sopt.and.presentation.mypage.MyScreen
@@ -31,18 +29,16 @@ fun MainNavHost(
         popEnterTransition = { EnterTransition.None },
         popExitTransition = { ExitTransition.None }
     ) {
-        composable<Screen.SignIn> { backStackEntry ->
-            val signInScreen = backStackEntry.toRoute<Screen.SignIn>()
+        composable<Screen.SignIn> {
             SignInScreen(
-                signIn = signInScreen,
                 navigateToMy = { navController.navigate(Screen.My) },
                 navigateToSignUp = { navController.navigate(Screen.SignUp) }
             )
         }
         composable<Screen.SignUp> {
             SignUpScreen(
-                navigateToSignIn = { email, password ->
-                    navController.navigate(Screen.SignIn(email, password)) {
+                navigateToSignIn = {
+                    navController.navigate(Screen.SignIn) {
                         popUpTo<Screen.SignUp> { inclusive = true }
                         launchSingleTop = true
                     }
@@ -52,8 +48,8 @@ fun MainNavHost(
         composable<Screen.My> {
             MyScreen(
                 navigateToSignIn = {
-                    navController.navigate(Screen.SignIn(AuthConstants.EMPTY_EMAIL, AuthConstants.EMPTY_PASSWORD)) {
-                        popUpTo<Screen.My> { inclusive = true }
+                    navController.navigate(Screen.SignIn) {
+                        popUpTo(0) { inclusive = true }
                         launchSingleTop = true
                     }
                 }

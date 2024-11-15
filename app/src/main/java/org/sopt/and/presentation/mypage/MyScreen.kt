@@ -46,7 +46,7 @@ fun MyScreen(
     viewModel: MyViewModel = viewModel()
 ) {
     val context = LocalContext.current
-    val email = PreferenceUtils.getUserId(context)
+    val userToken = PreferenceUtils.getUserToken(context)
 
     Column(
         modifier = modifier
@@ -69,7 +69,7 @@ fun MyScreen(
             )
             Spacer(modifier = Modifier.width(14.dp))
             Text(
-                text = "%s님".format(email),
+                text = "%s님".format(userToken),
                 color = White
             )
             Spacer(modifier = Modifier.weight(1f))

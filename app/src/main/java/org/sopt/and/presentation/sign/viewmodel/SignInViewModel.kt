@@ -1,26 +1,42 @@
 package org.sopt.and.presentation.sign.viewmodel
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import org.sopt.and.R
+import kotlinx.coroutines.launch
 import org.sopt.and.presentation.sign.state.SignInState
-import org.sopt.and.core.utils.PreferenceUtils
+import org.sopt.and.domain.model.entity.BaseResult
+import org.sopt.and.domain.model.entity.UserData
+import org.sopt.and.domain.model.entity.UserLoginResult
+import org.sopt.and.domain.usecase.LoginUseCase
+import javax.inject.Inject
 
-class SignInViewModel : ViewModel() {
+@HiltViewModel
+class SignInViewModel @Inject constructor(
+    private val loginUseCase: LoginUseCase
+) : ViewModel() {
     val _signInState = MutableStateFlow(SignInState())
     val signInState = _signInState.asStateFlow()
 
-    private val _signInSuccess = MutableStateFlow(false)
-    val signInSuccess: StateFlow<Boolean> = _signInSuccess
+    private val _loginUserResultState = MutableStateFlow<UserLoginResult?>(null)
+    val loginUserResultState: StateFlow<UserLoginResult?> = _loginUserResultState
 
-    fun updateEmail(newEmail: String) {
+    private val _errorMessageState = MutableStateFlow<String?>(null)
+    val errorMessageState: StateFlow<String?> = _errorMessageState
+
+    private val _signInSuccess =  MutableSharedFlow<Boolean>()
+    val signInSuccess: SharedFlow<Boolean> = _signInSuccess
+
+    fun updateUserName(newUserName: String) {
         _signInState.update { currentState ->
             currentState.copy(
-                email = newEmail
+                username = newUserName
             )
         }
     }
@@ -32,44 +48,35 @@ class SignInViewModel : ViewModel() {
         }
     }
 
-    private fun updateSnackbarMessage(message: String?) {
-        _signInState.update { currentState ->
-            currentState.copy(
-                snackbarMessage = message
-            )
-        }
+    private suspend fun setSignInSuccess(value: Boolean) {
+        _signInSuccess.emit(value)
     }
 
-    fun updateIsValid(emailInput: String, passwordInput: String) {
-        val isEqual = (_signInState.value.email === emailInput) && (_signInState.value.password === passwordInput)
-        val isNotBlank = emailInput.isNotBlank() && passwordInput.isNotBlank()
-        _signInState.update { currentState ->
-            currentState.copy(
-                isValid = (isEqual && isNotBlank)
+    fun signIn() {
+        viewModelScope.launch {
+            when (val result = loginUseCase(
+                UserData(
+                    _signInState.value.username,
+                    _signInState.value.password,
+                    ""
+                )
             )
-        }
-    }
-
-    fun signIn(context: Context, emailInput: String, passwordInput: String) {
-        if (_signInState.value.email == emailInput && _signInState.value.password == passwordInput) {
-            if (emailInput.isNotBlank() && passwordInput.isNotBlank()) {
-                PreferenceUtils.saveUserId(context, emailInput)
-                PreferenceUtils.saveUserPassword(context, passwordInput)
-                _signInSuccess.value = true
-                updateSnackbarMessage(context.getString(R.string.sign_in_snackbar_login_success))
-            } else {
-                updateSnackbarMessage(context.getString(R.string.sign_in_snackbar_enter_id_password))
+            ) {
+                is BaseResult.Success -> {
+                    _loginUserResultState.value = result.data
+                    _errorMessageState.value = null
+                    setSignInSuccess(true)
+                }
+                is BaseResult.Error -> {
+                    _loginUserResultState.value = null
+                    _errorMessageState.value = result.message
+                    setSignInSuccess(false)
+                }
             }
-        } else {
-            updateSnackbarMessage(context.getString(R.string.sign_in_snackbar_error_id_pw))
         }
     }
 
-    fun clearSnackbarMessage() {
-        updateSnackbarMessage(null)
-    }
-
-    fun resetSignInSuccess() {
-        _signInSuccess.value = false
+    suspend fun resetSignInSuccess() {
+        setSignInSuccess(false)
     }
 }

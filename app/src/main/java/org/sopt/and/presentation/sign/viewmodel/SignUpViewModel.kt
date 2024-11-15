@@ -24,18 +24,22 @@ class SignUpViewModel @Inject constructor(
     private val _signUpState = MutableStateFlow(SignUpState())
     val signUpState = _signUpState.asStateFlow()
 
-    private val _userResultState = MutableStateFlow<UserRegisterResult?>(null)
-    val userResultState: StateFlow<UserRegisterResult?> = _userResultState
+    private val _registerUserResultState = MutableStateFlow<UserRegisterResult?>(null)
+    val registerUserResultState: StateFlow<UserRegisterResult?> = _registerUserResultState
 
     private val _errorMessageState = MutableStateFlow<String?>(null)
     val errorMessageState: StateFlow<String?> = _errorMessageState
 
-    fun updateEmail(newEmail: String) {
+
+    private val _signUpSuccess = MutableSharedFlow<Boolean>()
+    val signUpSuccess: SharedFlow<Boolean> = _signUpSuccess
+
+    fun updateUserName(newUserName: String) {
         _signUpState.update { currentState ->
-            val isEmailValid = validateEmail(newEmail)
+            val isUserNameValid = validateUserName(newUserName)
             currentState.copy(
-                email = newEmail,
-                isEmailValid = isEmailValid
+                username = newUserName,
+                isUserNameValid = isUserNameValid
             )
         }
         updateIsValid()
@@ -63,9 +67,9 @@ class SignUpViewModel @Inject constructor(
         updateIsValid()
     }
 
-    fun updateEmailFieldFocused(isFocused: Boolean) {
+    fun updateUserNameFieldFocused(isFocused: Boolean) {
         _signUpState.update { currentState ->
-            currentState.copy(isEmailFieldFocused = isFocused)
+            currentState.copy(isUserNameFieldFocused = isFocused)
         }
     }
 
@@ -84,7 +88,7 @@ class SignUpViewModel @Inject constructor(
     private fun updateIsValid() {
         _signUpState.update { currentState ->
             currentState.copy(
-                isValid = _signUpState.value.isEmailValid &&
+                isValid = _signUpState.value.isUserNameValid &&
                     _signUpState.value.isPasswordValid &&
                     _signUpState.value.isHobbyValid
             )
@@ -107,7 +111,7 @@ class SignUpViewModel @Inject constructor(
     */
 
     //과제 기능 명세에 따른 제약사항, 공통 기능이지만 제약사항 변경 시를 대비해 각각 함수 분리
-    private fun validateEmail(email: String): Boolean {
+    private fun validateUserName(email: String): Boolean {
         return email.isNotBlank() && email.length <= 8
     }
     private fun validatePassword(password: String): Boolean {
@@ -118,9 +122,6 @@ class SignUpViewModel @Inject constructor(
         return hobby.isNotBlank() && hobby.length <= 8
     }
 
-    private val _signUpSuccess = MutableSharedFlow<Boolean>()
-    val signUpSuccess: SharedFlow<Boolean> = _signUpSuccess
-
     private suspend fun setSignUpSuccess(value: Boolean) {
         _signUpSuccess.emit(value)
     }
@@ -128,19 +129,19 @@ class SignUpViewModel @Inject constructor(
         viewModelScope.launch {
             when (val result = registerUserUseCase(
                 UserData(
-                _signUpState.value.email,
+                _signUpState.value.username,
                 _signUpState.value.password,
                 _signUpState.value.hobby
                 )
             )
             ) {
                 is BaseResult.Success -> {
-                    _userResultState.value = result.data
+                    _registerUserResultState.value = result.data
                     _errorMessageState.value = null
                     setSignUpSuccess(true)
                 }
                 is BaseResult.Error -> {
-                    _userResultState.value = null
+                    _registerUserResultState.value = null
                     _errorMessageState.value = result.message
                     setSignUpSuccess(false)
                 }

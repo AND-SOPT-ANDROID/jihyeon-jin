@@ -10,8 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,13 +22,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.sopt.and.R
 import org.sopt.and.core.extension.noRippleClickable
-import org.sopt.and.core.navigation.Screen
 import org.sopt.and.core.component.ServiceAccountItemRow
 import org.sopt.and.core.component.textField.WavveCommonPasswordField
 import org.sopt.and.core.component.textField.WavveCommonTextField
@@ -40,39 +39,48 @@ import org.sopt.and.presentation.sign.viewmodel.SignInViewModel
 import org.sopt.and.core.designsystem.theme.Gray3
 import org.sopt.and.core.designsystem.theme.Gray4
 import org.sopt.and.core.designsystem.theme.WavveBg
-import org.sopt.and.core.designsystem.theme.WavvePrimary
-import org.sopt.and.core.designsystem.theme.White
+import org.sopt.and.core.utils.PreferenceUtils
 import org.sopt.and.core.utils.SnackBarUtils
 
 @Composable
 fun SignInScreen(
-    signIn: Screen.SignIn,
     navigateToMy: () -> Unit,
     navigateToSignUp: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: SignInViewModel = viewModel(),
+    viewModel: SignInViewModel = hiltViewModel(),
 ) {
     val signInState by viewModel.signInState.collectAsState()
-    val signInSuccess by viewModel.signInSuccess.collectAsState()
+    val loginState by viewModel.loginUserResultState.collectAsState()
     val context = LocalContext.current
 
-    LaunchedEffect(signInSuccess) {
-        if (signInSuccess) {
-            navigateToMy()
-            viewModel.resetSignInSuccess()
-        }
-    }
-    signInState.snackbarMessage?.let { message ->
-        LaunchedEffect(message) {
-            viewModel.clearSnackbarMessage() // 메시지 초기화
-            CoroutineScope(Dispatchers.Main).launch {
-                SnackBarUtils.showSnackBar(
-                    message = message,
-                    actionLabel = context.getString(R.string.sign_in_snackbar_action_close)
-                )
+
+    LaunchedEffect(Unit) {
+        viewModel.signInSuccess.collectLatest { success ->
+            if (success) {
+                loginState?.let { loginState ->
+                    PreferenceUtils.saveUserToken(context, loginState.token)
+                }
+                CoroutineScope(Dispatchers.Main).launch {
+                    SnackBarUtils.showSnackBar(
+                        message = context.getString(R.string.sign_in_snackbar_login_success),
+                        actionLabel = context.getString(R.string.sign_in_snackbar_action_close)
+                    )
+                }
+                navigateToMy()
+                viewModel.resetSignInSuccess()
+            } else {
+                viewModel.errorMessageState.value?.let { message ->
+                    CoroutineScope(Dispatchers.Main).launch {
+                        SnackBarUtils.showSnackBar(
+                            message = message,
+                            actionLabel = context.getString(R.string.sign_in_snackbar_action_close)
+                        )
+                    }
+                }
             }
         }
     }
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -86,8 +94,8 @@ fun SignInScreen(
                 .padding(16.dp)
         ) {
             WavveCommonTextField(
-                value = signInState.email,
-                onValueChange = viewModel::updateEmail,
+                value = signInState.username,
+                onValueChange = viewModel::updateUserName,
                 hint = stringResource(R.string.sign_in_text_field_id_hint)
             )
             Spacer(modifier = Modifier.height(4.dp))
@@ -101,13 +109,7 @@ fun SignInScreen(
 
             WavveBasicButton(
                 text = stringResource(R.string.sign_in_text_login),
-                onClick = {
-                    viewModel.updateIsValid(signIn.email, signIn.password)
-                    viewModel.signIn(
-                        context = context,
-                        emailInput = signIn.email,
-                        passwordInput = signIn.password
-                    ) },
+                onClick = { viewModel.signIn() },
                 modifier = Modifier
             )
 

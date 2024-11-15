@@ -1,6 +1,5 @@
 package org.sopt.and.presentation.sign
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -47,7 +46,7 @@ import org.sopt.and.core.designsystem.theme.White
 
 @Composable
 fun SignUpScreen(
-    navigateToSignIn: (email: String, password: String) -> Unit,
+    navigateToSignIn: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: SignUpViewModel = hiltViewModel()) {
 
@@ -58,11 +57,11 @@ fun SignUpScreen(
         viewModel.signUpSuccess.collectLatest { success ->
             if (success) {
                 context.showToast(context.getString(R.string.sign_up_toast_success))
-                navigateToSignIn(signUpState.email, signUpState.password)
+                navigateToSignIn()
                 viewModel.resetSignUpSuccess()
             } else {
-                viewModel.errorMessageState.value?.let {
-                    context.showToast(it)
+                viewModel.errorMessageState.value?.let { message ->
+                    context.showToast(message)
                 }
             }
         }
@@ -103,19 +102,19 @@ fun SignUpScreen(
             Spacer(modifier = Modifier.height(28.dp))
 
             SignUpTextField(
-                value = signUpState.email,
+                value = signUpState.username,
                 hint = stringResource(R.string.sign_up_text_field_hint_id),
-                isValid = signUpState.isEmailValid,
-                onFocusChange = { isFocused -> viewModel.updateEmailFieldFocused(isFocused)},
-                onValueChange = { viewModel.updateEmail(it) }
+                isValid = signUpState.isUserNameValid,
+                onFocusChange = { isFocused -> viewModel.updateUserNameFieldFocused(isFocused)},
+                onValueChange = { viewModel.updateUserName(it) }
             )
 
             Spacer(modifier = Modifier.height(8.dp))
 
             HelperText(
-                isFieldFocused = signUpState.isEmailFieldFocused,
-                isValid = signUpState.isEmailValid,
-                value = signUpState.email,
+                isFieldFocused = signUpState.isUserNameFieldFocused,
+                isValid = signUpState.isUserNameValid,
+                value = signUpState.username,
                 invalidMessage = stringResource(R.string.sign_up_text_invalid_id),
                 validMessage = stringResource(R.string.sign_up_text_valid_id)
             )

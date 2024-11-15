@@ -34,7 +34,7 @@ class UserLoginRepositoryImpl @Inject constructor(
                     }
                 }
                 val errorMessage = ErrorMapper.getErrorMessage(
-                    APICallType.REGISTER_USER,
+                    APICallType.LOGIN_USER,
                     response.code(),
                     errorCode
                 )
@@ -49,7 +49,7 @@ class UserLoginRepositoryImpl @Inject constructor(
                 }
             }
             val errorMessage = ErrorMapper.getErrorMessage(
-                APICallType.REGISTER_USER,
+                APICallType.LOGIN_USER,
                 e.response()?.code(),
                 errorCode
             )
