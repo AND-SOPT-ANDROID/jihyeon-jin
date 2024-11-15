@@ -84,13 +84,13 @@ fun SignUpScreen(
                     append(textResource.substring(0, 13)) // "이메일과 비밀번호, 취미 "
                 }
                 withStyle(style = SpanStyle(color = Gray3)) {
-                    append(textResource.substring(13, 16)) // "만으로\n"
+                    append(textResource.substring(13, 17)) // "만으로\n"
                 }
                 withStyle(style = SpanStyle(color = White)) {
-                    append(textResource.substring(16, 28)) // "Wavve를 즐길 수 "
+                    append(textResource.substring(17, 29)) // "Wavve를 즐길 수 "
                 }
                 withStyle(style = SpanStyle(color = Gray3)) {
-                    append(textResource.substring(28, 33)) // "있어요!"
+                    append(textResource.substring(29, 34)) // "있어요!"
                 }
             }
 
