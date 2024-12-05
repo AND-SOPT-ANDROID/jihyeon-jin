@@ -8,7 +8,7 @@ import javax.inject.Inject
 class GetMyHobbyUseCase @Inject constructor(
     private val getMyHobbyRepository: GetMyHobbyRepository
 ) {
-    suspend operator fun invoke(token : String): BaseResult<GetMyHobbyResult> {
+    suspend operator fun invoke(token: String): BaseResult<GetMyHobbyResult> {
         return getMyHobbyRepository.getMyHobby(token)
     }
 }

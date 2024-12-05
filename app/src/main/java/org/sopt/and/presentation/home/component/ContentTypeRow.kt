@@ -11,7 +11,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import org.sopt.and.domain.model.ContentType
+import org.sopt.and.core.ContentType
 import org.sopt.and.core.extension.noRippleClickable
 import org.sopt.and.core.designsystem.theme.Gray3
 import org.sopt.and.core.designsystem.theme.White

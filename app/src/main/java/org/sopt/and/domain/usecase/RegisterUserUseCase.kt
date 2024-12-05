@@ -12,7 +12,7 @@ class RegisterUserUseCase @Inject constructor(
     private val userRegisterRepository: UserRegisterRepository
 ) {
     //suspend operator fun invoke -> 클래스를 함수처럼 사용하게 함
-    suspend operator fun invoke(user : UserData): BaseResult<UserRegisterResult> {
+    suspend operator fun invoke(user: UserData): BaseResult<UserRegisterResult> {
         return userRegisterRepository.registerUser(user)
     }
 }

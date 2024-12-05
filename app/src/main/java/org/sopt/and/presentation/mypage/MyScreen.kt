@@ -42,7 +42,7 @@ import org.sopt.and.core.designsystem.theme.Black
 import org.sopt.and.core.designsystem.theme.WavveBg
 import org.sopt.and.core.designsystem.theme.WavveDisabled
 import org.sopt.and.core.designsystem.theme.White
-import org.sopt.and.core.utils.PreferenceUtils
+import org.sopt.and.core.utils.PreferenceUtil
 import org.sopt.and.core.utils.SnackBarUtils
 import org.sopt.and.core.utils.showToast
 
@@ -54,7 +54,9 @@ fun MyScreen(
     viewModel: MyViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
-    val userToken = PreferenceUtils.getUserToken(context)
+
+    val preferenceUtil = PreferenceUtil.LocalPreferenceUtils.current
+    val userToken = preferenceUtil.getUserToken()
 
     val myPageState by viewModel.myPageState.collectAsState()
 
@@ -68,7 +70,7 @@ fun MyScreen(
                     )
                 }
             }
-            PreferenceUtils.clearUserToken(context)
+            preferenceUtil.clearUserToken()
             navigateToSignIn()
         }
     }
@@ -79,7 +81,7 @@ fun MyScreen(
                 context.showToast(
                     context.getString(R.string.my_page_toast_success_logout)
                 )
-                PreferenceUtils.clearUserToken(context)
+                preferenceUtil.clearUserToken()
                 navigateToSignIn()
             }
         }

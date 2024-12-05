@@ -21,7 +21,7 @@ import javax.inject.Inject
 class SignInViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase
 ) : ViewModel() {
-    val _signInState = MutableStateFlow(SignInState())
+    private val _signInState = MutableStateFlow(SignInState())
     val signInState = _signInState.asStateFlow()
 
     private val _loginUserResultState = MutableStateFlow<UserLoginResult?>(null)
@@ -40,6 +40,7 @@ class SignInViewModel @Inject constructor(
             )
         }
     }
+
     fun updatePassword(newPassword: String) {
         _signInState.update { currentState ->
             currentState.copy(
@@ -48,18 +49,18 @@ class SignInViewModel @Inject constructor(
         }
     }
 
-    private suspend fun setSignInSuccess(value: Boolean) {
-        _signInSuccess.emit(value)
+    private fun setSignInSuccess(value: Boolean) {
+        viewModelScope.launch {
+            _signInSuccess.emit(value)
+        }
     }
 
     fun signIn() {
         viewModelScope.launch {
             when (val result = loginUseCase(
-                UserData(
-                    _signInState.value.username,
-                    _signInState.value.password,
-                    ""
-                )
+                with(_signInState.value) {
+                    UserData(username, password, "")
+                }
             )
             ) {
                 is BaseResult.Success -> {
@@ -67,6 +68,7 @@ class SignInViewModel @Inject constructor(
                     _errorMessageState.value = null
                     setSignInSuccess(true)
                 }
+
                 is BaseResult.Error -> {
                     _loginUserResultState.value = null
                     _errorMessageState.value = result.message
@@ -76,7 +78,9 @@ class SignInViewModel @Inject constructor(
         }
     }
 
-    suspend fun resetSignInSuccess() {
-        setSignInSuccess(false)
+    fun resetSignInSuccess() {
+        viewModelScope.launch {
+            setSignInSuccess(false)
+        }
     }
 }
