@@ -9,7 +9,7 @@ import javax.inject.Inject
 class LoginUseCase @Inject constructor(
     private val userLoginRepository: UserLoginRepository
 ) {
-    suspend operator fun invoke(user : UserData): BaseResult<UserLoginResult> {
+    suspend operator fun invoke(user: UserData): BaseResult<UserLoginResult> {
         return userLoginRepository.loginUser(user)
     }
 }

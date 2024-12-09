@@ -1,4 +1,4 @@
-package org.sopt.and.domain.model
+package org.sopt.and.core
 
 import androidx.annotation.StringRes
 import org.sopt.and.R

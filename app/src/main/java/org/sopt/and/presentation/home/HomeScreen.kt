@@ -1,6 +1,6 @@
 package org.sopt.and.presentation.home
 
-import org.sopt.and.domain.model.ContentType
+import org.sopt.and.core.ContentType
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.ExperimentalFoundationApi
