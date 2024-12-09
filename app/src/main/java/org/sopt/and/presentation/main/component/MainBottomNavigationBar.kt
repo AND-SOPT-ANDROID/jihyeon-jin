@@ -1,4 +1,4 @@
-package org.sopt.and.presentation.main
+package org.sopt.and.presentation.main.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.RowScope
@@ -20,6 +20,8 @@ import org.sopt.and.R
 import org.sopt.and.core.navigation.Screen
 import org.sopt.and.core.designsystem.theme.WavveBg
 import org.sopt.and.core.designsystem.theme.WavveDisabled
+import org.sopt.and.presentation.main.MainBottomTab
+import org.sopt.and.presentation.main.MainBottomTabs
 
 @Composable
 fun MainBottomNavigationBar(
@@ -75,8 +77,8 @@ fun RowScope.BottomNavigationItem(
 private fun navigateToScreen(navController: NavController, screen: Screen) {
     screen.javaClass.canonicalName?.let {
         navController.navigate(it) {
-        screen.javaClass.canonicalName?.let { it1 -> popUpTo(it1) { inclusive = false } }
-        launchSingleTop = true
-    }
+            screen.javaClass.canonicalName?.let { it1 -> popUpTo(it1) { inclusive = false } }
+            launchSingleTop = true
+        }
     }
 }

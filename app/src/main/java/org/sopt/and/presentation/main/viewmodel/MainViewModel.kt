@@ -1,4 +1,4 @@
-package org.sopt.and.presentation.main
+package org.sopt.and.presentation.main.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel

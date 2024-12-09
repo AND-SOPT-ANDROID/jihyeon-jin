@@ -21,6 +21,8 @@ import org.sopt.and.core.navigation.Screen
 import org.sopt.and.core.designsystem.theme.BottomNavigationItemUnselected
 import org.sopt.and.core.designsystem.theme.White
 import org.sopt.and.core.utils.SnackBarUtils
+import org.sopt.and.presentation.main.component.MainBottomNavigationBar
+import org.sopt.and.presentation.main.viewmodel.MainScreenViewModel
 
 @Composable
 fun MainScreen(
