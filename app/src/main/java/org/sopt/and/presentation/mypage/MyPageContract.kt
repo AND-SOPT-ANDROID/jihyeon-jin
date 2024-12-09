@@ -1,6 +1,5 @@
 package org.sopt.and.presentation.mypage
 
-import org.sopt.and.presentation.auth.signin.SignInContract.SignInUiEffect
 import org.sopt.and.presentation.util.UiEffect
 import org.sopt.and.presentation.util.UiEvent
 import org.sopt.and.presentation.util.UiState
