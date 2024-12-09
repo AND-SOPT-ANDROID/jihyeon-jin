@@ -51,6 +51,7 @@ fun MyScreen(
 
     val myPageState by viewModel.uiState.collectAsStateWithLifecycle()
     LaunchedEffect(Unit) {
+        viewModel.sendEvent(MyPageContract.MyPageUiEvent.LoadHobby)
         viewModel.effect.collectLatest { effect ->
             when (effect) {
                 is MyPageContract.MyPageUiEffect.ShowErrorSnackBar -> {

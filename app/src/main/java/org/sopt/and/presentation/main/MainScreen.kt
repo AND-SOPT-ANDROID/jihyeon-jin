@@ -14,15 +14,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
 import org.sopt.and.core.navigation.Screen
 import org.sopt.and.core.designsystem.theme.BottomNavigationItemUnselected
 import org.sopt.and.core.designsystem.theme.White
-import org.sopt.and.core.utils.PreferenceUtil
 import org.sopt.and.core.utils.SnackBarUtils
 
 @Composable
-fun MainScreen() {
+fun MainScreen(
+    viewModel: MainScreenViewModel = hiltViewModel()
+) {
+    val mainState by viewModel.uiState.collectAsStateWithLifecycle()
     val navController = rememberNavController()
     val colors = NavigationBarItemDefaults.colors(
         selectedIconColor = White,
@@ -32,11 +36,10 @@ fun MainScreen() {
         indicatorColor = Color.Transparent
     )
 
-    val preferenceUtil = PreferenceUtil.LocalPreferenceUtils.current
-
-    val userToken = preferenceUtil.getUserToken().orEmpty()
-
-    val startDestination = if (userToken.isBlank()) Screen.SignIn else Screen.My
+    LaunchedEffect(Unit) {
+        viewModel.sendEvent(MainContract.MainUiEvent.LoadUserToken)
+    }
+    val startDestination = if (mainState.userToken.isNullOrBlank()) Screen.SignIn else Screen.My
 
     var currentRoute by remember { mutableStateOf<String?>(null) }
     LaunchedEffect(navController) {

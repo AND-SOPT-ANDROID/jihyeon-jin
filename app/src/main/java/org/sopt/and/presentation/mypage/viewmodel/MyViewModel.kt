@@ -1,5 +1,6 @@
 package org.sopt.and.presentation.mypage.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -32,6 +33,7 @@ class MyViewModel @Inject constructor(
 
     private fun loadHobby() {
         val token = preferenceUtil.getUserToken()
+        Log.d("my**", token.toString())
         if (token.isNullOrEmpty()) {
             updateState(
                 currentState.copy(

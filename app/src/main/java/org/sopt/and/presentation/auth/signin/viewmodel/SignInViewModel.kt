@@ -3,6 +3,7 @@ package org.sopt.and.presentation.auth.signin.viewmodel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import org.sopt.and.core.utils.PreferenceUtil
 import org.sopt.and.domain.model.entity.BaseResult
 import org.sopt.and.domain.model.entity.UserData
 import org.sopt.and.domain.usecase.LoginUseCase
@@ -14,7 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
-    private val loginUseCase: LoginUseCase
+    private val loginUseCase: LoginUseCase,
+    private val preferenceUtil: PreferenceUtil
 ) : BaseViewModel<SignInUiState, SignInUiEvent, SignInUiEffect>(SignInUiState()) {
     override fun reduceState(event: SignInUiEvent) {
         when (event) {
@@ -57,10 +59,10 @@ class SignInViewModel @Inject constructor(
                 is BaseResult.Success -> {
                     updateState(
                         currentState.copy(
-                            isLoading = false,
-                            token = result.data.token
+                            isLoading = false
                         )
                     )
+                    preferenceUtil.saveUserToken(result.data.token)
                     postEffect(SignInUiEffect.ShowSuccessSnackBar)
                     postEffect(SignInUiEffect.NavigateToMy)
                 }

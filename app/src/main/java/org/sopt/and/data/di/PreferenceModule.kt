@@ -14,10 +14,7 @@ import javax.inject.Singleton
 object PreferenceModule {
     @Provides
     @Singleton
-    fun providePreferenceUtils(
-        @ApplicationContext context: Context
-    ): PreferenceUtil {
-        val sharedPreferences = context.getSharedPreferences("wavve_prefs", Context.MODE_PRIVATE)
-        return PreferenceUtil(sharedPreferences)
+    fun providePreferenceUtil(@ApplicationContext context: Context): PreferenceUtil {
+        return PreferenceUtil(context)
     }
 }

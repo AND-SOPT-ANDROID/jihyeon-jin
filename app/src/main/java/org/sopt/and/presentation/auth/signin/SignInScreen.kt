@@ -37,7 +37,6 @@ import org.sopt.and.presentation.auth.signin.viewmodel.SignInViewModel
 import org.sopt.and.core.designsystem.theme.Gray3
 import org.sopt.and.core.designsystem.theme.Gray4
 import org.sopt.and.core.designsystem.theme.WavveBg
-import org.sopt.and.core.utils.PreferenceUtil
 import org.sopt.and.core.utils.SnackBarUtils
 
 @Composable
@@ -50,15 +49,11 @@ fun SignInScreen(
 ) {
     val signInState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
-    val preferenceUtil = PreferenceUtil.LocalPreferenceUtils.current
 
     LaunchedEffect(Unit) {
         viewModel.effect.collect { effect ->
             when (effect) {
                 is SignInContract.SignInUiEffect.ShowSuccessSnackBar -> {
-                    signInState.token?.let { token ->
-                        preferenceUtil.saveUserToken(token)
-                    }
                     CoroutineScope(Dispatchers.Main).launch {
                         SnackBarUtils.showSnackBar(
                             message = context.getString(R.string.sign_in_snackbar_login_success),

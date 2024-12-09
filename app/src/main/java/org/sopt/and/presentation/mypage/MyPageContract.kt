@@ -15,7 +15,7 @@ class MyPageContract {
 
     sealed class MyPageUiEvent : UiEvent {
         data object Logout : MyPageUiEvent()
-        data class LoadHobby(val token: String) : MyPageUiEvent()
+        data object LoadHobby : MyPageUiEvent()
     }
 
     sealed class MyPageUiEffect : UiEffect {

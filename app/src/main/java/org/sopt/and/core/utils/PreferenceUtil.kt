@@ -1,20 +1,15 @@
 package org.sopt.and.core.utils
 
-import android.content.SharedPreferences
-import androidx.compose.runtime.staticCompositionLocalOf
+import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 
 class PreferenceUtil @Inject constructor(
-    private val sharedPreferences: SharedPreferences
+    @ApplicationContext private val context: Context
 ) {
-
-    companion object {
-        private const val USER_TOKEN = "user_token"
-        val LocalPreferenceUtils = staticCompositionLocalOf<PreferenceUtil> {
-            error("PreferenceUtils is not initialized")
-        }
-    }
+    private val sharedPreferences =
+        context.getSharedPreferences("wavve_prefs", Context.MODE_PRIVATE)
 
     fun saveUserToken(token: String) {
         sharedPreferences.edit().putString(USER_TOKEN, token).apply()
@@ -30,5 +25,9 @@ class PreferenceUtil @Inject constructor(
 
     fun clearAll() {
         sharedPreferences.edit().clear().apply()
+    }
+
+    companion object {
+        private const val USER_TOKEN = "user_token"
     }
 }

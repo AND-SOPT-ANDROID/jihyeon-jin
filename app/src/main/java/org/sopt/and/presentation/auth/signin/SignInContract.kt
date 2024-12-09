@@ -9,8 +9,7 @@ class SignInContract {
         val username: String = "",
         val password: String = "",
         val isLoading: Boolean = false,
-        val errorMessage: String? = null,
-        val token: String? = null,
+        val errorMessage: String? = null
     ) : UiState
 
     sealed class SignInUiEvent : UiEvent {
