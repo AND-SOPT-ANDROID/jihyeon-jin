@@ -42,6 +42,9 @@ fun MainNavHost(
                         popUpTo<Screen.SignUp> { inclusive = true }
                         launchSingleTop = true
                     }
+                },
+                navigateUp = {
+                    navController.navigateUp()
                 }
             )
         }

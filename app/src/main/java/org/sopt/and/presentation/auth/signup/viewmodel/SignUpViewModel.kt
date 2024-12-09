@@ -1,144 +1,121 @@
 package org.sopt.and.presentation.auth.signup.viewmodel
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.sopt.and.domain.model.entity.BaseResult
 import org.sopt.and.domain.model.entity.UserData
-import org.sopt.and.domain.model.entity.UserRegisterResult
 import org.sopt.and.domain.usecase.RegisterUserUseCase
-import org.sopt.and.presentation.auth.signup.SignUpState
+import org.sopt.and.presentation.auth.signup.SignUpContract
+import org.sopt.and.presentation.auth.signup.SignUpContract.SignUpUiEffect
+import org.sopt.and.presentation.auth.signup.SignUpContract.SignUpUiState
+import org.sopt.and.presentation.auth.signup.SignUpContract.SignUpUiEvent
+import org.sopt.and.presentation.util.BaseViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
     private val registerUserUseCase: RegisterUserUseCase
-) : ViewModel() {
-    private val _signUpState = MutableStateFlow(SignUpState())
-    val signUpState = _signUpState.asStateFlow()
+) : BaseViewModel<SignUpUiState, SignUpUiEvent, SignUpUiEffect>(SignUpUiState()) {
+    override fun reduceState(event: SignUpUiEvent) {
+        when (event) {
+            is SignUpUiEvent.UpdateUserName -> {
+                val isValid = validateUserName(event.username)
+                updateState(
+                    currentState.copy(
+                        username = event.username,
+                        isUserNameValid = isValid,
+                        isValid = isValid &&
+                                currentState.isPasswordValid &&
+                                currentState.isHobbyValid
+                    )
+                )
+            }
 
-    private val _registerUserResultState = MutableStateFlow<UserRegisterResult?>(null)
-    val registerUserResultState: StateFlow<UserRegisterResult?> = _registerUserResultState
+            is SignUpUiEvent.UpdatePassword -> {
+                val isValid = validatePassword(event.password)
+                updateState(
+                    currentState.copy(
+                        password = event.password,
+                        isPasswordValid = isValid,
+                        isValid = isValid &&
+                                currentState.username.isNotBlank() &&
+                                currentState.hobby.isNotBlank()
+                    )
+                )
+            }
 
-    private val _errorMessageState = MutableStateFlow<String?>(null)
-    val errorMessageState: StateFlow<String?> = _errorMessageState
+            is SignUpUiEvent.UpdateHobby -> {
+                val isValid = validateHobby(event.hobby)
+                updateState(
+                    currentState.copy(
+                        hobby = event.hobby,
+                        isHobbyValid = isValid,
+                        isValid = isValid &&
+                                currentState.username.isNotBlank() &&
+                                currentState.password.isNotBlank()
+                    )
+                )
+            }
 
+            is SignUpUiEvent.UpdateFieldFocus -> {
+                when (event.field) {
+                    SignUpContract.Field.UserName -> updateState(
+                        currentState.copy(
+                            isUserNameFieldFocused = event.isFocused
+                        )
+                    )
 
-    private val _signUpSuccess = MutableSharedFlow<Boolean>()
-    val signUpSuccess: SharedFlow<Boolean> = _signUpSuccess
+                    SignUpContract.Field.Password -> updateState(
+                        currentState.copy(
+                            isPasswordFieldFocused = event.isFocused
+                        )
+                    )
 
-    fun updateUserName(newUserName: String) {
-        _signUpState.update { currentState ->
-            val isUserNameValid = validateUserName(newUserName)
-            currentState.copy(
-                username = newUserName,
-                isUserNameValid = isUserNameValid
-            )
-        }
-        updateIsValid()
-    }
+                    SignUpContract.Field.Hobby -> updateState(
+                        currentState.copy(
+                            isHobbyFieldFocused = event.isFocused
+                        )
+                    )
+                }
+            }
 
-    fun updatePassword(newPassword: String) {
-        _signUpState.update { currentState ->
-            val isPasswordValid = validatePassword(newPassword)
-            currentState.copy(
-                password = newPassword,
-                isPasswordValid = isPasswordValid
-            )
-        }
-        updateIsValid()
-    }
+            is SignUpUiEvent.SignUpFormSubmit -> signUp()
 
-    fun updateHobby(newHobby: String) {
-        _signUpState.update { currentState ->
-            val isHobbyValid = validateHobby(newHobby)
-            currentState.copy(
-                hobby = newHobby,
-                isHobbyValid = isHobbyValid
-            )
-        }
-        updateIsValid()
-    }
-
-    fun updateUserNameFieldFocused(isFocused: Boolean) {
-        _signUpState.update { currentState ->
-            currentState.copy(isUserNameFieldFocused = isFocused)
-        }
-    }
-
-    fun updatePasswordFieldFocused(isFocused: Boolean) {
-        _signUpState.update { currentState ->
-            currentState.copy(isPasswordFieldFocused = isFocused)
-        }
-    }
-
-    fun updateHobbyFieldFocused(isFocused: Boolean) {
-        _signUpState.update { currentState ->
-            currentState.copy(isHobbyFieldFocused = isFocused)
-        }
-    }
-
-    private fun updateIsValid() {
-        _signUpState.update { currentState ->
-            currentState.copy(
-                isValid = _signUpState.value.isUserNameValid &&
-                        _signUpState.value.isPasswordValid &&
-                        _signUpState.value.isHobbyValid
-            )
+            is SignUpUiEvent.Close -> postEffect(SignUpUiEffect.NavigateUp)
         }
     }
 
-    private fun validateUserName(email: String): Boolean {
-        return email.isNotBlank() && email.length <= 8
-    }
-
-    private fun validatePassword(password: String): Boolean {
-        return password.isNotBlank() && password.length <= 8
-    }
-
-    private fun validateHobby(hobby: String): Boolean {
-        return hobby.isNotBlank() && hobby.length <= 8
-    }
-
-    private suspend fun setSignUpSuccess(value: Boolean) {
-        _signUpSuccess.emit(value)
-    }
-
-    fun registerUser() {
+    private fun signUp() {
+        updateState(currentState.copy(isLoading = true))
         viewModelScope.launch {
             when (val result = registerUserUseCase(
                 UserData(
-                    _signUpState.value.username,
-                    _signUpState.value.password,
-                    _signUpState.value.hobby
+                    username = currentState.username,
+                    password = currentState.password,
+                    hobby = currentState.hobby
                 )
-            )
-            ) {
+            )) {
                 is BaseResult.Success -> {
-                    _registerUserResultState.value = result.data
-                    _errorMessageState.value = null
-                    setSignUpSuccess(true)
+                    updateState(currentState.copy(isLoading = false))
+                    postEffect(SignUpUiEffect.ShowSuccessToast)
+                    postEffect(SignUpUiEffect.NavigateToSignIn)
                 }
 
                 is BaseResult.Error -> {
-                    _registerUserResultState.value = null
-                    _errorMessageState.value = result.message
-                    setSignUpSuccess(false)
+                    updateState(currentState.copy(isLoading = false, errorMessage = result.message))
+                    postEffect(SignUpUiEffect.ShowErrorToast(result.message))
                 }
             }
         }
     }
 
-    fun resetSignUpSuccess() {
-        viewModelScope.launch {
-            setSignUpSuccess(false)
-        }
-    }
+    private fun validateUserName(username: String) =
+        username.isNotBlank() && username.length <= 8
+
+    private fun validatePassword(password: String) =
+        password.isNotBlank() && password.length <= 8
+
+    private fun validateHobby(hobby: String) =
+        hobby.isNotBlank() && hobby.length <= 8
 }

@@ -14,7 +14,6 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,7 +25,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import kotlinx.coroutines.flow.collectLatest
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.sopt.and.R
 import org.sopt.and.core.component.ServiceAccountItemRow
 import org.sopt.and.presentation.auth.signup.component.HelperText
@@ -47,22 +46,28 @@ import org.sopt.and.core.designsystem.theme.White
 @Composable
 fun SignUpScreen(
     navigateToSignIn: () -> Unit,
+    navigateUp: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: SignUpViewModel = hiltViewModel()) {
+    viewModel: SignUpViewModel = hiltViewModel()
+) {
 
-    val signUpState by viewModel.signUpState.collectAsState()
+    val signUpState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
 
     LaunchedEffect(Unit) {
-        viewModel.signUpSuccess.collectLatest { success ->
-            if (success) {
-                context.showToast(context.getString(R.string.sign_up_toast_success))
-                navigateToSignIn()
-                viewModel.resetSignUpSuccess()
-            } else {
-                viewModel.errorMessageState.value?.let { message ->
-                    context.showToast(message)
+        viewModel.effect.collect { effect ->
+            when (effect) {
+                is SignUpContract.SignUpUiEffect.ShowSuccessToast -> {
+                    context.showToast(context.getString(R.string.sign_up_toast_success))
+                    navigateToSignIn()
                 }
+
+                is SignUpContract.SignUpUiEffect.ShowErrorToast -> {
+                    context.showToast(effect.message)
+                }
+
+                is SignUpContract.SignUpUiEffect.NavigateToSignIn -> navigateToSignIn()
+                is SignUpContract.SignUpUiEffect.NavigateUp -> navigateUp()
             }
         }
     }
@@ -73,7 +78,7 @@ fun SignUpScreen(
     ) {
         CloseTopBar(
             title = stringResource(R.string.sign_up_text_sign_up),
-            onCloseClicked = {}
+            onCloseClicked = { viewModel.sendEvent(SignUpContract.SignUpUiEvent.Close) }
         )
 
         Column(modifier = Modifier.padding(16.dp)) {
@@ -105,8 +110,19 @@ fun SignUpScreen(
                 value = signUpState.username,
                 hint = stringResource(R.string.sign_up_text_field_hint_id),
                 isValid = signUpState.isUserNameValid,
-                onFocusChange = { isFocused -> viewModel.updateUserNameFieldFocused(isFocused)},
-                onValueChange = { viewModel.updateUserName(it) }
+                onFocusChange = { isFocused ->
+                    viewModel.sendEvent(
+                        SignUpContract.SignUpUiEvent.UpdateFieldFocus(
+                            SignUpContract.Field.UserName,
+                            isFocused
+                        )
+                    )
+                },
+                onValueChange = {
+                    viewModel.sendEvent(
+                        SignUpContract.SignUpUiEvent.UpdateUserName(it)
+                    )
+                }
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -123,10 +139,21 @@ fun SignUpScreen(
 
             SignUpPasswordField(
                 value = signUpState.password,
-                onValueChange = { viewModel.updatePassword(it) },
                 hint = stringResource(R.string.sign_up_text_field_hint_password),
                 isValid = signUpState.isPasswordValid,
-                onFocusChange = { isFocused -> viewModel.updatePasswordFieldFocused(isFocused) }
+                onFocusChange = { isFocused ->
+                    viewModel.sendEvent(
+                        SignUpContract.SignUpUiEvent.UpdateFieldFocus(
+                            SignUpContract.Field.Password,
+                            isFocused
+                        )
+                    )
+                },
+                onValueChange = {
+                    viewModel.sendEvent(
+                        SignUpContract.SignUpUiEvent.UpdatePassword(it)
+                    )
+                }
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -145,8 +172,19 @@ fun SignUpScreen(
                 value = signUpState.hobby,
                 hint = stringResource(R.string.sign_up_text_field_hint_hobby),
                 isValid = signUpState.isHobbyValid,
-                onFocusChange = { isFocused -> viewModel.updateHobbyFieldFocused(isFocused)},
-                onValueChange = { viewModel.updateHobby(it) }
+                onFocusChange = { isFocused ->
+                    viewModel.sendEvent(
+                        SignUpContract.SignUpUiEvent.UpdateFieldFocus(
+                            SignUpContract.Field.Hobby,
+                            isFocused
+                        )
+                    )
+                },
+                onValueChange = {
+                    viewModel.sendEvent(
+                        SignUpContract.SignUpUiEvent.UpdateHobby(it)
+                    )
+                }
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -210,7 +248,7 @@ fun SignUpScreen(
                     color = if (signUpState.isValid) WavvePrimary else WavveDisabled
                 )
                 .wrapContentHeight()
-                .noRippleClickable { viewModel.registerUser() }
+                .noRippleClickable { viewModel.sendEvent(SignUpContract.SignUpUiEvent.SignUpFormSubmit) }
                 .padding(vertical = 14.dp)
         ) {
             Text(
