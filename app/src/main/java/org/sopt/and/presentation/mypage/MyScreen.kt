@@ -20,7 +20,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,10 +28,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import org.sopt.and.R
 import org.sopt.and.core.extension.noRippleClickable
 import org.sopt.and.presentation.mypage.component.MyPageContents
@@ -42,10 +39,7 @@ import org.sopt.and.core.designsystem.theme.Black
 import org.sopt.and.core.designsystem.theme.WavveBg
 import org.sopt.and.core.designsystem.theme.WavveDisabled
 import org.sopt.and.core.designsystem.theme.White
-import org.sopt.and.core.utils.PreferenceUtil
 import org.sopt.and.core.utils.SnackBarUtils
-import org.sopt.and.core.utils.showToast
-
 
 @Composable
 fun MyScreen(
@@ -55,41 +49,22 @@ fun MyScreen(
 ) {
     val context = LocalContext.current
 
-    val preferenceUtil = PreferenceUtil.LocalPreferenceUtils.current
-    val userToken = preferenceUtil.getUserToken()
-
-    val myPageState by viewModel.myPageState.collectAsState()
-
+    val myPageState by viewModel.uiState.collectAsStateWithLifecycle()
     LaunchedEffect(Unit) {
-        viewModel.tokenInvalid.collectLatest {
-            viewModel.errorMessageState.value?.let { message ->
-                CoroutineScope(Dispatchers.Main).launch {
+        viewModel.effect.collectLatest { effect ->
+            when (effect) {
+                is MyPageContract.MyPageUiEffect.ShowErrorSnackBar -> {
                     SnackBarUtils.showSnackBar(
-                        message = message,
+                        message = effect.message,
                         actionLabel = context.getString(R.string.sign_in_snackbar_action_close)
                     )
                 }
-            }
-            preferenceUtil.clearUserToken()
-            navigateToSignIn()
-        }
-    }
 
-    LaunchedEffect(Unit) {
-        viewModel.isLogout.collectLatest { logout ->
-            if(logout) {
-                context.showToast(
-                    context.getString(R.string.my_page_toast_success_logout)
-                )
-                preferenceUtil.clearUserToken()
-                navigateToSignIn()
+                MyPageContract.MyPageUiEffect.NavigateToSignIn -> {
+                    navigateToSignIn()
+                }
             }
         }
-    }
-
-
-    LaunchedEffect(true) {
-        viewModel.getMyHobby(userToken.orEmpty())
     }
 
     Column(
@@ -172,7 +147,7 @@ fun MyScreen(
                 .background(WavveDisabled)
                 .wrapContentHeight()
                 .noRippleClickable {
-                    viewModel.logout()
+                    viewModel.sendEvent(MyPageContract.MyPageUiEvent.Logout)
                 }
                 .padding(vertical = 14.dp)
         ) {
