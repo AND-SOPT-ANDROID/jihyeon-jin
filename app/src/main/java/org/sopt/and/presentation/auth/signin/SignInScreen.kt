@@ -39,7 +39,6 @@ import org.sopt.and.core.designsystem.theme.Gray4
 import org.sopt.and.core.designsystem.theme.WavveBg
 import org.sopt.and.core.utils.PreferenceUtil
 import org.sopt.and.core.utils.SnackBarUtils
-import org.sopt.and.core.utils.showToast
 
 @Composable
 fun SignInScreen(
