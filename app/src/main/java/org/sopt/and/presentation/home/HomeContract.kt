@@ -1,7 +1,5 @@
 package org.sopt.and.presentation.home
 
-import androidx.annotation.StringRes
-import org.sopt.and.R
 import org.sopt.and.core.ContentType
 import org.sopt.and.domain.model.entity.HomeCommonContent
 import org.sopt.and.domain.model.entity.HomeContent

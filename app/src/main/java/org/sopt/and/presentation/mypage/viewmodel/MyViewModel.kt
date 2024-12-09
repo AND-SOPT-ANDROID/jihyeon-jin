@@ -35,6 +35,7 @@ class MyViewModel @Inject constructor(
             _isLogout.emit(true)
         }
     }
+
     fun getMyHobby(token: String) {
         viewModelScope.launch {
             when (val result = getMyHobbyUseCase(token)) {
