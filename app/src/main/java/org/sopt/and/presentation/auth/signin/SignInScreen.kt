@@ -1,4 +1,4 @@
-package org.sopt.and.presentation.sign
+package org.sopt.and.presentation.auth.signin
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -33,8 +33,8 @@ import org.sopt.and.core.component.ServiceAccountItemRow
 import org.sopt.and.core.component.textField.WavveCommonPasswordField
 import org.sopt.and.core.component.textField.WavveCommonTextField
 import org.sopt.and.core.component.topBar.BackButtonTopBar
-import org.sopt.and.presentation.sign.component.WavveBasicButton
-import org.sopt.and.presentation.sign.viewmodel.SignInViewModel
+import org.sopt.and.presentation.auth.signin.component.WavveBasicButton
+import org.sopt.and.presentation.auth.signin.viewmodel.SignInViewModel
 import org.sopt.and.core.designsystem.theme.Gray3
 import org.sopt.and.core.designsystem.theme.Gray4
 import org.sopt.and.core.designsystem.theme.WavveBg

@@ -1,4 +1,4 @@
-package org.sopt.and.presentation.sign.viewmodel
+package org.sopt.and.presentation.auth.signup.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,7 +14,7 @@ import org.sopt.and.domain.model.entity.BaseResult
 import org.sopt.and.domain.model.entity.UserData
 import org.sopt.and.domain.model.entity.UserRegisterResult
 import org.sopt.and.domain.usecase.RegisterUserUseCase
-import org.sopt.and.presentation.sign.state.SignUpState
+import org.sopt.and.presentation.auth.signup.SignUpState
 import javax.inject.Inject
 
 @HiltViewModel
@@ -89,31 +89,16 @@ class SignUpViewModel @Inject constructor(
         _signUpState.update { currentState ->
             currentState.copy(
                 isValid = _signUpState.value.isUserNameValid &&
-                    _signUpState.value.isPasswordValid &&
-                    _signUpState.value.isHobbyValid
+                        _signUpState.value.isPasswordValid &&
+                        _signUpState.value.isHobbyValid
             )
         }
     }
 
-    /* 기존 wavve 제약사항
-    private fun validateEmail(email: String): Boolean {
-        return Patterns.EMAIL_ADDRESS.matcher(email).matches()
-    }
-    private fun validatePassword(password: String): Boolean {
-        val hasUpperCase = password.any { it.isUpperCase() }
-        val hasLowerCase = password.any { it.isLowerCase() }
-        val hasDigit = password.any { it.isDigit() }
-        val hasSpecialChar = password.any { !it.isLetterOrDigit() }
-        val lengthValid = password.length in 8..20
-        val complexityValid = listOf(hasUpperCase, hasLowerCase, hasDigit, hasSpecialChar).count { it } >= 3
-        return lengthValid && complexityValid
-    }
-    */
-
-    //과제 기능 명세에 따른 제약사항, 공통 기능이지만 제약사항 변경 시를 대비해 각각 함수 분리
     private fun validateUserName(email: String): Boolean {
         return email.isNotBlank() && email.length <= 8
     }
+
     private fun validatePassword(password: String): Boolean {
         return password.isNotBlank() && password.length <= 8
     }
@@ -125,13 +110,14 @@ class SignUpViewModel @Inject constructor(
     private suspend fun setSignUpSuccess(value: Boolean) {
         _signUpSuccess.emit(value)
     }
+
     fun registerUser() {
         viewModelScope.launch {
             when (val result = registerUserUseCase(
                 UserData(
-                _signUpState.value.username,
-                _signUpState.value.password,
-                _signUpState.value.hobby
+                    _signUpState.value.username,
+                    _signUpState.value.password,
+                    _signUpState.value.hobby
                 )
             )
             ) {
@@ -140,6 +126,7 @@ class SignUpViewModel @Inject constructor(
                     _errorMessageState.value = null
                     setSignUpSuccess(true)
                 }
+
                 is BaseResult.Error -> {
                     _registerUserResultState.value = null
                     _errorMessageState.value = result.message
@@ -149,7 +136,9 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
-    suspend fun resetSignUpSuccess() {
-        setSignUpSuccess(false)
+    fun resetSignUpSuccess() {
+        viewModelScope.launch {
+            setSignUpSuccess(false)
+        }
     }
 }

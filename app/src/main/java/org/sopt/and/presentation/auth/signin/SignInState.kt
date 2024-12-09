@@ -1,4 +1,4 @@
-package org.sopt.and.presentation.sign.state
+package org.sopt.and.presentation.auth.signin
 
 data class SignInState (
     val username: String = "",

@@ -1,4 +1,4 @@
-package org.sopt.and.presentation.sign.viewmodel
+package org.sopt.and.presentation.auth.signin.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.sopt.and.presentation.sign.state.SignInState
+import org.sopt.and.presentation.auth.signin.SignInState
 import org.sopt.and.domain.model.entity.BaseResult
 import org.sopt.and.domain.model.entity.UserData
 import org.sopt.and.domain.model.entity.UserLoginResult

@@ -1,4 +1,4 @@
-package org.sopt.and.presentation.sign
+package org.sopt.and.presentation.auth.signup
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -29,10 +29,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import org.sopt.and.R
 import org.sopt.and.core.component.ServiceAccountItemRow
-import org.sopt.and.presentation.sign.component.HelperText
-import org.sopt.and.presentation.sign.component.SignUpTextField
-import org.sopt.and.presentation.sign.component.SignUpPasswordField
-import org.sopt.and.presentation.sign.viewmodel.SignUpViewModel
+import org.sopt.and.presentation.auth.signup.component.HelperText
+import org.sopt.and.presentation.auth.signup.component.SignUpTextField
+import org.sopt.and.presentation.auth.signup.component.SignUpPasswordField
+import org.sopt.and.presentation.auth.signup.viewmodel.SignUpViewModel
 import org.sopt.and.core.designsystem.theme.Gray3
 import org.sopt.and.core.designsystem.theme.Gray4
 import org.sopt.and.core.designsystem.theme.WavveBg

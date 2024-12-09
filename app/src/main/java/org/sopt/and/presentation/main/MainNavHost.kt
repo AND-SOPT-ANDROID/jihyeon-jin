@@ -12,8 +12,8 @@ import org.sopt.and.core.navigation.Screen
 import org.sopt.and.presentation.home.HomeScreen
 import org.sopt.and.presentation.mypage.MyScreen
 import org.sopt.and.presentation.search.SearchScreen
-import org.sopt.and.presentation.sign.SignInScreen
-import org.sopt.and.presentation.sign.SignUpScreen
+import org.sopt.and.presentation.auth.signin.SignInScreen
+import org.sopt.and.presentation.auth.signup.SignUpScreen
 import org.sopt.and.core.designsystem.theme.WavveBg
 
 @Composable

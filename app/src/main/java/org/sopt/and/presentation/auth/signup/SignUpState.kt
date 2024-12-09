@@ -1,6 +1,6 @@
-package org.sopt.and.presentation.sign.state
+package org.sopt.and.presentation.auth.signup
 
-data class SignUpState (
+data class SignUpState(
     val username: String = "",
     val password: String = "",
     val hobby: String = "",
