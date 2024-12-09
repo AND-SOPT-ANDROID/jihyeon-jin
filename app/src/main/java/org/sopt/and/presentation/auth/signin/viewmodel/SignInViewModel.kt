@@ -1,86 +1,80 @@
 package org.sopt.and.presentation.auth.signin.viewmodel
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.sopt.and.presentation.auth.signin.SignInState
 import org.sopt.and.domain.model.entity.BaseResult
 import org.sopt.and.domain.model.entity.UserData
-import org.sopt.and.domain.model.entity.UserLoginResult
 import org.sopt.and.domain.usecase.LoginUseCase
+import org.sopt.and.presentation.auth.signin.SignInContract.SignInUiEffect
+import org.sopt.and.presentation.auth.signin.SignInContract.SignInUiEvent
+import org.sopt.and.presentation.auth.signin.SignInContract.SignInUiState
+import org.sopt.and.presentation.util.BaseViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase
-) : ViewModel() {
-    private val _signInState = MutableStateFlow(SignInState())
-    val signInState = _signInState.asStateFlow()
+) : BaseViewModel<SignInUiState, SignInUiEvent, SignInUiEffect>(SignInUiState()) {
+    override fun reduceState(event: SignInUiEvent) {
+        when (event) {
+            is SignInUiEvent.UpdateUserName -> {
+                updateState(
+                    currentState.copy(
+                        username = event.username
+                    )
+                )
+            }
 
-    private val _loginUserResultState = MutableStateFlow<UserLoginResult?>(null)
-    val loginUserResultState: StateFlow<UserLoginResult?> = _loginUserResultState
+            is SignInUiEvent.UpdatePassword -> {
+                updateState(
+                    currentState.copy(
+                        password = event.password
+                    )
+                )
+            }
 
-    private val _errorMessageState = MutableStateFlow<String?>(null)
-    val errorMessageState: StateFlow<String?> = _errorMessageState
+            is SignInUiEvent.SignInFormSubmit -> signIn()
 
-    private val _signInSuccess =  MutableSharedFlow<Boolean>()
-    val signInSuccess: SharedFlow<Boolean> = _signInSuccess
-
-    fun updateUserName(newUserName: String) {
-        _signInState.update { currentState ->
-            currentState.copy(
-                username = newUserName
-            )
-        }
-    }
-
-    fun updatePassword(newPassword: String) {
-        _signInState.update { currentState ->
-            currentState.copy(
-                password = newPassword
-            )
-        }
-    }
-
-    private fun setSignInSuccess(value: Boolean) {
-        viewModelScope.launch {
-            _signInSuccess.emit(value)
+            is SignInUiEvent.NavigateUp -> postEffect(SignInUiEffect.NavigateUp)
         }
     }
 
     fun signIn() {
-        viewModelScope.launch {
-            when (val result = loginUseCase(
-                with(_signInState.value) {
-                    UserData(username, password, "")
-                }
+        updateState(
+            currentState.copy(
+                isLoading = true
             )
+        )
+        viewModelScope.launch {
+            when (
+                val result = loginUseCase(
+                    with(currentState) {
+                        UserData(username, password, "")
+                    }
+                )
             ) {
                 is BaseResult.Success -> {
-                    _loginUserResultState.value = result.data
-                    _errorMessageState.value = null
-                    setSignInSuccess(true)
+                    updateState(
+                        currentState.copy(
+                            isLoading = false,
+                            token = result.data.token
+                        )
+                    )
+                    postEffect(SignInUiEffect.ShowSuccessSnackBar)
+                    postEffect(SignInUiEffect.NavigateToMy)
                 }
 
                 is BaseResult.Error -> {
-                    _loginUserResultState.value = null
-                    _errorMessageState.value = result.message
-                    setSignInSuccess(false)
+                    updateState(
+                        currentState.copy(
+                            isLoading = false,
+                            errorMessage = result.message
+                        )
+                    )
+                    postEffect(SignInUiEffect.ShowErrorSnackBar(result.message))
                 }
             }
-        }
-    }
-
-    fun resetSignInSuccess() {
-        viewModelScope.launch {
-            setSignInSuccess(false)
         }
     }
 }

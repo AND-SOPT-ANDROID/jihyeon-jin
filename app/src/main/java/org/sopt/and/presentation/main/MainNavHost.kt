@@ -31,8 +31,15 @@ fun MainNavHost(
     ) {
         composable<Screen.SignIn> {
             SignInScreen(
-                navigateToMy = { navController.navigate(Screen.My) },
-                navigateToSignUp = { navController.navigate(Screen.SignUp) }
+                navigateToMy = {
+                    navController.navigate(Screen.My)
+                },
+                navigateToSignUp = {
+                    navController.navigate(Screen.SignUp)
+                },
+                navigateUp = {
+                    navController.navigateUp()
+                }
             )
         }
         composable<Screen.SignUp> {

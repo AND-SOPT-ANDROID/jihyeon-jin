@@ -87,7 +87,11 @@ class SignUpViewModel @Inject constructor(
     }
 
     private fun signUp() {
-        updateState(currentState.copy(isLoading = true))
+        updateState(
+            currentState.copy(
+                isLoading = true
+            )
+        )
         viewModelScope.launch {
             when (val result = registerUserUseCase(
                 UserData(
@@ -97,13 +101,22 @@ class SignUpViewModel @Inject constructor(
                 )
             )) {
                 is BaseResult.Success -> {
-                    updateState(currentState.copy(isLoading = false))
+                    updateState(
+                        currentState.copy(
+                            isLoading = false
+                        )
+                    )
                     postEffect(SignUpUiEffect.ShowSuccessToast)
                     postEffect(SignUpUiEffect.NavigateToSignIn)
                 }
 
                 is BaseResult.Error -> {
-                    updateState(currentState.copy(isLoading = false, errorMessage = result.message))
+                    updateState(
+                        currentState.copy(
+                            isLoading = false,
+                            errorMessage = result.message
+                        )
+                    )
                     postEffect(SignUpUiEffect.ShowErrorToast(result.message))
                 }
             }

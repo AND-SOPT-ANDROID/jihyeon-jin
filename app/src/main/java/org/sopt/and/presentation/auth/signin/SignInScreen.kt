@@ -14,7 +14,6 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,9 +22,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.sopt.and.R
 import org.sopt.and.core.extension.noRippleClickable
@@ -40,42 +39,48 @@ import org.sopt.and.core.designsystem.theme.Gray4
 import org.sopt.and.core.designsystem.theme.WavveBg
 import org.sopt.and.core.utils.PreferenceUtil
 import org.sopt.and.core.utils.SnackBarUtils
+import org.sopt.and.core.utils.showToast
 
 @Composable
 fun SignInScreen(
     navigateToMy: () -> Unit,
     navigateToSignUp: () -> Unit,
+    navigateUp: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: SignInViewModel = hiltViewModel(),
 ) {
-    val signInState by viewModel.signInState.collectAsState()
-    val loginState by viewModel.loginUserResultState.collectAsState()
+    val signInState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val preferenceUtil = PreferenceUtil.LocalPreferenceUtils.current
 
     LaunchedEffect(Unit) {
-        viewModel.signInSuccess.collectLatest { success ->
-            if (success) {
-                loginState?.let { loginState ->
-                    preferenceUtil.saveUserToken(loginState.token)
-                }
-                CoroutineScope(Dispatchers.Main).launch {
-                    SnackBarUtils.showSnackBar(
-                        message = context.getString(R.string.sign_in_snackbar_login_success),
-                        actionLabel = context.getString(R.string.sign_in_snackbar_action_close)
-                    )
-                }
-                navigateToMy()
-                viewModel.resetSignInSuccess()
-            } else {
-                viewModel.errorMessageState.value?.let { message ->
+        viewModel.effect.collect { effect ->
+            when (effect) {
+                is SignInContract.SignInUiEffect.ShowSuccessSnackBar -> {
+                    signInState.token?.let { token ->
+                        preferenceUtil.saveUserToken(token)
+                    }
                     CoroutineScope(Dispatchers.Main).launch {
                         SnackBarUtils.showSnackBar(
-                            message = message,
+                            message = context.getString(R.string.sign_in_snackbar_login_success),
+                            actionLabel = context.getString(R.string.sign_in_snackbar_action_close)
+                        )
+                    }
+                    navigateToMy()
+                }
+
+                is SignInContract.SignInUiEffect.ShowErrorSnackBar -> {
+                    CoroutineScope(Dispatchers.Main).launch {
+                        SnackBarUtils.showSnackBar(
+                            message = effect.message,
                             actionLabel = context.getString(R.string.sign_in_snackbar_action_close)
                         )
                     }
                 }
+
+                is SignInContract.SignInUiEffect.NavigateToSignUp -> navigateToSignUp()
+                is SignInContract.SignInUiEffect.NavigateToMy -> navigateToMy()
+                is SignInContract.SignInUiEffect.NavigateUp -> navigateUp()
             }
         }
     }
@@ -85,7 +90,9 @@ fun SignInScreen(
             .fillMaxSize()
             .background(WavveBg)
     ) {
-        BackButtonTopBar({ /*TODO : 뒤로가기처리*/ })
+        BackButtonTopBar {
+            viewModel.sendEvent(SignInContract.SignInUiEvent.NavigateUp)
+        }
         Column(
             modifier = modifier
                 .fillMaxSize()
@@ -94,13 +101,21 @@ fun SignInScreen(
         ) {
             WavveCommonTextField(
                 value = signInState.username,
-                onValueChange = viewModel::updateUserName,
+                onValueChange = {
+                    viewModel.sendEvent(
+                        SignInContract.SignInUiEvent.UpdateUserName(it)
+                    )
+                },
                 hint = stringResource(R.string.sign_in_text_field_id_hint)
             )
             Spacer(modifier = Modifier.height(4.dp))
             WavveCommonPasswordField(
                 value = signInState.password,
-                onValueChange = viewModel::updatePassword,
+                onValueChange = {
+                    viewModel.sendEvent(
+                        SignInContract.SignInUiEvent.UpdatePassword(it)
+                    )
+                },
                 hint = stringResource(R.string.sign_in_text_field_password_hint)
             )
 
