@@ -5,9 +5,11 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import org.sopt.and.data.api.UserService
+import org.sopt.and.data.repository.DummyHomeContentRepositoryImpl
 import org.sopt.and.data.repository.GetMyHobbyRepositoryImpl
 import org.sopt.and.data.repository.UserLoginRepositoryImpl
 import org.sopt.and.data.repository.UserRegisterRepositoryImpl
+import org.sopt.and.domain.repository.DummyHomeContentRepository
 import org.sopt.and.domain.repository.GetMyHobbyRepository
 import org.sopt.and.domain.repository.UserLoginRepository
 import org.sopt.and.domain.repository.UserRegisterRepository
@@ -33,5 +35,11 @@ object RepositoryModule {
     @Singleton
     fun provideGetMyHobbyRepository(userService: UserService): GetMyHobbyRepository {
         return GetMyHobbyRepositoryImpl(userService)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDummyHomeContentRepository(): DummyHomeContentRepository {
+        return DummyHomeContentRepositoryImpl()
     }
 }

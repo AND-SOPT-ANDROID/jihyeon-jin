@@ -1,8 +1,6 @@
 package org.sopt.and.presentation.home.component
 
 import androidx.compose.runtime.Composable
-import org.sopt.and.presentation.home.state.HomeCommonContentState
-import org.sopt.and.presentation.home.state.HomeContentState
 import androidx.compose.foundation.gestures.snapping.SnapPosition
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Arrangement
@@ -23,11 +21,13 @@ import androidx.compose.ui.unit.sp
 import org.sopt.and.R
 import org.sopt.and.presentation.home.component.item.RankingContentItem
 import org.sopt.and.core.designsystem.theme.White
+import org.sopt.and.domain.model.entity.HomeCommonContent
+import org.sopt.and.domain.model.entity.HomeContent
 
 @Composable
 fun RankingContentHorizontalColumn (
-    commonContentState: HomeCommonContentState,
-    onContentClicked: (HomeContentState) -> Unit,
+    commonContent: HomeCommonContent,
+    onContentClicked: (HomeContent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val lazyListState = rememberLazyListState()
@@ -57,7 +57,7 @@ fun RankingContentHorizontalColumn (
         modifier = modifier
     ) {
         Text(
-            text = commonContentState.mainTitle,
+            text = commonContent.mainTitle,
             fontSize = 18.sp,
             color = White,
             fontWeight = FontWeight.Bold,
@@ -75,7 +75,7 @@ fun RankingContentHorizontalColumn (
                 snapPosition = SnapPosition.Start
             )
         ) {
-            itemsIndexed(commonContentState.contentStates) { index, item ->
+            itemsIndexed(commonContent.contentStates) { index, item ->
                 RankingContentItem(
                     modifier = Modifier.width((LocalConfiguration.current.screenWidthDp.dp / 2) - 28.dp),
                     mainContentState = item,
