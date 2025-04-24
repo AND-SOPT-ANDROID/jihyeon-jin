@@ -1,4 +1,4 @@
-package org.sopt.and.presentation.sign.component
+package org.sopt.and.presentation.auth.signin.component
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding

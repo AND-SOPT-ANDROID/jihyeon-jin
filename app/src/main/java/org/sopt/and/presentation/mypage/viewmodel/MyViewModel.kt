@@ -1,54 +1,88 @@
 package org.sopt.and.presentation.mypage.viewmodel
 
-import androidx.lifecycle.ViewModel
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import org.sopt.and.core.utils.PreferenceUtil
 import org.sopt.and.data.common.ErrorTypeWithMessage
 import org.sopt.and.domain.model.entity.BaseResult
-import org.sopt.and.domain.model.entity.GetMyHobbyResult
 import org.sopt.and.domain.usecase.GetMyHobbyUseCase
+import org.sopt.and.presentation.util.BaseViewModel
+import org.sopt.and.presentation.mypage.MyPageContract.MyPageUiEffect
+import org.sopt.and.presentation.mypage.MyPageContract.MyPageUiEvent
+import org.sopt.and.presentation.mypage.MyPageContract.MyPageUiState
 import javax.inject.Inject
 
 @HiltViewModel
 class MyViewModel @Inject constructor(
-    private val getMyHobbyUseCase: GetMyHobbyUseCase
-) : ViewModel() {
-    private val _tokenInvalid = MutableSharedFlow<Boolean>()
-    val tokenInvalid: SharedFlow<Boolean> = _tokenInvalid
+    private val getMyHobbyUseCase: GetMyHobbyUseCase,
+    private val preferenceUtil: PreferenceUtil
+) : BaseViewModel<MyPageUiState, MyPageUiEvent, MyPageUiEffect>(MyPageUiState()) {
+    override fun reduceState(event: MyPageUiEvent) {
+        when (event) {
+            is MyPageUiEvent.LoadHobby -> {
+                loadHobby()
+            }
 
-    private val _myPageState = MutableStateFlow(GetMyHobbyResult(hobby = ""))
-    val myPageState: StateFlow<GetMyHobbyResult> = _myPageState
-
-    private val _errorMessageState = MutableStateFlow<String?>(null)
-    val errorMessageState: StateFlow<String?> = _errorMessageState
-
-    private val _isLogout = MutableSharedFlow<Boolean>()
-    val isLogout: SharedFlow<Boolean> = _isLogout
-
-    fun logout() {
-        viewModelScope.launch {
-            _isLogout.emit(true)
+            MyPageUiEvent.Logout -> {
+                logout()
+            }
         }
     }
-    fun getMyHobby(token: String) {
+
+    private fun loadHobby() {
+        val token = preferenceUtil.getUserToken()
+        Log.d("my**", token.toString())
+        if (token.isNullOrEmpty()) {
+            updateState(
+                currentState.copy(
+                    tokenInvalid = true
+                )
+            )
+            postEffect(MyPageUiEffect.NavigateToSignIn)
+            return
+        }
+        updateState(currentState.copy(isLoading = true))
         viewModelScope.launch {
             when (val result = getMyHobbyUseCase(token)) {
                 is BaseResult.Success -> {
-                    _myPageState.value = result.data
-                    _errorMessageState.value = null
+                    updateState(
+                        currentState.copy(
+                            hobby = result.data.hobby,
+                            isLoading = false,
+                            errorMessage = null,
+                            tokenInvalid = false
+                        )
+                    )
                 }
+
                 is BaseResult.Error -> {
-                    _errorMessageState.value = result.message
+                    updateState(
+                        currentState.copy(
+                            isLoading = false,
+                            errorMessage = result.message
+                        )
+                    )
                     if (result.errorCode == ErrorTypeWithMessage.INVALID_TOKEN) {
-                        _tokenInvalid.emit(true)
+                        preferenceUtil.clearUserToken()
+                        updateState(
+                            currentState.copy(
+                                tokenInvalid = true
+                            )
+                        )
+                        postEffect(MyPageUiEffect.NavigateToSignIn)
+                    } else {
+                        postEffect(MyPageUiEffect.ShowErrorSnackBar(result.message))
                     }
                 }
             }
         }
+    }
+
+    private fun logout() {
+        preferenceUtil.clearUserToken()
+        updateState(currentState.copy(isLoggedOut = true))
+        postEffect(MyPageUiEffect.NavigateToSignIn)
     }
 }

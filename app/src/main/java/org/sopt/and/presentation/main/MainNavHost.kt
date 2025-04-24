@@ -12,8 +12,8 @@ import org.sopt.and.core.navigation.Screen
 import org.sopt.and.presentation.home.HomeScreen
 import org.sopt.and.presentation.mypage.MyScreen
 import org.sopt.and.presentation.search.SearchScreen
-import org.sopt.and.presentation.sign.SignInScreen
-import org.sopt.and.presentation.sign.SignUpScreen
+import org.sopt.and.presentation.auth.signin.SignInScreen
+import org.sopt.and.presentation.auth.signup.SignUpScreen
 import org.sopt.and.core.designsystem.theme.WavveBg
 
 @Composable
@@ -31,8 +31,15 @@ fun MainNavHost(
     ) {
         composable<Screen.SignIn> {
             SignInScreen(
-                navigateToMy = { navController.navigate(Screen.My) },
-                navigateToSignUp = { navController.navigate(Screen.SignUp) }
+                navigateToMy = {
+                    navController.navigate(Screen.My)
+                },
+                navigateToSignUp = {
+                    navController.navigate(Screen.SignUp)
+                },
+                navigateUp = {
+                    navController.navigateUp()
+                }
             )
         }
         composable<Screen.SignUp> {
@@ -42,6 +49,9 @@ fun MainNavHost(
                         popUpTo<Screen.SignUp> { inclusive = true }
                         launchSingleTop = true
                     }
+                },
+                navigateUp = {
+                    navController.navigateUp()
                 }
             )
         }

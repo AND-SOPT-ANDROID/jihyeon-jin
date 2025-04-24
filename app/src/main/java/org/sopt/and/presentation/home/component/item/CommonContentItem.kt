@@ -12,13 +12,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import org.sopt.and.core.extension.noRippleClickable
-import org.sopt.and.presentation.home.state.HomeContentState
+import org.sopt.and.domain.model.entity.HomeContent
 
 @Composable
 fun CommonContentItem(
-    commonContentState: HomeContentState,
+    commonContentState: HomeContent,
     modifier: Modifier = Modifier,
-    onClick: (HomeContentState) -> Unit = {}
+    onClick: (HomeContent) -> Unit = {}
 ) {
     Box(
         modifier = modifier

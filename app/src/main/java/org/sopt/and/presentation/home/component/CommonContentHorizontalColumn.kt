@@ -27,15 +27,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.sopt.and.R
 import org.sopt.and.presentation.home.component.item.CommonContentItem
-import org.sopt.and.presentation.home.state.HomeCommonContentState
-import org.sopt.and.presentation.home.state.HomeContentState
 import org.sopt.and.core.designsystem.theme.Gray3
 import org.sopt.and.core.designsystem.theme.White
+import org.sopt.and.domain.model.entity.HomeCommonContent
+import org.sopt.and.domain.model.entity.HomeContent
 
 @Composable
-fun CommonContentHorizontalColumn (
-    commonContentState: HomeCommonContentState,
-    onContentClicked: (HomeContentState) -> Unit,
+fun CommonContentHorizontalColumn(
+    commonContent: HomeCommonContent,
+    onContentClicked: (HomeContent) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val state = rememberLazyListState()
@@ -50,7 +50,7 @@ fun CommonContentHorizontalColumn (
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = commonContentState.mainTitle,
+                text = commonContent.mainTitle,
                 fontSize = 18.sp,
                 color = White,
                 fontWeight = FontWeight.Bold
@@ -70,7 +70,7 @@ fun CommonContentHorizontalColumn (
             horizontalArrangement = Arrangement.spacedBy(6.dp),
             flingBehavior = rememberSnapFlingBehavior(lazyListState = state)
         ) {
-            items(commonContentState.contentStates) { item ->
+            items(commonContent.contentStates) { item ->
                 CommonContentItem(
                     modifier = Modifier
                         .width((LocalConfiguration.current.screenWidthDp.dp / 3) - 16.dp)

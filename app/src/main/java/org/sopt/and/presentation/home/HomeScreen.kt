@@ -16,11 +16,10 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -37,18 +36,15 @@ import org.sopt.and.core.designsystem.theme.WavveBg
 fun HomeScreen(
     onContentTypeSelected: (ContentType) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: HomeViewModel = HomeViewModel()
+    viewModel: HomeViewModel = hiltViewModel()
 ) {
-
-    var selectedContentType by remember { mutableStateOf<ContentType?>(null) }
+    val homeState by viewModel.uiState.collectAsStateWithLifecycle()
     val mainPagerState = rememberPagerState(initialPage = Int.MAX_VALUE / 2) {
         Int.MAX_VALUE // 페이지 수가 무한대
     }
-
-    val (mainContentState, commonContentState, rankingContentState) = with(viewModel) {
-        Triple(mainContents, commonContents, rankingContents)
+    LaunchedEffect(Unit) {
+        viewModel.getDummyHomeContent()
     }
-
     LazyColumn(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -64,10 +60,12 @@ fun HomeScreen(
                     .background(WavveBg)
                     .padding(horizontal = 16.dp, vertical = 8.dp),
                 onContentTypeSelected = { contentType ->
-                    selectedContentType = contentType
                     onContentTypeSelected(contentType)
+                    viewModel.sendEvent(
+                        HomeContract.HomeUiEvent.SetContentType(contentType)
+                    )
                 },
-                selectedContentType = selectedContentType
+                selectedContentType = homeState.selectedContentType
             )
         }
 
@@ -77,22 +75,22 @@ fun HomeScreen(
                     .fillMaxWidth()
                     .height(480.dp),
                 state = mainPagerState,
-                mainContentState = mainContentState,
+                mainContent = homeState.mainContents,
                 onMainContentClicked = { }
             )
         }
 
-        items(commonContentState) { content ->
+        items(homeState.commonContents) { content ->
             CommonContentHorizontalColumn(
-                commonContentState = content,
-                onContentClicked = {  }
+                commonContent = content,
+                onContentClicked = { }
             )
         }
 
         item {
             RankingContentHorizontalColumn(
                 modifier = Modifier.fillMaxWidth(),
-                commonContentState = rankingContentState,
+                commonContent = homeState.rankingContents,
                 onContentClicked = { }
             )
         }

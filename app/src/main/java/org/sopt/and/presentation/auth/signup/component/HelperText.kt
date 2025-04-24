@@ -1,4 +1,4 @@
-package org.sopt.and.presentation.sign.component
+package org.sopt.and.presentation.auth.signup.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
